@@ -73,6 +73,13 @@ Router.map(function() {
       this.route('index', {path: '/'});
       this.route('waiting');
 
+      this.route('pipelines', {resetNamespace: true}, function() {
+        this.route('new', {path: '/add'});
+        this.route('index', {path: '/'});
+
+        this.route('pipeline', {path: '/:pipeline_id'});
+      });
+      
       this.route('containers', {resetNamespace: true}, function() {
         this.route('new', {path: '/add'});
         this.route('index', {path: '/'});

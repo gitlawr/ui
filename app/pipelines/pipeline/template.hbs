@@ -1,0 +1,223 @@
+Hi
+<section class="header clearfix">
+  <h1 class="pull-left">
+    {{t 'containerPage.header' name=model.container.displayName}}
+  </h1>
+  <div class="pull-left mt-5">
+    {{info-multi-stats model=model.container largeTargetId="largeStats"}}
+  </div>
+  <div class="right-buttons">
+    {{badge-state model=model.container}}
+    {{action-menu model=model.container showPrimary=false classNames="ml-10 inline-block" size="sm"}}
+  </div>
+</section>
+
+<div id="largeStats">
+</div>
+
+{{#if model.container.description}}
+  {{banner-message color='bg-secondary mb-0 mt-10' message=model.container.description}}
+{{/if}}
+
+<section>
+  <div class="row banner bg-info pl-10 pr-10">
+    <div class="col">
+      <label class="acc-label p-0">{{t 'generic.image'}}:</label>
+      {{#copy-inline clipboardText=model.container.displayImage}}
+        {{model.container.displayImage}}
+      {{/copy-inline}}
+    </div>
+    <div class="col">
+      <label class="acc-label p-0">{{t 'generic.ipAddress'}}:</label>
+      {{#if model.container.displayIp}}
+        {{#copy-inline clipboardText=model.container.displayIp}}
+          {{model.container.displayIp}}
+        {{/copy-inline}}
+      {{else}}
+        {{t 'generic.none'}}
+      {{/if}}
+    </div>
+    {{#if model.container.stack}}
+      <div class="col">
+        <label class="acc-label p-0">{{t 'generic.stack'}}:</label>
+        {{#link-to "stack" projects.current.id model.container.stack.id}}{{model.container.stack.displayName}}{{/link-to}}
+      </div>
+    {{/if}}
+    {{#if model.container.primaryHost}}
+      <div class="col">
+        <label class="acc-label p-0">{{t 'generic.host'}}:</label>
+        {{#link-to "host" model.container.primaryHost.id}}{{model.container.primaryHost.displayName}}{{/link-to}}
+      </div>
+    {{/if}}
+    {{#if model.container.displayExternalId}}
+      <div class="col">
+        <label class="acc-label p-0">{{t 'generic.dockerId'}}:</label>
+        {{#copy-inline clipboardText=model.container.externalId}}
+          {{model.container.displayExternalId}}
+        {{/copy-inline}}
+      </div>
+    {{/if}}
+  </div>
+</section>
+
+<!--error-->
+{{#if model.container.showTransitioningMessage}}
+  <div class="{{model.container.stateColor}}"><p>{{model.container.transitioningMessage}}</p></div>
+{{/if}}
+
+<section>
+  {{#accordion-list as |al expandFn| }}
+    <div>
+      {{container/form-scheduling
+          initialHostId=model.container.requestedHostId
+          initialLabels=model.container.labels
+          isGlobal=model.container.isGlobalScale
+          allHosts=model.hosts
+          editing=false
+          expandAll=al.expandAll
+          expandFn=expandFn
+      }}
+    </div>
+    <div class="mt-20">
+      {{form-healthcheck
+          healthCheck=model.container.healthCheck
+          editing=false
+          expandAll=al.expandAll
+          expandFn=expandFn
+      }}
+    </div>
+    <div class="mt-20">
+      {{#accordion-list-item
+           title=(t 'containerPage.portsTab.header')
+           detail=(t 'containerPage.portsTab.detail')
+           status=(t 'containerPage.portsTab.status' count=model.ports.length)
+           statusClass=(if model.ports.length 'bg-success' 'text-muted')
+           expandAll=al.expandAll
+           expand=(action expandFn)
+           componentName='sortable-table'
+           as | parent |
+      }}
+        {{#component parent.intent
+             classNames="grid sortable-table"
+             body=model.ports
+             searchText=searchText
+             sortBy=sortBy
+             bulkActions=false
+             rowActions=false
+             stickyHeader=false
+             pagingLabel="pagination.port"
+             isVisible=parent.expanded
+             headers=headers as |sortable kind port dt|}}
+          {{#if (eq kind "row")}}
+            <td data-title="{{dt.publicIp}}">
+              {{#if (eq "0.0.0.0" port.displayPublicIp)}}
+                {{port.displayPublicIp}} {{t 'containerPage.portsTab.hostPrimaryIp' ip=model.container.primaryHost.displayIp}}
+              {{else if port.displayPublicIp}}
+                {{port.displayPublicIp}}
+              {{else}}
+                <span class="text-muted">{{t 'generic.none'}}</span>
+              {{/if}}
+            </td>
+            <td data-title="{{dt.publicPort}}">
+              {{#if port.publicPort}}
+                {{port.publicPort}}
+              {{else}}
+                <span class="text-muted">{{t 'generic.none'}}</span>
+              {{/if}}
+            </td>
+            <td data-title="{{dt.privatePort}}">
+              {{#if port.privatePort}}
+                {{port.privatePort}}
+              {{else}}
+                <span class="text-muted">{{t 'generic.none'}}</span>
+              {{/if}}
+            </td>
+            <td data-title="{{dt.protocol}}">
+              {{upper-case port.protocol}}
+            </td>
+          {{else if (eq kind "nomatch")}}
+            <tr><td colspan="{{sortable.fullColspan}}" class="text-center text-muted pt-20 pb-20">{{t 'containerPage.portsTab.table.noMatch'}}</td></tr>
+          {{else if (eq kind "norows")}}
+            <tr><td colspan="{{sortable.fullColspan}}" class="text-center text-muted pt-20 pb-20">{{t 'containerPage.portsTab.table.noData'}}</td></tr>
+          {{/if}}
+        {{/component}}
+      {{/accordion-list-item}}
+    </div>
+    <div class="mt-20">
+      {{container/form-command
+          instance=model.container
+          initialLabels=model.labels
+          editing=false
+          expandAll=al.expandAll
+          expandFn=expandFn
+      }}
+    </div>
+    <div class="mt-20">
+      {{labels-section
+          model=model.container
+          expandAll=al.expandAll
+          expandFn=expandFn
+      }}
+    </div>
+    <div class="mt-20">
+      {{container/form-networking
+          editing=false
+          instance=model.container
+          initialLabels=model.container.labels
+          allHosts=model.hosts
+          expandAll=al.expandAll
+          expandFn=expandFn
+      }}
+    </div>
+    <div class="mt-20">
+      {{container/form-security
+          instance=model.container
+          editing=false
+          expandAll=al.expandAll
+          expandFn=expandFn
+      }}
+    </div>
+    <div class="mt-20">
+      {{#accordion-list-item
+           title=(t 'containerPage.volumesTab.header')
+           detail=(t 'containerPage.volumesTab.detail')
+           status=(t 'containerPage.volumesTab.status' count=(or model.container.mounts.length 0))
+           statusClass=(if model.container.mounts.length 'bg-success' 'text-muted')
+           expandAll=al.expandAll
+           expand=(action expandFn)
+           componentName='sortable-table'
+           as | parent |
+      }}
+        {{#component parent.intent
+             classNames="grid sortable-table"
+             body=model.container.mounts
+             searchText=searchText
+             sortBy=sortBy
+             bulkActions=false
+             stickyHeader=false
+             pagingLabel="pagination.volume"
+             isVisible=parent.expanded
+             headers=headers as |sortable kind mount dt|}}
+          {{#if (eq kind "row")}}
+            <td data-title="{{dt.name}}">
+              {{mount.displayVolumeName}}
+            </td>
+            <td data-title="{{dt.path}}">
+              {{mount.path}}
+            </td>
+            <td data-title="{{dt.writable}}">
+              {{#if mount.isReadWrite}}<i class="icon icon-check"></i>{{else}}<i class="icon icon-x text-muted"></i>{{/if}}
+            </td>
+            <td data-title="{{dt.actions}}">
+              {{action-menu model=mount.volume}}
+            </td>
+          {{else if (eq kind "nomatch")}}
+            <tr><td colspan="{{sortable.fullColspan}}" class="text-center text-muted pt-20 pb-20">{{t 'containerPage.volumesTab.table.noMatch'}}</td></tr>
+          {{else if (eq kind "norows")}}
+            <tr><td colspan="{{sortable.fullColspan}}" class="text-center text-muted pt-20 pb-20">{{t 'containerPage.volumesTab.table.noData'}}</td></tr>
+          {{/if}}
+        {{/component}}
+      {{/accordion-list-item}}
+    </div>
+  {{/accordion-list}}
+</section>
