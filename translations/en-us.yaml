@@ -9,7 +9,8 @@ generic:
   activate: Activate
   all: All
   any: Any
-  as: as
+  as: As
+  branch: Branch
   cancel: Cancel
   closeModal: Close
   cluster: Cluster
@@ -45,14 +46,17 @@ generic:
   mibibyte: 'MiB'
   missing: "*%MISSING%*"
   moreActions: More Actions
+  message: Message
   na: 'n/a'
   name: Name
   no: "No"
   noRating: No Rating
   none: None
   ports: Ports
+  pipelineName: Pipeline Name
   remove: Remove
   role: Role
+  repository: Repository
   save: Save
   saved: Saved
   saving: Saving
@@ -70,6 +74,7 @@ generic:
   to: To
   total: Total
   type: Type
+  timeStamp: Timestamp
   unknown: Unknown
   uuid: UUID
   yes: "Yes"
@@ -595,6 +600,12 @@ editVolume:
   driverOpts:
     label: Driver Options
     addAction: Add Option
+
+pipelinesPage:
+  table:
+    status: Status
+    noData: There are no pipelines to show.
+    noMatch: No pipelines match the current search.
 
 # If you change translations here also change the translation in app/utils/constants.js under the FALLBACK_TRANSLATIONS key
 # those are present in case we have an error in the app and can not load the translations file
@@ -3612,6 +3623,15 @@ nav:
     logout: Log Out
   userPreferences:
     link: "Preferences"
+  pipelines:
+    tab: Pipelines
+    active: Active
+    inactive: Inactive
+    add: Add a pipeline
+    stage:
+      add: Add a Stage
+      activity: Activity
+      history: History
 
 ##############################
 # Resource Actions
