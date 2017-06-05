@@ -282,17 +282,11 @@ const navTree = [
   // CICD
   {
     id: 'pipelines',
-    localizedLabel: function() {
-      if ( this.get('hasKubernetes') || this.get('hasMesos') || this.get('hasSwarm') ) {
-        return 'nav.containers.systemTab';
-      } else {
-        return 'nav.containers.tab';
-      }
-    },
+    localizedLabel: 'nav.pipelines.tab',
     route: 'pipelines.index',
     ctx: [getProjectId],
-    condition: function() { return this.get('hasProject'); },
-    moreCurrentWhen: ['containers','scaling-groups','balancers','dns'],
+    // condition: function() { return this.get('hasProject'); },
+    // moreCurrentWhen: ['pipelines','scaling-groups','balancers','dns'],
   }
 
 ];

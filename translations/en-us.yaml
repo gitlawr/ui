@@ -10,6 +10,7 @@ generic:
   all: All
   any: Any
   as: As
+  branch: Branch
   cancel: Cancel
   closeModal: Close
   command: Command
@@ -46,13 +47,16 @@ generic:
   mibibyte: 'MiB'
   missing: "*%MISSING%*"
   moreActions: More Actions
+  message: Message
   na: 'n/a'
   name: Name
   none: None
   noRating: No Rating
   ports: Ports
+  pipelineName: Pipeline Name
   remove: Remove
   role: Role
+  repository: Repository
   save: Save
   saved: Saved
   saving: Saving
@@ -67,6 +71,7 @@ generic:
   to: To
   total: Total
   type: Type
+  timeStamp: Timestamp
   unknown: Unknown
   uuid: UUID
   # These are not "yes" and "no" to avoid being parsed as bools by yaml parser.
@@ -596,6 +601,12 @@ editDns:
     serviceRequired: 'One or more "Targets" are required'
     selectorRequired: '"Container Selector" is required'
 
+
+pipelinesPage:
+  table:
+    status: Status
+    noData: There are no pipelines to show.
+    noMatch: No pipelines match the current search.
 
 # If you change translations here also change the translation in app/utils/constants.js under the FALLBACK_TRANSLATIONS key
 # those are present incase we have an error in the app and can not load the translations file
@@ -3927,6 +3938,15 @@ nav:
     themeDark: Dark
   userPreferences:
     link: "Preferences"
+  pipelines:
+    tab: Pipelines
+    active: Active
+    inactive: Inactive
+    add: Add a pipeline
+    stage:
+      add: Add a Stage
+      activity: Activity
+      history: History
 
 ##############################
 # Resource Actions
