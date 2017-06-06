@@ -608,6 +608,13 @@ pipelinesPage:
     noData: There are no pipelines to show.
     noMatch: No pipelines match the current search.
 
+newPipeline:
+  header: Add Pipeline
+  name:
+    placeholder: Name
+  description:
+    placeholder: Description
+  save: Save
 # If you change translations here also change the translation in app/utils/constants.js under the FALLBACK_TRANSLATIONS key
 # those are present incase we have an error in the app and can not load the translations file
 # the error page will at least make a little sense
