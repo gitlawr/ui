@@ -49,9 +49,10 @@ export default Ember.Mixin.create({
 
         //this._trySend('subscribeMessage',d);
 
-        if ( d.name === 'resource.change' )
-        {
-          let key = d.resourceType+'Changed';
+        let key;
+        switch ( d.name) {
+        case 'resource.change':
+          key = d.resourceType+'Changed';
           if ( this[key] ) {
             this[key](d);
           }
@@ -66,11 +67,13 @@ export default Ember.Mixin.create({
               store._remove(baseType, resource);
             }
           }
-
-        }
-        else if ( d.name === 'ping' )
-        {
+          break;
+        case 'logout':
+          this.send('logout', false);
+          break;
+        case 'ping':
           this.subscribePing(d);
+          break;
         }
       });
     });

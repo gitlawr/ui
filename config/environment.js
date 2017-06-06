@@ -96,9 +96,11 @@ module.exports = function(environment) {
       mode: mode,
       isCaas: mode === 'caas',
       caasSignup: signup,
+      environment: environment,
       apiServer: 'http://localhost:8080',
       legacyApiEndpoint: '/v1',
-      apiEndpoint: '/v2-beta',
+      apiEndpoint: '/v2',
+      betaApiEndpoint: '/v2-beta',
       catalogServer: '',
       catalogEndpoint: '/v1-catalog',
       authServer: '',
@@ -113,9 +115,9 @@ module.exports = function(environment) {
       kubernetesWorkload: '/r/projects/%PROJECTID%/kubernetes-dashboard:9090/api/v1/workload?itemsPerPage=1',
       mesosEndpoint: '/r/projects/%PROJECTID%/mesos-master:5050',
       swarmDashboard: '/r/projects/%PROJECTID%/portainer/',
-      projectEndpoint: '/v2-beta/projects/%PROJECTID%',
+      projectEndpoint: '/v2/projects/%PROJECTID%',
       proxyEndpoint: '/v2-beta/proxy',
-      wsEndpoint: '/v2-beta/projects/%PROJECTID%/subscribe' +
+      wsEndpoint: '/v2/projects/%PROJECTID%/subscribe' +
                     '?eventNames=resource.change' +
                     '&limit=-1',
       baseAssets: '/',

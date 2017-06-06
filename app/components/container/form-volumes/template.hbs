@@ -15,18 +15,22 @@
     </button>
 
     {{#if volumesArray.length}}
-      <div class="input-group mt-40">
-        {{#each volumesArray as |vol|}}
 
-              {{input type="text" class="volume-path form-control" value=vol.value placeholder="e.g. [volumename: or /path/on/host:]/path/in/container[:ro]"}}
+        <div class="mt-20">
+          {{#each volumesArray as |vol|}}
+            <div class="row mt-10">
+            <div class="input-group">
+                {{input type="text" class="form-control" value=vol.value placeholder="e.g. [volumename: or /path/on/host:]/path/in/container[:ro]" style="width:100%;"}}
 
-              <div class="input-group-addon p-0 input-group-button bg-primary"><button class="bg-primary" {{action "removeVolume" vol}}><i class="icon icon-minus"/></button></div>
+                <div class="input-group-btn bg-primary"><button class="btn" {{action "removeVolume" vol}}><i class="icon icon-minus"/></button></div>
+                </div>
+            </div>
+          {{/each}}
+        </div>
 
-        {{/each}}
-      </div>
     {{/if}}
 
-    <div class="mt-40">
+    <div class="mt-20">
       <label class="acc-label">{{t 'formVolumes.volumesFrom'}}</label>
       {{#if isService}}
         {{#if volumesFromLaunchConfigChoices.length}}
@@ -73,7 +77,7 @@
       {{/if}}
     </div>
 
-    <div class="mt-40">
+    <div class="mt-20">
       <label class="acc-label" for="volumeDriver">{{t 'formVolumes.volumeDriver.label'}}</label>
       {{input-suggest
         value=instance.volumeDriver

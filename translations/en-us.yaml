@@ -398,22 +398,6 @@ authPage:
         pre: Enable Local Auth
         post: 'Enabling...'
 
-backupTargetsPage:
-  header: Backup Targets
-  linkTo: Add Backup Target
-  newTarget:
-    hr: NFS Config Options
-    header: Add Backup Target
-  server:
-    label: NFS Server
-    placeholder: 'e.g. my-nfs-server.example.com'
-  share:
-    label: NFS Share
-    placeholder: 'e.g. /mnt/volume-backups'
-  mountOptions:
-    label: NFS Mount Options
-    placeholder: 'e.g. nfsvers=4,proto=udp'
-
 catalogPage:
   index:
     header: Catalog
@@ -496,7 +480,7 @@ containerPage:
     security: Security
   portsTab:
     header: Ports
-    detail: 'These properties show what ports have been mapped and where.'
+    detail: 'Mappings of container listening ports to host ports on public IP addresses'
     status: |
       {count, plural,
       =0 {No Ports}
@@ -721,7 +705,12 @@ hostsPage:
         transfer: Transfer
     addPage:
       launch: Launch
-      header: Launch New Host
+      header: Add Host
+      quantity:
+        label: Quantity
+      name:
+        label: Host Name
+        placeholder: e.g. host01
       memStUnit: GB
       transferUnit: TB
       instance: 'Type:'
@@ -731,6 +720,11 @@ hostsPage:
       storage: 'Storage:'
       transfer: 'Transfer:'
       zone: 'Zone:'
+      env: 'Environment:'
+      size: 'Size:'
+      os: 'OS:'
+      driver: 'Driver:'
+      template: 'Template Name:'
     tabs:
       fav: Favorites
       browse: Browse
@@ -769,6 +763,7 @@ hostsPage:
   index:
     header: Hosts
     addHost: Add Host
+    hostTemplate: Host Templates
     tooltip:
       listView: List
       iconView: State Icons
@@ -785,7 +780,6 @@ hostsPage:
       noMatch: No hosts match the current search
   new:
     header:
-      linkTo: "Hosts: "
       text: Add Host
     manageLink: Manage available machine drivers
     form:
@@ -876,6 +870,16 @@ hostsPage:
           noData: This host does not have any volumes
 
 hostTemplatesPage:
+  title: Add Host
+  new:
+    title: Start from scratch
+    btn: Configure
+  custom: Custom add an existing host that is already running Docker
+  templateBox:
+    button: Launch
+    labels:
+      region: Region
+      zone: Zone
   keys:
     header: Host Template Keys
     buttonText: New Key
@@ -1098,7 +1102,7 @@ servicePage:
     noData: No Links
   certsTab:
     title: Certificates
-    detail: 'Certificates added to service.'
+    detail: 'Certificates used for TLS-termination of requests.'
     status: |
       {count, plural,
       =0 {No certificates}
@@ -1122,7 +1126,7 @@ servicePage:
         placeholder: e.g. Balancer for mycompany.com
   portsTab:
     title: Ports
-    detail: 'These properties show what ports have been mapped and where.'
+    detail: 'Mappings of container listening ports to host ports on public IP addresses.'
     status: |
       {count, plural,
       =0 {No Ports}
@@ -1137,8 +1141,8 @@ servicePage:
         noData: This Service has no ports.
     notActive: Ports are only available while the service is Active.
   logTab:
-    title: Logs
-    detail: 'These properties show the log options for this serivce.'
+    title: Service Log
+    detail: 'Recent orchestration events that have occurred for this service'
     status: |
       {count, plural,
       =0 {No events}
@@ -1172,10 +1176,10 @@ signupPage:
   form:
     button: Register
     labels:
-      loginUsername: Name*
-      email: Email*
+      loginUsername: Name
+      email: Email
       cc: Credit Card Info
-      pw: Password*
+      pw: Password
   emailSuccess:
     header: Welcome to Container Cloud
     confirm:
@@ -1249,10 +1253,8 @@ newStack:
 storagePoolsPage:
   header: Storage Drivers
   volume: Volume ID
-  orphaned: Orphaned Backup
   nav:
     pools: Pools
-    backups: Backups
   index:
     noData: No storage drivers
   newVolume:
@@ -1452,8 +1454,6 @@ hostPartial:
         form:
           name:
             placeholder: e.g. host01
-    addOptions:
-      labels: Labels
 
 ldap:
   providerName:
@@ -1614,19 +1614,11 @@ advancedSection:
   showText: Show advanced options
   hideText: Hide advanced options
 
-addHostTemplate:
-  add:
-    header: Add New Host Key
-  choose:
-    label: Template Keys*
-    add: Add a new key
-    prompt: Select A Template Key
-
 billingInfo:
   header: Billing Info
   addNew: Add Payment Method
   card: "{brand}: ...{last}"
-  noSub: You do not have an active description
+  noSub: You do not have an active payment method
   table:
     title:
       cardType: "Brand: {brand}"
@@ -1913,6 +1905,7 @@ stacksPage:
   table:
     standalone: Standalone
     endpoints: Endpoints
+    scale: Scale
     instanceCount: Container Count
     instanceState: Container States
     instanceStateWithIcon: States
@@ -1999,7 +1992,7 @@ formCloudHost:
 
 formCommand:
   title: Command
-  detail: These properties control the executable that will be run when the container is started.
+  detail: Configuration of the executable that will be run when the container is started.
   command:
     label: Command
     placeholder: e.g. /usr/sbin/httpd -f httpd.conf
@@ -2109,8 +2102,8 @@ formEngineOpts:
 
 formHealthCheck:
   title: Health Check
-  detail: A health check allows {appName} to know if your container is healthy.  For scaling groups, an unhealthy container can be automatically replaced.
-  detailDns: A health check allows {appName} to know if the external resource is healty or not.  This will be used when this record is the target of a Load Balancer.
+  detail: Periodically make a request to the container to see if it is responding correctly.  An unhealthy container will be excluded from Load Balancers.  Scaling Groups can automatically replace unhealthy containers with a new one.
+  detailDns: A health check allows {appName} to know if the external resource is healty or not.  An unhealthy target will be exlcluded from Load Balancers.
   checkType:
     none: None
     tcp: Check that a TCP connection opens successfully
@@ -2151,12 +2144,6 @@ formHealthCheck:
     label: When Unhealthy
     none: Take no action
     recreate: Re-create
-    recreateOnQuorumPrefix: Re-create, but only if at least
-    recreateOnQuorumSuffix: |
-      {quorum, plural,
-        =1 {container is}
-        other {containers are}
-      } healthy
 
 formKeyValue:
   addAction: Add Pair
@@ -2419,14 +2406,14 @@ formSslTermination:
     prompt: Choose a Certificate...
   alternateCertificate:
     prompt: Choose a Certificate...
-  certificate: Certificate*
+  certificate: Certificate
   alternateCerts: Alternate Certs
   addAlternate: Add Alternate Certificate
   noCertificates: There are no certificates to use.
   noAlternateCertificates: There are no other certificates to use.
   helpBlock: |
-    "Note: Some older SSL/TLS clients do not support <a href="https://en.wikipedia.org/wiki/Server_Name_Indication" target="_blank">Server Name Indication (SNI)</a>; these clients will always be offered the main Certificate  Modern clients will be offered an appropriate certificate from the Alternate Certificates list if a match is found."
-  notNeeded: There are no SSL/TLS ports configured.
+    "Note: Some older SSL/TLS clients do not support <a href="https://en.wikipedia.org/wiki/Server_Name_Indication" target="_blank">Server Name Indication (SNI)</a>; these clients will always be offered the main Certificate.  Modern clients will be offered an appropriate certificate from the Alternate Certificates list if a match is found."
+  notNeeded: There are no SSL/TLS Listening Ports configured with a valid Target Rule.
 
 formStack:
   label:
@@ -2446,10 +2433,16 @@ formStack:
     validation: "Stack: {error}"
 
 formStickiness:
-  title: Sticky Sessions
-  detail: Configure the balancer to send requests for a given client to a consistent target container.
+  title: Target Routing
+  detail: Configure the balancer to send requests for a given client to a consistent target container or to the same host the balancer is running on..
+  balancerTarget: Target Container Preference
+  any: Send requests to a healthy target container on any host.
+  preferLocal: Prefer containers on the same host as the balancer.  (If none are healthy, send to containers on a different host)
+  onlyLocal: "Use only containers on the same host as the balancer.  (If none are healthy, return <code>503</code>)"
+
+  sticky: Sticky Sessions
   none: None
-  newCookie: Create new cookie
+  newCookie: Load Balancer defines a stickiness cookie
   cookieName: Cookie Name
   mode: Mode
   domain: Domain
@@ -2457,7 +2450,7 @@ formStickiness:
   indirect: Indirect
   sendHeader: Send no-cache header
   onPost: Only set cookie on POST
-  noPorts: There are no HTTP Listeners configured.
+  noPorts: There are no valid Target Rules configured for a HTTP listener.
 
   placeholder:
     sticky: e.g. sticky
@@ -2498,6 +2491,7 @@ formUserData:
 formUserLabels:
   title: Labels
   detail: Labels are key/value pairs that can be used to annotate containers and make scheduling decisions.
+  hostDetail: Labels are key/value pairs that can be applied to hosts and used to make scheduling decisions for containers.
   addAction: Add Label
   key:
     label: Key
@@ -2754,7 +2748,7 @@ k8s:
 labelsSection:
   kind: Kind
   title: Labels
-  detail: These properties show what labels exist.
+  detail: Key/Value data that can be used in Host Scheduling rules or as part of configuring other advanced options.
   status: |
     {count, plural,
     =0 {No labels}
@@ -2802,6 +2796,7 @@ machine:
     securityGroupSection: Security Group
     securityGroup:
       label: Security Group
+      choose:  Choose an existing group
       defaultExisting: "Standard: Use the existing <code>{groupName}</code> group"
       defaultCreate: "Standard: Automatically create a <code>{groupName}</code> group"
       custom: "Custom: Choose an existing group"
@@ -2849,6 +2844,7 @@ machine:
       label: Subscription Cert
       placeholder: Your Azure subscription certificate
     instanceSection: Instance
+    instanceOptionsSection: Instance Options
     image:
       label: Image
       placeholder: 'canonical:UbuntuServer:16.04.0-LTS:latest'
@@ -2943,6 +2939,7 @@ machine:
         A Personal Access Token from the DigitalOcean
         <a href="https://cloud.digitalocean.com/settings/applications" target="_blank">Apps & API</a> screen
     instanceSection: Instance
+    instanceOptionsSection: Instance Options
     image:
       label: Image
     sshUser:
@@ -2992,6 +2989,7 @@ machine:
     selectSecurityGroupAction: "Next: Set Instance options"
     loadingInstance: Fetching available Instance settings...
     instanceSection: Instance
+    instanceOptionsSection: Instance Options
     instanceProfile:
       label: Instance Profile
     diskSize:
@@ -3006,6 +3004,8 @@ machine:
     driver:
       label: Driver
     optionsSection: "{driverName} Options"
+    instanceSection: Instance
+    instanceOptionsSection: Instance Options
 
   driverPacket:
     accountSection: Account Access
@@ -3017,6 +3017,7 @@ machine:
       placeholder: Your Packet API key
     apiKeyHelp: From the Packet <a href="https://app.packet.net/portal#/api-keys" target="_blank">API Keys</a> screen
     instanceSection: Instance
+    instanceOptionsSection: Instance Options
     image:
       label: Image
     size:
@@ -3038,6 +3039,7 @@ machine:
     region:
       label: Region
     instanceSection: Instance
+    instanceOptionsSection: Instance Options
     flavor:
       label: Flavor
 
@@ -3057,6 +3059,7 @@ machine:
     loginAction: "Next: Authenticate & Create a New Cloud Instance"
     loadingInstance: Loading cloud instance creation details...
     instanceSection: Instance
+    instanceOptionsSection: Instance Options
     regionSection: Region
     region:
       label: Region
@@ -3077,6 +3080,7 @@ machine:
     password:
       label: Password
     instanceSection: Instance
+    instanceOptionsSection: Instance Options
     cpuCount:
       label: CPUs
     memorySize:
@@ -3113,6 +3117,7 @@ machine:
       label: Api Endpoint
       placeholder: Private Aliyun Api Server Endpoint
     instanceSection: Instance Section
+    instanceOptionsSection: Instance Options Section
     instanceDescription:
       label: Instance Description
       placeholder: Instance Description
@@ -3271,13 +3276,6 @@ modalConfirmDeactivate:
       message: deactivate
       button: Deactivate
 
-modalEditBackup:
-  edit: Edit Backup
-  create: Create Backup
-  nameLabel: Backup Name
-  backupTarget: Backup Target
-  backupTargetPlaceholder: 'Select a Backup target...'
-
 modalConfirmRemovePayment:
   header: 'Confirm Payment Removal'
   title: 'Are you sure you want to delete'
@@ -3309,11 +3307,6 @@ modalEditSetting:
   reset:
     label: Reset to Default
 
-modalEditSnapshot:
-  edit: Edit Snapshot
-  create: Create Snapshot
-  nameLabel: Snapshot Name
-
 modalFeedback:
   header: Welcome to {appName}!
   subtitle: "Before you get started, please tell us a little about yourself..."
@@ -3331,11 +3324,6 @@ modalProcessError:
   none: N/A
   stackTrace: "Stack Trace:"
   close: Close
-
-modalRollbackVolume:
- title:
-  snapshot: Rollback to a Snapshot
-  backup: Rollback to a Backup
 
 modalRollbackService:
   title: 'Rollback "{instanceName}"'
@@ -3552,6 +3540,11 @@ pagination:
     =0 {No Items}
     =1 {{count} {count, plural, =1 {Item} other {Items}}}
     other {{from} - {to} of {count} Items}}
+  entry: |
+    {pages, plural,
+    =0 {No Entries}
+    =1 {{count} {count, plural, =1 {Entry} other {Entries}}}
+    other {{from} - {to} of {count} Entries}}
   host: |
     {pages, plural,
     =0 {No Hosts}
@@ -3673,6 +3666,14 @@ serviceLink:
       sameStack: "{service}"
       differentStack: "{stack}/{service}"
 
+serviceLog:
+  time: Time
+  level: Level
+  event: Event
+  detail: Detai
+  noMatch: No events match the current search
+  noData: No events have occurred recently
+
 siteAccess:
   header: Site Access
   helpText: "Configure who should be allowed to log in and use {appName}."
@@ -3684,13 +3685,6 @@ siteAccess:
   users: Users
   groups: Groups
   organizations: Organizations
-
-snapshotTimeline:
-  noData: No Snapshot Data
-
-snapshotSection:
-  none: Not backed up
-  multiple: 'Multiple: {latestDate}'
 
 stackRow:
   label: "Stack: {name}"
@@ -3710,9 +3704,6 @@ storagePoolSection:
     table:
       header:
         volumeName: 'Volume Name'
-        snapshotState: 'Snapshot State'
-        snapshotName: 'Snapshot Name'
-        backedUp: 'Backed Up'
         mounts: 'Mounts (Container: Path)'
 
 svgServiceContainer:
@@ -3960,8 +3951,6 @@ nav:
 ##############################
 action:
   activate: Activate
-  backup: Backup Snapshot
-  deleteBackup: Delete Backup
   cancelUpgrade: Cancel Upgrade
   cancelRollback: Cancel Rollback
   clone: Clone
@@ -3984,10 +3973,7 @@ action:
   restore: Restore
   retry: Retry
   rollback: Rollback
-  revertToSnapshot: Revert Volume to Snapshot
-  restoreFromBackup: Restore Volume from Backup
   setDefault: Set as Default
-  snapshot: Snapshot
   start: Start
   startServices: Start Services
   stop: Stop

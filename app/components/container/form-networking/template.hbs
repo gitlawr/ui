@@ -58,7 +58,7 @@
           <p class="help-block">{{t 'formNetwork.requestedIp.help'}}</p>
         {{/input-or-display}}
       </div>
-      {{#if (or true (and isService (not isSidekick)))}}
+      {{#if (and isService (not isSidekick))}}
         <div class="col span-4">
           <label class="acc-label">{{t 'formNetwork.retainIp.label'}}</label>
           {{#input-or-display editable=editing value=service.retainIp}}
@@ -75,15 +75,15 @@
       <label class="acc-label">{{t 'formNetwork.hostname.label'}}</label>
       {{#if isService}}
         {{#input-or-display editable=editing value=hostname}}
-          <div class="radio small mt-10">
-            <label class="acc-label">{{radio-button selection=hostname value="default"}} {{t 'formNetwork.hostname.dockerId'}}</label>
+          <div class="radio">
+            <label>{{radio-button selection=hostname value="default"}} {{t 'formNetwork.hostname.dockerId'}}</label>
           </div>
-          <div class="radio small mt-10">
-            <label class="acc-label">{{radio-button selection=hostname value="override"}} {{t 'formNetwork.hostname.containerName'}}</label>
+          <div class="radio">
+            <label>{{radio-button selection=hostname value="override"}} {{t 'formNetwork.hostname.containerName'}}</label>
           </div>
-          <div class="radio small">
-            <label class="acc-label">{{radio-button selection=hostname value="custom"}} {{t 'formNetwork.hostname.custom'}}:</label>
-            {{input type="text" value=instance.hostname classNames="form-control r-ml10 input-sm" safeStyle="display:inline; width: 200px;" placeholder=(t 'formNetwork.hostname.placeholder') disabled=(not-eq hostname "custom")}}
+          <div class="radio">
+            <label>{{radio-button selection=hostname value="custom"}} {{t 'formNetwork.hostname.custom'}}:</label>
+            {{input type="text" value=instance.hostname classNames="form-control r-ml10 input-xs" safeStyle="display:inline; width: 200px;" placeholder=(t 'formNetwork.hostname.placeholder') disabled=(not-eq hostname "custom")}}
           </div>
         {{/input-or-display}}
       {{else}}
@@ -118,7 +118,7 @@
               {{#if editing}}
                   <div class="input-group pt-20">
                   {{input type="text" value=dns.value classNames="form-control dns-value input-sm" placeholder=(t 'formNetwork.resolvingServers.placeholder')}}
-                  <div class="input-group-btn bg-primary"><button class="btn bg-primary btn-sm" {{action "removeDnsResolver" dns}}><i class="icon icon-minus"/></button></div>
+                  <div class="input-group-btn"><button class="btn bg-primary btn-sm" {{action "removeDnsResolver" dns}}><i class="icon icon-minus"/></button></div>
                   </div>
               {{else}}
                   {{dns.value}}
@@ -144,7 +144,7 @@
                 {{#if editing}}
                   <div class="input-group pt-20">
                     {{input type="text" value=dnsSearch.value classNames="form-control dns-search-value input-sm" placeholder=(t 'formNetwork.searchDomains.placeholder')}}
-                    <div class="input-group-btn bg-primary">
+                    <div class="input-group-btn">
                       <button class="btn bg-primary btn-sm" {{action "removeDnsSearch" dnsSearch}}><i class="icon icon-minus"/></button>
                     </div>
                   </div>

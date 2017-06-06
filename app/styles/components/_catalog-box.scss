@@ -47,7 +47,6 @@ $lines-to-show: 4;
   }
 
   &.machine {
-    font-size: 12px;
     height: 245px;
 
     h5 {
@@ -59,7 +58,7 @@ $lines-to-show: 4;
   }
   &.cloud-host {
     @extend .machine;
-    height: 300px;
+    height: 250px;
     .help-text {
       color: $accent-two;
     }
@@ -181,6 +180,10 @@ $lines-to-show: 4;
     }
   }
 
+  &.dotted {
+    border-style: dotted;
+  }
+
   &.machine .catalog-icon {
     min-height: 100px;
     background-position: center;
@@ -201,5 +204,6 @@ $lines-to-show: 4;
     &.rancherdo     { @include rancherdo;}
     &.ubiquity      { @include ubiquity; }
     &.vmwarevsphere { @include vmwarevsphere; }
+    &.newtemplate { @include newtemplate; }
   }
 }

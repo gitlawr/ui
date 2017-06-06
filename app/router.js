@@ -32,6 +32,7 @@ Router.map(function() {
     this.route('settings', {resetNamespace: true}, function() {
       this.route('projects', {path: '/env'}, function() {
         this.route('index', {path: '/'});
+        this.route('templates', {path: '/templates'});
         this.route('new', {path: '/add'});
         this.route('new-template', {path: '/add-template'});
         this.route('edit-template', {path: '/template/:template_id'});
@@ -71,6 +72,10 @@ Router.map(function() {
 
     this.route('project', {path: '/env/:project_id'}, function() {
       this.route('index', {path: '/'});
+      this.route('apikeys', {path: '/api/keys'}, function() {
+        this.route('account', {path: '/account'});
+        this.route('environment', {path: '/environment'});
+      });
       this.route('waiting');
 
       this.route('pipelines', {resetNamespace: true}, function() {
@@ -115,12 +120,13 @@ Router.map(function() {
 
       this.route('new-stack', {path: '/import-compose', resetNamespace: true});
 
+      this.route('custom-host', {path: '/hosts/custom', resetNamespace: true});
       this.route('hosts', {path: '/hosts', resetNamespace: true}, function() {
         this.route('index', {path: '/'});
 
-        this.route('container-cloud', {path: '/container-cloud'}, function() {
+        this.route('templates', {path: '/launch'}, function() {
           this.route('index', {path: '/'});
-          this.route('add', {path: '/add/:cloud_id'});
+          this.route('launch', {path: '/:template_id'});
         });
 
         this.route('new', {path: '/add'}, function() {
@@ -199,9 +205,6 @@ Router.map(function() {
         this.route('edit-receiver', {path: '/receiver/:receiver_id'});
       });
 
-      this.route('host-template', {path: '/host-template'}, function(){
-        this.route('keys', {path: '/keys'});
-      });
       // End: Authenticated
     });
   });

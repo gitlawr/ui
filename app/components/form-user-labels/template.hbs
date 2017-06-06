@@ -1,6 +1,6 @@
 {{#accordion-list-item
      title=(t 'formUserLabels.title')
-     detail=(t 'formUserLabels.detail' appName=settings.appName)
+     detail=(t detailKey appName=settings.appName)
      status=status
      statusClass=statusClass
      expandAll=expandAll
@@ -13,7 +13,7 @@
 
   {{#if userLabelArray.length}}
     <table class="table fixed no-lines mt-20">
-      <tr class="text-muted hidden-xs hidden-sm">
+      <tr class="hidden-xs hidden-sm">
         <th>{{t 'formUserLabels.key.label'}}{{field-required}}</th>
         <th width="30">&nbsp;</th>
         <th>{{t 'formUserLabels.value.label'}}</th>
@@ -39,7 +39,7 @@
         </tr>
       {{/each}}
     </table>
-    <div class="text-info" style="font-size: 12px; margin-bottom: 12px;">
+    <div class="text-info">
       {{t 'formUserLabels.protip'}}
     </div>
   {{/if}}

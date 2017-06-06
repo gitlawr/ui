@@ -6,6 +6,10 @@ $lg-padding: 18px 30px;
 // -----------------------------------------------------------------------------
 // This file contains all styles related to the button component.
 // -----------------------------------------------------------------------------
+button {
+  background: $bg-primary;
+}
+
 .btn,
 button,
 [class^='btn-'] {
@@ -23,6 +27,7 @@ button,
     letter-spacing: .5px;
     border-radius: 1.5px;
     line-height: 1.5;
+
     &.bg-transparent {
         color: $link-color;
     }
@@ -70,6 +75,11 @@ button,
     .darken {
         padding: 5px 10px;
         display: inline-block;
+
+        i {
+          position: relative;
+          top: -1px;
+        }
     }
     span {
         padding: 0 10px 0 5px;
@@ -109,7 +119,7 @@ button,
 .btn-group-lg > .btn,
 .btn-lg .btn-label {
     padding: $lg-padding;
-    font-size: 1.25em;
+    font-size: 1.2em;
 }
 
 //diabled

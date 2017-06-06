@@ -1,17 +1,18 @@
 // Forms
 // Placeholder text color
-$label-color                         : $text-color !default;
-$input-color-placeholder             : lighten($mid-grey, 10%) !default;
-$input-bg                            : lighten($light-grey, 4%) !default;
-$input-bg-hover                      : $mid-grey !default;
-$input-bg-disabled                   : lighten($mid-grey, 15%) !default;
-$input-color                         : $secondary !default;
-$input-border                        : $light-grey !default;
-$input-group-addon-border-color      : $input-border !default;
-$input-border-focus                  : $info !default;
-$legend-color                        : $text-color !default;
-$legend-border-color                 : $light-grey !default;
-$input-group-addon-bg                : $light-grey !default;
+$label-color                    : $text-color !default;
+$input-color-placeholder        : lighten($mid-grey, 10%) !default;
+$input-bg                       : lighten($light-grey, 4%) !default;
+$input-bg-hover                 : $mid-grey !default;
+$input-bg-disabled              : lighten($mid-grey, 15%) !default;
+$input-color                    : $secondary !default;
+$input-border                   : $light-grey !default;
+$input-group-addon-border-color : $input-border !default;
+$input-border-focus             : $info !default;
+$legend-color                   : $text-color !default;
+$legend-border-color            : $light-grey !default;
+$input-group-addon-bg           : $light-grey !default;
+$select-bg                      : $body-bg;
 
 
 .form {
@@ -24,8 +25,8 @@ select {
     border-width: 2px;
     border-color: $input-border;
     border-radius: 0;
-    background: darken($input-bg, 4%);
-    outline: none;
+    background: $select-bg;
+    border: solid 2px $border;
     padding: 5px 10px;
     font-size: 15px;
     transition: all ease-in-out .3s;
@@ -232,10 +233,6 @@ textarea {
     border-radius: 0;
 }
 
-.input-group-btn > .btn + .btn {
-    margin-left: -1px;
-}
-
 .input-group-btn > .btn:hover,
 .input-group-btn > .btn:focus,
 .input-group-btn > .btn:active {
@@ -250,7 +247,6 @@ textarea {
 .input-group-btn:last-child > .btn,
 .input-group-btn:last-child > .btn-group {
     z-index: 2;
-    margin-left: -1px;
 }
 
 //input sizes
@@ -293,13 +289,21 @@ input.input-lg,
   }
 }
 
+.box .input-group-addon.bg-default {
+  background: darken($input-bg, 10);
+}
+
 .field-required {
   padding-left: 5px;
   font-weight: bold;
-  color: red;
+  color: $error;
 }
 
 .with-input {
   display: inline-block;
   vertical-align: middle;
+}
+
+.radio {
+  padding: 5px 0;
 }

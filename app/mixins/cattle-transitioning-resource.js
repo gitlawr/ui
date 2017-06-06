@@ -20,6 +20,7 @@ const defaultStateMap = {
   'initializing':             {icon: 'icon icon-alert',         color: 'text-warning'},
   'migrating':                {icon: 'icon icon-info',          color: 'text-info'   },
   'provisioning':             {icon: 'icon icon-circle',        color: 'text-info'   },
+  'pending-delete':           {icon: 'icon icon-trash',         color: 'text-muted'  },
   'purged':                   {icon: 'icon icon-purged',        color: 'text-error'  },
   'purging':                  {icon: 'icon icon-purged',        color: 'text-info'   },
   'reconnecting':             {icon: 'icon icon-alert',         color: 'text-error'  },
@@ -31,7 +32,6 @@ const defaultStateMap = {
   'restarting':               {icon: 'icon icon-adjust',        color: 'text-info'   },
   'restoring':                {icon: 'icon icon-medicalcross',  color: 'text-info'   },
   'running':                  {icon: 'icon icon-circle-o',      color: 'text-success'},
-  'snapshotted':              {icon: 'icon icon-snapshot',      color: 'text-warning'},
   'started-once':             {icon: 'icon icon-dot-circlefill',color: 'text-success'},
   'starting':                 {icon: 'icon icon-adjust',        color: 'text-info'   },
   'stopped':                  {icon: 'icon icon-circle',        color: 'text-error'  },
@@ -107,18 +107,8 @@ export default Ember.Mixin.create({
 
     goToApi: function() {
       let url      = this.get('links.self'); // http://a.b.c.d/v1/things/id, a.b.c.d is where the UI is running
-      let endpoint = this.get('endpointSvc.absolute'); // http://e.f.g.h/ , does not include version.  e.f.g.h is where the API actually is.
-      url          = url.replace(/https?:\/\/[^\/]+\/?/,endpoint);
-
-      // For local development where API doesn't match origin, add basic auth token
-      if ( url.indexOf(window.location.origin) !== 0 )
-      {
-        let token = this.get('cookies').get(C.COOKIE.TOKEN);
-        if ( token )
-        {
-          url = Util.addAuthorization(url, C.USER.BASIC_BEARER, token);
-        }
-      }
+//      let endpoint = this.get('endpointSvc.absolute'); // http://e.f.g.h/ , does not include version.  e.f.g.h is where the API actually is.
+//      url          = url.replace(/https?:\/\/[^\/]+\/?/,endpoint);
 
       window.open(url, '_blank');
     },

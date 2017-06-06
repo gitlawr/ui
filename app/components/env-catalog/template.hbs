@@ -1,7 +1,7 @@
 <div>
-  <h2>{{t 'envCatalog.header'}}</h2>
-  <h5 class="text-muted">{{format-html-message 'envCatalog.subtext'}}</h5>
+  <h2 class="alert-header">{{t 'envCatalog.header'}}</h2>
   <hr/>
+  <h5 class="text-muted">{{format-html-message 'envCatalog.subtext'}}</h5>
 </div>
 <div>
   <div class="form-control-static">
@@ -56,14 +56,15 @@
           </td>
           <td>&nbsp;</td>
           <td class="pt-5 pb-5" data-title="{{t 'catalogSettings.more.kind.label'}}:">
-            {{new-select
+            {{t 'generic.environment'}}
+            {{!--new-select
               classNames="form-control input-sm"
               content=kindChoices
               optionLabelPath="translationKey"
               optionValuePath="value"
               localizedLabel=true
               value=row.kind
-            }}
+            --}}
           </td>
           <td>&nbsp;</td>
           <td class="pt-5 pb-5" data-title="{{t 'catalogSettings.more.branch.label'}}:">
