@@ -1,0 +1,14 @@
+<section class="header clearfix">
+  <h1>{{t 'nav.pipelines.new.header'}}</h1>
+</section>
+
+<section class="container-fluid">
+  {{form-name-description
+    model=primaryResource
+    namePlaceholder="newStack.name.placeholder"
+    descriptionPlaceholder="newStack.description.placeholder"
+  }}
+</section>
+
+{{#save-cancel saveDisabled=noLaunchConfigsEnabled createLabel=(if isUpgrade 'newContainer.saveUpgrade' 'newContainer.saveNew') save="save" cancel="cancel"}}
+{{/save-cancel}}

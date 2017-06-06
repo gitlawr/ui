@@ -1,0 +1,15 @@
+<section class="header clearfix">
+  <h1>{{t 'newPipeline.header'}}</h1>
+</section>
+
+<section class="container-fluid">
+  {{form-name-description
+    model=primaryResource
+    namePlaceholder="newPipeline.name.placeholder"
+    descriptionPlaceholder="newPipeline.description.placeholder"
+  }}
+</section>
+
+
+{{#save-cancel saveDisabled=noLaunchConfigsEnabled createLabel="newPipeline.save" save="save" cancel="cancel"}}
+{{/save-cancel}}
