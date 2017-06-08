@@ -1,59 +1,59 @@
 <section class="horizontal-form">
   <form>
     <div class="container-fluid">
-      <div class="over-hr mt-20 mb-20">
-        <span>{{t 'machine.driverAmazon.instanceSection'}}</span>
-      </div>
-
       {{#if showNameScale}}
-        {{partial "host/add-common"}}
+        <div class="box mt-20">
+          <h4>{{t 'machine.driverAmazon.instanceSection'}}</h4>
+          <div class="row mb-20">
+            {{partial "host/add-common"}}
+          </div>
+        </div>
       {{/if}}
 
-      <div class="over-hr mb-20">
-        <span>{{t 'machine.driverAmazon.accessSection'}}</span>
-      </div>
-
-      <div class="row {{if isStep1 'inline-form'}}">
-        <div class="col span-2 col-inline">
-          <label>{{t 'machine.driverAmazon.region.label'}}</label>
+      <div class="box mt-30">
+        <h4>{{t 'machine.driverAmazon.accessSection'}}</h4>
+        <div class="row {{if isStep1 'inline-form'}}">
+          <div class="col span-2 col-inline">
+            <label class="acc-label">{{t 'machine.driverAmazon.region.label'}}</label>
+          </div>
+          <div class="col span-8">
+            {{#if isStep1}}
+              <select class="form-control" onchange={{action (mut amazonec2Config.region) value="target.value"}}>
+                {{#each regionChoices as |choice|}}
+                  <option value={{choice}} selected={{eq amazonec2Config.region choice}}>{{choice}}</option>
+                {{/each}}
+              </select>
+            {{else}}
+              <div>{{amazonec2Config.region}}</div>
+            {{/if}}
+          </div>
         </div>
-        <div class="col span-8">
-          {{#if isStep1}}
-            <select class="form-control" onchange={{action (mut amazonec2Config.region) value="target.value"}}>
-              {{#each regionChoices as |choice|}}
-                <option value={{choice}} selected={{eq amazonec2Config.region choice}}>{{choice}}</option>
-              {{/each}}
-            </select>
-          {{else}}
-            <div>{{amazonec2Config.region}}</div>
-          {{/if}}
+        <div class="row {{if isStep1 'inline-form'}}">
+          <div class="col span-2 col-inline">
+            <label class="acc-label">{{t 'machine.driverAmazon.accessKey.label'}}</label>
+          </div>
+          <div class="col span-8">
+            {{#if isStep1}}
+              {{input type="text" name="username" classNames="form-control" placeholder=(t 'machine.driverAmazon.accessKey.placeholder') value=amazonec2Config.accessKey}}
+            {{else}}
+              <div>{{amazonec2Config.accessKey}}</div>
+            {{/if}}
+          </div>
         </div>
-      </div>
-      <div class="row {{if isStep1 'inline-form'}}">
-        <div class="col span-2 col-inline">
-          <label>{{t 'machine.driverAmazon.accessKey.label'}}</label>
-        </div>
-        <div class="col span-8">
-          {{#if isStep1}}
-            {{input type="text" name="username" classNames="form-control" placeholder=(t 'machine.driverAmazon.accessKey.placeholder') value=amazonec2Config.accessKey}}
-          {{else}}
-            <div>{{amazonec2Config.accessKey}}</div>
-          {{/if}}
-        </div>
-      </div>
-      <div class="row {{if isStep1 'inline-form'}}">
-        <div class="col span-2 col-inline">
-          <label>{{t 'machine.driverAmazon.secretKey.label'}}</label>
-        </div>
-        <div class="col span-8">
-          {{#if isStep1}}
-            {{input type="password" name="password" classNames="form-control" placeholder=(t 'machine.driverAmazon.secretKey.placeholder') value=model.secretValues.amazonec2Config.secretKey}}
-          {{else}}
-            <div class="text-muted text-italic">{{t 'machine.driverAmazon.secretKey.provided'}}</div>
-          {{/if}}
-          {{#if isStep1}}
-            <p class="text-info">{{t 'machine.driverAmazon.accessKeyHelp'}}</p>
-          {{/if}}
+        <div class="row {{if isStep1 'inline-form'}}">
+          <div class="col span-2 col-inline">
+            <label class="acc-label">{{t 'machine.driverAmazon.secretKey.label'}}</label>
+          </div>
+          <div class="col span-8">
+            {{#if isStep1}}
+              {{input type="password" name="password" classNames="form-control" placeholder=(t 'machine.driverAmazon.secretKey.placeholder') value=model.secretValues.amazonec2Config.secretKey}}
+            {{else}}
+              <div class="text-muted text-italic">{{t 'machine.driverAmazon.secretKey.provided'}}</div>
+            {{/if}}
+            {{#if isStep1}}
+              <p class="text-info">{{t 'machine.driverAmazon.accessKeyHelp'}}</p>
+            {{/if}}
+          </div>
         </div>
       </div>
     </div>
@@ -81,7 +81,7 @@
     </div>
     <div class="row {{if isStep3 'inline-form'}}">
       <div class="col span-2 col-inline">
-        <label>{{t 'machine.driverAmazon.availabilityZone'}}</label>
+        <label class="acc-label">{{t 'machine.driverAmazon.availabilityZone'}}</label>
       </div>
       <div class="col span-8">
         {{#if isStep3}}
@@ -99,7 +99,7 @@
     </div>
     <div class="row {{if isStep3 'inline-form'}}">
       <div class="col span-2 col-inline">
-        <label>{{t 'machine.driverAmazon.subnet'}}</label>
+        <label class="acc-label">{{t 'machine.driverAmazon.subnet'}}</label>
       </div>
       <div class="col span-8">
         {{#if isStep3}}
@@ -107,7 +107,7 @@
             {{#each subnetChoices as |choice|}}
               {{#if choice.isVpc}}
                 <div class="radio">
-                  <label>{{radio-button selection=selectedSubnet value=choice.value}} {{choice.label}}</label>
+                  <label class="acc-label">{{radio-button selection=selectedSubnet value=choice.value}} {{choice.label}}</label>
                 </div>
               {{else}}
                 <div class="radio">
@@ -155,7 +155,7 @@
 
     <div class="row {{if isStep5 'inline-form'}}">
       <div class="col span-2 col-inline">
-        <label>{{t 'machine.driverAmazon.securityGroup.label'}}</label>
+        <label class="acc-label">{{t 'machine.driverAmazon.securityGroup.label'}}</label>
       </div>
       <div class="col span-8">
         {{#if isStep5}}
@@ -165,7 +165,7 @@
           {{/if}}
 
           <div class="radio pt-10">
-            <label>
+            <label class="acc-label">
               {{t 'machine.driverAmazon.securityGroup.choose'}}
             </label>
           </div>
@@ -229,7 +229,7 @@
 
     <div class="row">
       <div class="col span-2 col-inline">
-        <label>{{t 'machine.driverAmazon.instanceType.label'}}</label>
+        <label class="acc-label">{{t 'machine.driverAmazon.instanceType.label'}}</label>
       </div>
       <div class="col span-4">
         <select class="form-control" onchange={{action (mut amazonec2Config.instanceType) value="target.value"}}>
@@ -239,7 +239,7 @@
         </select>
       </div>
       <div class="col span-2 col-inline">
-        <label>{{t 'machine.driverAmazon.rootSize.label'}}</label>
+        <label class="acc-label">{{t 'machine.driverAmazon.rootSize.label'}}</label>
       </div>
       <div class="col span-4">
         <div class="input-group">
@@ -251,7 +251,7 @@
 
     <div class="row">
       <div class="col span-2 col-inline">
-        <label>{{t 'machine.driverAmazon.ami.label'}}</label>
+        <label class="acc-label">{{t 'machine.driverAmazon.ami.label'}}</label>
       </div>
       <div class="col span-4">
         {{input type="text" classNames="form-control" placeholder=(t 'machine.driverAmazon.ami.placeholder') value=amazonec2Config.ami}}
@@ -262,7 +262,7 @@
         {{/if}}
       </div>
       <div class="col span-2 col-inline">
-        <label>{{t 'machine.driverAmazon.sshUser.label'}}</label>
+        <label class="acc-label">{{t 'machine.driverAmazon.sshUser.label'}}</label>
       </div>
       <div class="col span-4">
         {{input type="text" classNames="form-control" placeholder=(t 'machine.driverAmazon.sshUser.placeholder') value=amazonec2Config.sshUser}}
@@ -270,17 +270,17 @@
     </div>
     <div class="row">
       <div class="col span-2 col-inline">
-        <label>{{t 'machine.driverAmazon.iam.label'}}</label>
+        <label class="acc-label">{{t 'machine.driverAmazon.iam.label'}}</label>
       </div>
       <div class="col span-4">
         {{input type="text" classNames="form-control" value=amazonec2Config.iamInstanceProfile}}
       </div>
       <div class="col span-2 col-inline">
-        <label>{{t 'machine.driverAmazon.privateIp.label'}}</label>
+        <label class="acc-label">{{t 'machine.driverAmazon.privateIp.label'}}</label>
       </div>
       <div class="col span-4">
         <div class="checkbox">
-          <label>{{input type="checkbox" checked=amazonec2Config.privateAddressOnly}} {{t 'machine.driverAmazon.onlyPrivate.label'}}</label>
+          <label class="acc-label">{{input type="checkbox" checked=amazonec2Config.privateAddressOnly}} {{t 'machine.driverAmazon.onlyPrivate.label'}}</label>
         </div>
       </div>
     </div>
