@@ -99,7 +99,7 @@ module.exports = function(environment) {
       environment: environment,
       apiServer: 'http://localhost:8080',
       legacyApiEndpoint: '/v1',
-      apiEndpoint: '/v2',
+      apiEndpoint: '/v2-beta',
       betaApiEndpoint: '/v2-beta',
       catalogServer: '',
       catalogEndpoint: '/v1-catalog',
@@ -117,7 +117,7 @@ module.exports = function(environment) {
       swarmDashboard: '/r/projects/%PROJECTID%/portainer/',
       projectEndpoint: '/v2/projects/%PROJECTID%',
       proxyEndpoint: '/v2-beta/proxy',
-      wsEndpoint: '/v2/projects/%PROJECTID%/subscribe' +
+      wsEndpoint: '/v2-beta/projects/%PROJECTID%/subscribe' +
                     '?eventNames=resource.change' +
                     '&limit=-1',
       baseAssets: '/',

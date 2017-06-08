@@ -1,0 +1,14 @@
+<section class="pipeline-stages">
+  <div class="stages-line"></div>
+  {{#sortable-objects useSwap=true sortableObjectList=model sortEndAction='sortEndAction' enableSort=true}}
+      {{#each model as |item|}}
+        {{#draggable-object class="steps-wrap" content=item overrideClass='sortObject' isSortable=true}}
+          <div class="stage-name">
+            stage{{item.id}}
+          </div>
+          {{pipeline-steps model=item.steps}}
+        {{/draggable-object}}
+      {{/each}}
+    {{/sortable-objects}}
+</section>
+

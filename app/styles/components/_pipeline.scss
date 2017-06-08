@@ -1,0 +1,71 @@
+.pipeline-stages{
+  position: relative;
+  top: 0;
+  .stage-name{
+    text-align: center;
+    line-height: 3;
+  }
+  > .stages-line{
+    position: absolute;
+    top: 55px;
+    border-top: 2px solid $border;
+    width: 100%;
+    height: 1px;
+    
+  }
+  .steps-wrap{
+    display: inline-block
+  }
+}
+
+.pipeline-steps{
+  position: relative;
+  top: 0;
+  padding-top: 30px;
+  > .steps-head-dot{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: $info;
+  }
+  > .steps-line{
+    position: absolute;
+    top: 0;
+    width: 1px;
+    border-left: 2px solid $border;
+    height: calc(100% - 30px);
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+  >.steps-wrap {
+    padding: 4px;
+    margin-right: 10px;
+    // &.active{
+      // border: 2px dashed $border;
+    // }
+  }
+  .step-content{
+    &:first-child{
+      margin-top: 0;
+    }
+    position: relative;
+    top: 0;
+    z-index: 1;
+    border: 1px solid $border;
+    border-radius: 3px;
+    margin-top: 10px;
+    padding: 0 10px;
+    width: 160px;
+    line-height: 35px;
+    background-color: white;
+  }
+  .step-add{
+    text-align: center;
+  }
+}

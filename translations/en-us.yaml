@@ -598,7 +598,29 @@ newPipeline:
     placeholder: Name
   description:
     placeholder: Description
+  approvers:
+    label: Approvers
+  build:
+    variable: Build Variables
+    add: Add Another
+  git:
+    repo: 
+      label: Repository
+      placeholder: e.g. https://github.com/mycompany/mypipeline.git
+    branch: Branch
+  image: 
+    label: Target image
+    placeholder: builded
+  builder:
+    label: Builder Image
+    buildIn: Build In
+    custom: Custom
   save: Save
+
+pipelineDetail:
+  history:
+    noData: There are no history to show.
+  addStep: Add Step
 # If you change translations here also change the translation in app/utils/constants.js under the FALLBACK_TRANSLATIONS key
 # those are present incase we have an error in the app and can not load the translations file
 # the error page will at least make a little sense

@@ -11,5 +11,114 @@
 </section>
 
 
+<div class="row">
+  <div class="col span-12">
+    <label class="pb-5">{{t 'newPipeline.approvers.label'}}</label>
+    <section class="instances">
+      {{#sortable-table
+        classNames="grid sortable-table"
+        bulkActions=false
+        paging=true
+        fullRows=true
+        search=false
+        sortBy=sortBy
+        headers=approverHeaders
+        body=filteredByKind
+        fullRows=true
+        as |sortable kind row dt|
+      }}
+        {{#if (eq kind "row")}}
+          {{account-row model=approvers isLocal=isLocal}}
+        {{else if (eq kind "norows")}}
+          <td colspan="{{if isLocal '6' '5'}}" class="text-center text-muted pt-20 pb-20">{{t 'accountsPage.index.table.noData'}}</td>
+        {{/if}}
+      {{/sortable-table}}
+    </section>
+ </div>
+</div>
+
+<div class="pt-40"></div>
+<div class="row">
+  <div class="col span-12">
+    <label class="pb-5">{{t 'newPipeline.builder.label'}}</label>
+    <div class="radio mb-0">
+      <label>{{radio-button selection=isRequestedHost value=true}}
+          {{t 'newPipeline.builder.buildIn'}}
+      </label>
+          {{new-select
+            class="form-control mb-15"
+            content=hostChoices
+            value=requestedHostId
+            optionValuePath="id"
+            optionLabelPath="name"
+            disabled=(not isRequestedHost)
+            style="display: inline-block; width: auto;"
+          }}
+    </div>
+
+    <div class="radio mb-0">
+      <label>{{radio-button selection=isRequestedHost value=false}}
+          {{t 'newPipeline.builder.custom'}}
+      </label>
+      {{input class="form-control input-sm value" type="text" value=row.value placeholder=valuePlaceholder disabled=(eq row.editable false)}}
+    </div>
+  </div>
+</div>
+
+
+<div class="pt-40"></div>
+<table class="table fixed no-lines">
+  <tr class="hidden-xs hidden-sm text-left">
+    <th>{{t 'newPipeline.git.repo.label'}}</th>
+    <th width="30">&nbsp;</th>
+
+    <th width="200">{{t 'catalogSettings.more.branch.label'}}</th>
+    <th width="30">&nbsp;</th>
+  </tr>
+  <tr>
+    <td data-title="{{t 'newPipeline.git.repo.label'}}:">
+      {{input class="form-control input-sm" type="text" value=row.url placeholder=(t 'newPipeline.git.repo.placeholder')}}
+    </td>
+
+    <td>&nbsp;</td>
+    <td data-title="{{t 'catalogSettings.more.branch.label'}}:">
+      {{input class="form-control input-sm" type="text" value=row.branch placeholder=(t 'catalogSettings.more.branch.placeholder')}}
+    </td>
+
+  </tr>
+</table>
+
+<div class="pt-40"></div>
+<div class="row">
+    {{form-key-value
+        initialMap=launchConfig.environment
+        changed=(action (mut launchConfig.environment))
+        allowEmptyValue=true
+        editing=true
+        header=(t 'newPipeline.build.variable')
+        addActionLabel="newPipeline.build.add"
+        keyLabel="newContainer.environment.keyLabel"
+        keyPlaceholder="newContainer.environment.keyPlaceholder"
+        valueLabel="newContainer.environment.valueLabel"
+        valuePlaceholder="newContainer.environment.valuePlaceholder"
+    }}
+</div>
+
+<div class="pt-40"></div>
+<div class="row">
+  <div class="col span-12">
+    <label class="pb-5">{{t 'formCommand.command.label'}}</label>
+    {{input-command class="form-control" type="text" changed=(action (mut instance.command)) initialValue=instance.command placeholder=(t 'formCommand.command.placeholder')}}
+  </div>
+</div>
+
+<div class="pt-40"></div>
+<div class="row">
+  <div class="col span-12">
+    <label class="pb-5">{{t 'newPipeline.image.label'}}</label>
+    {{input class="form-control input-sm value" type="text" value=row.value placeholder=valuePlaceholder disabled=(eq row.editable false)}}
+  </div>
+</div>
+
 {{#save-cancel saveDisabled=noLaunchConfigsEnabled createLabel="newPipeline.save" save="save" cancel="cancel"}}
 {{/save-cancel}}

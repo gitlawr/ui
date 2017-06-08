@@ -3,25 +3,25 @@ import Ember from 'ember';
 export const headersAll =  [
   {
     name: 'name',
-    sort: ['id'],
+    sort: ['name'],
     searchField: 'name',
     translationKey: 'generic.name',
   },
   {
     name: 'status',
-    sort: ['id'],
+    sort: ['name'],
     searchField: 'status',
     translationKey: 'generic.state',
   },
   {
     name: 'status',
-    sort: ['id'],
+    sort: ['name'],
     searchField: 'status',
     translationKey: 'generic.message',
   },
   {
     name: 'status',
-    sort: ['id'],
+    sort: ['name'],
     searchField: 'status',
     translationKey: 'generic.timeStamp',
   },
@@ -30,7 +30,7 @@ export const headersAll =  [
 export default Ember.Component.extend({
   prefs: Ember.inject.service(),
 
-  stickyHeader: true,
+  stickyHeader: false,
 
   sortBy: 'name',
   body: null,
