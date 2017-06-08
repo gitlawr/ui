@@ -5,8 +5,9 @@
     {{#link-to "catalog-tab" classNames="btn btn-sm bg-primary mr-10"}}{{t 'nav.pipelines.stage.add'}}{{/link-to}}
   </div>
 </section>
-<section style="height: 100px; text-align:center;" class="header has-tabs clearfix">
-  Placeholder For Pipeline
+
+<section>
+  {{pipeline-stages}}
 </section>
 
 <section class="header has-tabs clearfix">
@@ -29,7 +30,7 @@
 {{#if isHistory}}
 <section>
   {{#accordion-list as |al expandFn| }}
-    {{#each model.activities as activity}}
+    {{#each model.pipeline.activities as |activity|}}
       {{#accordion-list-item
            title=model.pipeline.repository
            detail=model.pipeline.branch
@@ -41,7 +42,7 @@
            as | parent |
       }}
         {{pipeline-history-table
-          body=filtered
+          body=activity.activity_stages
           sortBy=sortBy
           bulkActions=true
           search=true
