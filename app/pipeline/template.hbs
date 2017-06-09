@@ -2,35 +2,32 @@
   <h1>{{model.pipeline.name}}</h1>
 
   <div class="right-buttons">
-    {{#link-to "catalog-tab" classNames="btn btn-sm bg-primary mr-10"}}{{t 'nav.pipelines.stage.add'}}{{/link-to}}
+    <button class="btn bg-link icon-btn p-0">
+        <span class="darken"><i class="icon icon-play text-small"/></span>
+        <span>{{t 'pipelinesPage.run'}}</span>
+    </button>
   </div>
 </section>
 
 <section>
-  {{pipeline-stages}}
+  {{pipeline-stages stagesDraggable=true}}
 </section>
 
+<div class="mt-40"></div>
 <section class="header has-tabs clearfix">
   <ul class="tab-nav">
     <li>
-      <a href="javascript:void(0);" class="ember-view">{{t 'nav.pipelines.stage.activity'}}</a>
+      <a href="javascript:void(0);" onclick={{action "setActiveTab" "activity"}} class="{{if isHistory '' 'active'}} ember-view">{{t 'nav.pipelines.stage.activity'}}</a>
     </li>
     <li>
-      <a href="javascript:void(0);" class="active ember-view">{{t 'nav.pipelines.stage.history'}}</a>
+      <a href="javascript:void(0);" onclick={{action "setActiveTab" "history"}} class="{{if isHistory 'active'}} ember-view">{{t 'nav.pipelines.stage.history'}}</a>
     </li>
   </ul>
 </section>
 
-{{#if isActivity}}
-<section>
-  activity
-</section>
-{{/if}}
-
-{{#if isHistory}}
 <section>
   {{#accordion-list as |al expandFn| }}
-    {{#each model.pipeline.activities as |activity|}}
+    {{#each filterdPiplineHistory as |activity|}}
       {{#accordion-list-item
            title=model.pipeline.repository
            detail=model.pipeline.branch
@@ -56,4 +53,3 @@
     {{/each}}
   {{/accordion-list}}
 </section>
-{{/if}}

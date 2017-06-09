@@ -2,7 +2,12 @@
   <h1>{{t 'nav.pipelines.tab'}}</h1>
 
   <div class="right-buttons">
-    {{#link-to "pipelines.new" classNames="btn btn-sm bg-primary mr-10"}}{{t 'nav.pipelines.add'}}{{/link-to}}
+    <button class="btn bg-link icon-btn p-0">
+      {{#link-to "pipelines.new" class="btn bg-link icon-btn p-0"}}
+        <span class="darken"><i class="icon icon-plus text-small"/></span>
+        <span>{{t 'nav.pipelines.add'}}</span>
+      {{/link-to}}
+    </button>
   </div>
 </section>
 <section class="header has-tabs clearfix">

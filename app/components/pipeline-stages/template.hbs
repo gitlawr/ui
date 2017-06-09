@@ -1,14 +1,25 @@
 <section class="pipeline-stages">
   <div class="stages-line"></div>
-  {{#sortable-objects useSwap=true sortableObjectList=model sortEndAction='sortEndAction' enableSort=true}}
+  {{#if stagesDraggable}}
+    {{#sortable-objects useSwap=true sortableObjectList=model sortEndAction='sortEndAction' enableSort=true sortingScope="sortingGroup"}}
       {{#each model as |item|}}
-        {{#draggable-object class="steps-wrap" content=item overrideClass='sortObject' isSortable=true}}
-          <div class="stage-name">
-            stage{{item.id}}
-          </div>
-          {{pipeline-steps model=item.steps}}
+        {{#draggable-object isDraggable=true dragHandle='.js-dragHandle' class="steps-wrap" content=item overrideClass='sortObject' isSortable=true sortingScope="sortingGroup"}}
+            <div class="stage-name">
+              stage{{item.id}}
+            </div>
+            {{pipeline-steps model=item.steps stageId=item.id stpesDraggable=false}}
         {{/draggable-object}}
       {{/each}}
     {{/sortable-objects}}
+  {{else}}
+    {{#each model as |item|}}
+    <div class="steps-wrap">
+      <div class="stage-name">
+        stage{{item.id}}
+      </div>
+      {{pipeline-steps model=item.steps stageId=item.id}}
+    </div>
+    {{/each}}
+  {{/if}}
 </section>
 
