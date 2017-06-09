@@ -2,10 +2,10 @@
   <div class="stages-line"></div>
   {{#if stagesDraggable}}
     {{#sortable-objects useSwap=true sortableObjectList=model sortEndAction='sortEndAction' enableSort=true sortingScope="sortingGroup"}}
-      {{#each model as |item|}}
+      {{#each model as |item index|}}
         {{#draggable-object isDraggable=true dragHandle='.js-dragHandle' class="steps-wrap" content=item overrideClass='sortObject' isSortable=true sortingScope="sortingGroup"}}
             <div class="stage-name">
-              stage{{item.id}}
+              {{index-add index}}. {{item.name}}
             </div>
             {{pipeline-steps model=item.steps stageId=item.id stpesDraggable=false}}
         {{/draggable-object}}
