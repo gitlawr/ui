@@ -606,6 +606,7 @@ pipelinesPage:
     status: Status
     noData: There are no pipelines to show.
     noMatch: No pipelines match the current search.
+  run: Run Pipeline
 
 newPipeline:
   header: Add Pipeline

@@ -1,49 +1,31 @@
 {{#accordion-list className="test" as |al expandFn| }}
   {{#each filtered as |stage| }}
-    {{#accordion-list-item
+    {{#accordion-list-item-pipeline
              title=stage.name
-             status=stage.start_ts
-             statusClass='bg-success'
+             status=stage.status
+             date=(date-str stage.start_ts)
+             statusClass=stage.status
              expandAll=al.expandAll
              expand=(action expandFn)
              componentName='container-table'
              as | parent |
         }}
-          {{#sortable-table
-            tableClassNames="double-rows"
-            bulkActions=false
-            body=stage.activity_steps
-            sortBy=sortBy
-            stickyHeader=stickyHeader
-            fullRows=true
-            search=false
-            groupByKey=groupByKey
-            groupByRef=groupByRef
-            headers=headers as |sortable kind inst dt|
-            }}
-            {{#if (eq kind "row")}}
-              <tr class="main-row">
-                <td data-title="{{dt.name}}" class="clip">
-                  <span class="text-muted">{{inst.name}}</span>
-                </td>
-                <td data-title="{{dt.repository}}" class="clip text-muted">
-                  {{inst.repository}}
-                </td>
-                <td data-title="{{dt.branch}}" class="clip text-muted">
-                  {{inst.branch}}
-                </td>
-                <td data-title="{{dt.status}}" class="clip text-muted">
-                  {{inst.status}}
-                </td>
-              </tr>
-              {{partial "error-sub-row"}}
-
-            {{else if (eq kind "nomatch")}}
-              <tr><td colspan="{{sortable.fullColspan}}" class="text-center text-muted lacsso pt-20 pb-20">{{t 'pipelineDetail.history.noMatch'}}</td></tr>
-            {{else if (eq kind "norows")}}
-              <tr><td colspan="{{sortable.fullColspan}}" class="text-center text-muted lacsso pt-20 pb-20">{{t 'pipelinesPage.table.noData'}}</td></tr>
-            {{/if}}
-          {{/sortable-table}}
-    {{/accordion-list-item}}
+        {{#each stage.activity_steps as |step|}}
+          <div class="accordion-header header-pipeline item" class={{step.status}}>
+            <div class="title">
+              <span class="text-cell">{{step.name}}</span>
+              <span class="text-cell">
+                <i class="icon" class={{pipeline-status-to-icon step.status}}></i>&nbsp;{{step.status}}
+              </span>
+              <span class="text-cell">
+                {{step.message}}
+              </span>
+            </div>
+            <div class="badge-state">
+              <i class="icon icon-cross text-small"></i>{{date-str step.start_ts}}
+            </div>
+          </div>
+        {{/each}}
+    {{/accordion-list-item-pipeline}}
   {{/each}}
 {{/accordion-list}}

@@ -53,6 +53,47 @@ $acc-label                           : $text-muted !default;
       width: 140px;
       text-align: right;
     }
+
+    &.header-pipeline {
+      position: relative;
+      top: 0;
+      border: none;
+      padding: 5px 10px 5px 60px;
+      &.item {
+        padding: 2px 10px;
+      }
+      &.Success {
+        background-color: lighten($success,50%);
+        color: $success;
+        .expand {
+          background-color: $success;
+          color: white;
+        }
+      }
+      &.Building {
+        background-color: lighten($primary,50%);
+        color: $primary;
+      }
+      .text-cell {
+        display: inline-block;
+        width: 200px;
+      }
+      .badge-state {
+        width: 200px;
+      }
+      .expand {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 50px;
+        .icon{
+          position: absolute;
+          top: 5px;
+          right: 8px;
+        }
+      }
+    }
   }
 
   .accordion-content {
@@ -71,6 +112,10 @@ $acc-label                           : $text-muted !default;
       > .input-group-btn {
         position: absolute;
       }
+    }
+    &.content-pipeline{
+      border: none;
+      padding: 10px 0 10px 50px;
     }
   }
 }
