@@ -97,7 +97,10 @@ Router.map(function() {
           this.route('active',{path: '/'});
           this.route('inactive',{path: '/inactive'});
         });
-        this.route('pipeline', {path: '/:pipeline_id', resetNamespace: true});
+        this.route('edit', {path: '/edit/:pipeline_id'});
+        this.route('pipeline', {path: '/:pipeline_id', resetNamespace: true},function(){
+
+        });
       });
       
       this.route('containers', {resetNamespace: true}, function() {

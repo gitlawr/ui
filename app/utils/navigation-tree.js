@@ -174,7 +174,7 @@ const navTree = [
     route: 'pipelines.index',
     ctx: [getProjectId],
     // condition: function() { return this.get('hasProject'); },
-    // moreCurrentWhen: ['pipelines','scaling-groups','balancers','dns'],
+    moreCurrentWhen: ['pipelines'],
   }
 
 ];

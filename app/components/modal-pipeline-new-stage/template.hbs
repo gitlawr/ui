@@ -1,0 +1,10 @@
+{{top-errors errors=errors}}
+
+<h2 class="alert-header">{{t (if editing 'newPipelineStage.header.edit' 'newPipelineStage.header.create')}}</h2>
+<hr/>
+<div class="inline-form">
+  <label>{{t 'newPipelineStage.name'}}{{field-required}}</label>
+  {{input class="form-control" value=originalModel.name }}
+</div>
+
+{{save-cancel editing=editing save="save" cancel="cancel"}}

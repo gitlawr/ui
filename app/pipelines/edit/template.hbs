@@ -1,0 +1,18 @@
+<section class="header has-tabs clearfix">
+  <h1>{{model.pipeline.name}}</h1>
+
+  <div class="right-buttons">
+    <button class="btn btn-sm bg-primary">
+        {{t 'pipelinesPage.save'}}
+    </button>
+
+    <button class="btn btn-sm bg-transparent">
+        {{t 'pipelinesPage.cancel'}}
+    </button>
+  </div>
+  
+</section>
+
+<section>
+  {{pipeline-stages stagesDraggable=true model=model.pipeline.stages editable=true}}
+</section>

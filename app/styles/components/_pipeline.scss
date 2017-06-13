@@ -1,20 +1,22 @@
-.pipeline-stages{
+.pipeline-stages {
   position: relative;
   top: 0;
-  .stage-name{
+  display: inline-block;
+  .stage-name {
     text-align: center;
     line-height: 3;
   }
-  > .stages-line{
+  > .stages-line {
     position: absolute;
     top: 55px;
-    border-top: 2px solid $border;
-    width: 100%;
+    left: 85px;
+    border-top: 2px solid #ecf0f1;
+    width: calc(100% - 180px);
     height: 1px;
-    
   }
-  .steps-wrap{
-    display: inline-block
+  .stage-wrap {
+    display: inline-block;
+    vertical-align: top;
   }
 }
 
@@ -22,7 +24,7 @@
   position: relative;
   top: 0;
   padding-top: 30px;
-  > .steps-head-dot{
+  > .steps-head-dot {
     position: absolute;
     top: 0;
     left: 0;
@@ -32,9 +34,11 @@
     height: 15px;
     border-radius: 50%;
     background-color: $info;
-    cursor: move;
+    &.draggable {
+      cursor: move;
+    }
   }
-  > .steps-line{
+  > .steps-line {
     position: absolute;
     top: 0;
     width: 1px;
@@ -51,10 +55,8 @@
       // border: 2px dashed $border;
     // }
   }
-  .step-content{
-    &:first-child{
-      margin-top: 0;
-    }
+  .step-content {
+    
     position: relative;
     top: 0;
     z-index: 1;
@@ -65,8 +67,24 @@
     width: 160px;
     line-height: 35px;
     background-color: white;
+    cursor: pointer;
+    &:first-child {
+      margin-top: 0;
+    }
+    &.big{
+      height: 160px;
+      line-height: 160px;
+      text-align: center;
+      background-color: lighten($bg-default, 5);
+      color: $link-color;
+    }
+    > .step-name {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow-y: hidden;
+    }
   }
-  .step-add{
+  .step-add {
     text-align: center;
   }
 }

@@ -2,7 +2,7 @@
   <h1>{{model.pipeline.name}}</h1>
 
   <div class="right-buttons">
-    <button class="btn bg-link icon-btn p-0">
+    <button class="btn bg-link btn-sm icon-btn p-0">
         <span class="darken"><i class="icon icon-play text-small"/></span>
         <span>{{t 'pipelinesPage.run'}}</span>
     </button>
@@ -10,7 +10,13 @@
 </section>
 
 <section>
-  {{pipeline-stages stagesDraggable=true model=model.pipeline.stages}}
+  <div class="right-buttons" style="text-align: right">
+    {{#link-to "pipelines.edit" model.pipeline.id class="btn bg-link btn-sm icon-btn p-0" tag="button"}}
+      <span class="darken"><i class="icon icon-edit text-small"/></span>
+        <span>Edit</span>
+    {{/link-to}}
+  </div>
+  {{pipeline-stages stagesDraggable=false model=model.pipeline.stages}}
 </section>
 
 <div class="mt-40"></div>

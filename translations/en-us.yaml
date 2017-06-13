@@ -607,6 +607,10 @@ pipelinesPage:
     noData: There are no pipelines to show.
     noMatch: No pipelines match the current search.
   run: Run Pipeline
+  save: Save
+  cancel: Cancel
+  addStage: Add a Stage
+  newStage: New Stage
 
 newPipeline:
   header: Add Pipeline
@@ -637,6 +641,27 @@ pipelineDetail:
   history:
     noData: There are no history to show.
   addStep: Add Step
+
+newPipelineStage:
+  header: 
+    create: Add a Stage
+    edit: Edit Stage
+  name: Name
+
+newPipelineStep:
+  header:
+    create: Add a tep to stage
+    edit: Edit step
+  jobType: 
+    label: Job Type
+    task: 
+      label: task
+      image: Image
+      command: Command
+    catalog:
+      label: Catalog
+    deploy:
+      label: deploy
 # If you change translations here also change the translation in app/utils/constants.js under the FALLBACK_TRANSLATIONS key
 # those are present in case we have an error in the app and can not load the translations file
 # the error page will at least make a little sense
