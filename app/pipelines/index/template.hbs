@@ -2,7 +2,7 @@
   <h1>{{t 'nav.pipelines.tab'}}</h1>
 
   <div class="right-buttons">
-    <button class="btn bg-link icon-btn p-0">
+    <button class="btn bg-link btn-sm icon-btn p-0">
       {{#link-to "pipelines.new" class="btn bg-link icon-btn p-0"}}
         <span class="darken"><i class="icon icon-plus text-small"/></span>
         <span>{{t 'nav.pipelines.add'}}</span>
@@ -12,9 +12,8 @@
 </section>
 <section class="header has-tabs clearfix">
   <ul class="tab-nav">
-    <li>{{#link-to "pipelines.index"}}{{t 'nav.pipelines.active'}}{{/link-to}}</li>
+    <li>{{#link-to "pipelines.index.active"}}{{t 'nav.pipelines.active'}}{{/link-to}}</li>
     <li>{{#link-to "pipelines.index.inactive"}}{{t 'nav.pipelines.inactive'}}{{/link-to}}</li>
-   {{!--  <li>{{#link-to "scaling-groups.index" projects.current.id}}{{t 'nav.containers.scalingGroups'}}{{/link-to}}</li> --}}
   </ul>
 
 </section>

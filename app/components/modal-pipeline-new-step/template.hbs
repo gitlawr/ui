@@ -1,0 +1,49 @@
+{{top-errors errors=errors}}
+
+<h2 class="alert-header">{{t (if editing 'newPipelineStep.header.edit' 'newPipelineStep.header.create')}}</h2>
+<hr/>
+<div class="inline-form">
+  <label>{{t 'newPipelineStep.jobType.label'}}</label>
+  <div class="pt-10"></div>
+  <div>
+    <label class="mr-30">{{radio-button selection=true value=true}}
+        {{t 'newPipelineStep.jobType.task.label'}}
+    </label>
+    <label class="mr-30">{{radio-button selection=isCatalog value=false}}
+        {{t 'newPipelineStep.jobType.catalog.label'}}
+    </label>
+    <label class="mr-30">{{radio-button selection=isDeploy value=false}}
+        {{t 'newPipelineStep.jobType.deploy.label'}}
+    </label>
+  </div>
+</div>
+
+<div class="pt-20"></div>
+<div class="inline-form">
+  <label>{{t 'newPipelineStep.jobType.task.image'}}{{field-required}}</label>
+  <div class="pt-10"></div>
+  {{input class="form-control" value=originalModel.name }}
+</div>
+
+<div class="pt-20"></div>
+<div class="inline-form">
+  <label>{{t 'newPipelineStep.jobType.task.command'}}</label>
+  <div class="pt-10"></div>
+  {{input class="form-control" value=originalModel.name }}
+</div>
+
+<div class="pt-30"></div>
+{{form-key-value
+        initialMap=originalModel.variables
+        changed=(action (mut launchConfig.environment))
+        allowEmptyValue=true
+        editing=true
+        normalHeader=(t 'newPipeline.build.variable')
+        addActionLabel="newPipeline.build.add"
+        keyLabel="newContainer.environment.keyLabel"
+        keyPlaceholder="newContainer.environment.keyPlaceholder"
+        valueLabel="newContainer.environment.valueLabel"
+        valuePlaceholder="newContainer.environment.valuePlaceholder"
+}}
+
+{{save-cancel editing=editing save="save" cancel="cancel"}}
