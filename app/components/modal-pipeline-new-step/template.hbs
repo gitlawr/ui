@@ -6,13 +6,13 @@
   <label>{{t 'newPipelineStep.jobType.label'}}</label>
   <div class="pt-10"></div>
   <div>
-    <label class="mr-30">{{radio-button selection=true value=true}}
+    <label class="mr-30">{{radio-button selection=model.type value="task"}}
         {{t 'newPipelineStep.jobType.task.label'}}
     </label>
-    <label class="mr-30">{{radio-button selection=isCatalog value=false}}
+    <label class="mr-30">{{radio-button selection=model.type value="catalog"}}
         {{t 'newPipelineStep.jobType.catalog.label'}}
     </label>
-    <label class="mr-30">{{radio-button selection=isDeploy value=false}}
+    <label class="mr-30">{{radio-button selection=model.type value="deploy"}}
         {{t 'newPipelineStep.jobType.deploy.label'}}
     </label>
   </div>
