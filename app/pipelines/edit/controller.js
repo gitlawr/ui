@@ -1,21 +1,25 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  pipeline: function(){
-    return Ember.Object.create({
-      stages:this.get('model.pipeline.stages')
-    })
-  }.property('model.pipeline.stages'),
+  stages: function(){
+    var store = this.get('store')
+    debugger
+    return this.get('model.pipeline.stages')
+  }.property('model'),
   actions: {
+    save: function(){
+      var model = this.get('model.pipeline')
+      console.log(model)
+      // TODO send new pipeline to backend
+    },
     cancel: function(){
       var model = this.get('model');
       this.transitionToRoute('pipeline',model.pipeline.id)
-    }
-  },
-  pipelineEditActions: {
+    },
     addStep(stage,step) {
-      let stages = this.get('pipeline.stages')
-      stages[stage]&&stages[stage].push(step)
+      debugger
+      let stages = this.get('stages')
+      stages[stage]&&stages[stage].steps.pushObject(step)
     }
   }
 });

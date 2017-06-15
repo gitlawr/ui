@@ -597,18 +597,18 @@ newPipelineStage:
 
 newPipelineStep:
   header:
-    create: Add a tep to stage
+    create: Add a step to stage
     edit: Edit step
   jobType: 
     label: Job Type
     task: 
-      label: task
+      label: Task
       image: Image
       command: Command
     catalog:
       label: Catalog
     deploy:
-      label: deploy
+      label: Deploy
 # If you change translations here also change the translation in app/utils/constants.js under the FALLBACK_TRANSLATIONS key
 # those are present incase we have an error in the app and can not load the translations file
 # the error page will at least make a little sense
