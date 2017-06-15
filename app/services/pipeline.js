@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import ApiError from 'ember-api-store/models/error';
 import C from 'ui/utils/constants';
 
 export default Ember.Service.extend({
@@ -7,5 +6,5 @@ export default Ember.Service.extend({
 
   pipelinesEndpoint: function() {
     return this.get('app.pipelinesEndpoint').replace(this.get('app.projectToken'), this.get(`tab-session.${C.TABSESSION.PROJECT}`));
-  }.property(`tab-session.${C.TABSESSION.PROJECT}`,'app.kubernetesEndpoint'),
+  }.property(`tab-session.${C.TABSESSION.PROJECT}`,'app.pipelinesEndpoint'),
 });

@@ -11,13 +11,13 @@ export const headersAll =  [
     name: 'repository',
     sort: ['repository'],
     searchField: 'repository',
-    translationKey: 'generic.branch',
+    translationKey: 'generic.repository',
   },
   {
     name: 'branch',
     sort: ['branch'],
     searchField: 'branch',
-    translationKey: 'generic.repository',
+    translationKey: 'generic.branch',
   },
   {
     name: 'status',

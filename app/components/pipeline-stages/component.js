@@ -20,7 +20,7 @@ export default Ember.Component.extend({
               type            : 'pipelineStage',
               name            : null
             });
-      this.get('modalService').toggleModal('modal-pipeline-new-stage', newDriver);
+      this.get('modalService').toggleModal('modal-pipeline-new-stage', newDriver)
     }
   }
 });
