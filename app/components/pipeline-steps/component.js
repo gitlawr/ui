@@ -20,7 +20,16 @@ export default Ember.Component.extend({
               type            : 'pipelineStep',
               name            : null
             });
-      this.get('modalService').toggleModal('modal-pipeline-new-step', newDriver);
+      this.get('modalService').toggleModal('modal-pipeline-new-step', newDriver)
+        .then(function(){
+          console.log('clicked save')
+        }).catch(function(){
+          console.log('clicked cancel')
+        });
+    },
+    confirmAddStep: function(param){
+      console.log('addStep')
+      console.log(param)
     }
   }
 });

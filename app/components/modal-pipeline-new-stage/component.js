@@ -26,5 +26,11 @@ export default Ember.Component.extend(ModalBase, NewOrEdit, {
 
   doneSaving() {
     this.send('cancel');
+  },
+  actions: {
+    add:function(success){
+      success(true)
+      this.send('cancel')
+    }
   }
 });

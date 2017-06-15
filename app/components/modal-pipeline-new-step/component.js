@@ -5,7 +5,6 @@ import ModalBase from 'ui/mixins/modal-base';
 export default Ember.Component.extend(ModalBase, NewOrEdit, {
   classNames: ['large-modal', 'alert'],
   originalModel: Ember.computed.alias('modalService.modalOpts'),
-  settings: Ember.inject.service(),
 
   clone           : null,
   primaryResource : Ember.computed.alias('originalModel'),
@@ -26,5 +25,15 @@ export default Ember.Component.extend(ModalBase, NewOrEdit, {
 
   doneSaving() {
     this.send('cancel');
+  },
+  actions: {
+    add: function(success){
+      success(true)
+      
+      this.sendAction('confirmAddStep',{
+        name: 'a'
+      });
+
+    }
   }
 });

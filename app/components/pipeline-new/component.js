@@ -34,4 +34,15 @@ export default Ember.Component.extend({
   init() {
     this._super(...arguments);
   },
+  
+  actions: {
+    save: function(success) {
+      success(true)
+      return false
+    },
+    cancel: function() {
+      // TODO: set default done() go back to pipelines.index.active
+      this.done();
+    }
+  }
 });
