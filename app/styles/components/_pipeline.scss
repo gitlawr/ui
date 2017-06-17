@@ -1,9 +1,16 @@
+.pipeline-container {
+  overflow-y: scroll;
+  white-space: nowrap;
+}
+
 .pipeline-wrap-header-button {
   height: 52px;
 }
+
 .pipeline-save-cancel {
   display: inline;
 }
+
 .pipeline-stages {
   position: relative;
   top: 0;
@@ -60,7 +67,7 @@
     padding: 4px;
     // margin-right: 10px;
     // &.active{
-      // border: 2px dashed $border;
+    // border: 2px dashed $border;
     // }
   }
   .step-content {
@@ -78,7 +85,7 @@
     &:first-child {
       margin-top: 0;
     }
-    &.big{
+    &.big {
       height: 160px;
       line-height: 160px;
       text-align: center;
