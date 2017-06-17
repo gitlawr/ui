@@ -4,25 +4,31 @@
   <div class="steps-wrap">
     {{#if stepsDraggble}}
       {{#sortable-objects class=sortingScope sortableObjectList=model sortEndAction='sortEndAction' enableSort=true sortingScope=sortingScope}}
-        {{#each model as |item|}}
-          {{#draggable-object class="step-content {{stageId}}" content=item overrideClass='sortObject' isSortable=true sortingScope=sortingScope}}
-              <div class="step-name text-muted">{{item.name}}</div>
-          {{/draggable-object}}
+        {{#each model as |item index|}}
+          {{!-- {{#draggable-object class="step-content {{stageId}}" content=item overrideClass='sortObject' isSortable=true sortingScope=sortingScope}} --}}
+          <div class="step-content">
+              <div class="step-name text-muted" {{action 'editStep' index}}>
+                {{pipeline/pipeline-step model=item }}
+              </div>
+          </div>
+          {{!-- {{/draggable-object}} --}}
         {{/each}}
       {{/sortable-objects}}
     {{else}}
-      {{#each model as |item|}}
+      {{#each model as |item index|}}
         <div class="step-content">
-          <div class="step-name text-muted">{{item.name}}</div>
+          <div class="step-name text-muted">
+           {{pipeline/pipeline-step model=item}}
+          </div>
         </div>
       {{/each}}
     {{/if}}
+    {{#if editable}}
+      <div class="step-add step-content" {{action 'addStep'}}>
+        <a href="javascript:void(0);" class="text-small">
+          {{t 'pipelineDetail.addStep'}}
+        </a>
+      </div>
+    {{/if}}
   </div>
-  {{#if editable}}
-  <div class="step-add step-content" {{action 'addStep'}}>
-    <a href="javascript:void(0);" class="text-small">
-      {{t 'pipelineDetail.addStep'}}
-    </a>
-  </div>
-  {{/if}}
 </div>

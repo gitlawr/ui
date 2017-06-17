@@ -2,7 +2,7 @@
   <h1>{{model.pipeline.name}}</h1>
 
   <div class="right-buttons">
-    <button class="btn bg-link btn-sm icon-btn p-0">
+    <button class="btn bg-link btn-sm icon-btn p-0" {{action 'run'}}>
         <span class="darken"><i class="icon icon-play text-small"/></span>
         <span>{{t 'pipelinesPage.run'}}</span>
     </button>
@@ -32,30 +32,35 @@
 </section>
 
 <section>
-  {{#accordion-list as |al expandFn| }}
-    {{#each filterdPiplineHistory as |activity|}}
-      {{#accordion-list-item
-           title=model.pipeline.repository
-           detail=model.pipeline.branch
-           status=activity.status
-           statusClass=(if instances.length 'bg-success' 'text-muted')
-           expandAll=al.expandAll
-           expand=(action expandFn)
-           componentName='container-table'
-           as | parent |
-      }}
-        {{pipeline-history-table
-          body=activity.activity_stages
-          sortBy=sortBy
-          bulkActions=true
-          search=true
-          paging=true
-          showHost=true
-          showInstanceState=false
-          groupByKey=groupBy
-          groupByRef="stack"
-      }}
-      {{/accordion-list-item}}
-    {{/each}}
-  {{/accordion-list}}
+  {{#if filterdPiplineHistory.length}}
+    {{#accordion-list as |al expandFn| }}
+      {{#each filterdPiplineHistory as |activity|}}
+        {{#accordion-list-item
+             title=model.pipeline.repository
+             detail=(date-str model.pipeline.start_ts)
+             status=activity.status
+             statusClass=(if (eq activity.status 'Success') 'bg-success' 'text-muted')
+             expandAll=al.expandAll
+             expand=(action expandFn)
+             componentName='container-table'
+             as | parent |
+        }}
+          {{pipeline-history-table
+            body=activity.activity_stages
+            sortBy=sortBy
+            bulkActions=true
+            search=true
+            paging=true
+            showHost=true
+            showInstanceState=false
+            groupByKey=groupBy
+            groupByRef="stack"
+        }}
+        {{/accordion-list-item}}
+      {{/each}}
+    {{/accordion-list}}
+  {{else}}
+    <p class="text-center text-muted">No {{if isHistory 'History' 'Activity'}}</p>
+  {{/if}}
+
 </section>

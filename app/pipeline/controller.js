@@ -1,32 +1,40 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  model: function(){
+  model: function() {
     return this.get('model')
   }.property('model'),
-
-  filterdPiplineHistory: function(){
-    return this.get('model').pipeline.activities;
+  activeTab: 'history',
+  filters: {
+    activity: ['Waitting', 'Running'],
+    history: ['Success', 'Error']
+  },
+  init() {
+    this._super(...arguments);
+    var activities = this.get('model').activities.filter(ele => {
+      return this.get('filters')['activity'].indexOf(ele.status) !== -1
+    })
+    if (activities) {
+      this.set('activeTab', 'activity');
+    }
+  },
+  filterdPiplineHistory: function() {
+    var tab = this.get('activeTab');
+    return this.get('model').activities.filter(ele => {
+      return this.get('filters')[tab].indexOf(ele.status) !== -1
+    });
   }.property('activeTab'),
-  // TODO, when no Activity， default to History
-  activeTab: 'activity',
-  isHistory: function(){
+
+  isHistory: function() {
     return this.get('activeTab') === 'history'
   }.property('activeTab'),
 
-  stageStatusClass: function(){
-    return 
-  }.property('model.@'),
-
-  actions:{
-    setActiveTab: function(tab){
-      this.set('activeTab',tab)
+  actions: {
+    setActiveTab: function(tab) {
+      this.set('activeTab', tab)
+    },
+    run: function() {
+      this.get('model.pipeline').doAction('run');
     }
-  },
-  
-  init() {
-    // var model = this.get('model')
-    // console.log(model)
-    // this.set('pipelineName',model.name)
   }
 });

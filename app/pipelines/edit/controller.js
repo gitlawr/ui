@@ -2,8 +2,6 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
   stages: function(){
-    var store = this.get('store')
-    debugger
     return this.get('model.pipeline.stages')
   }.property('model'),
   actions: {
@@ -15,11 +13,6 @@ export default Ember.Controller.extend({
     cancel: function(){
       var model = this.get('model');
       this.transitionToRoute('pipeline',model.pipeline.id)
-    },
-    addStep(stage,step) {
-      debugger
-      let stages = this.get('stages')
-      stages[stage]&&stages[stage].steps.pushObject(step)
     }
   }
 });
