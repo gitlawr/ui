@@ -16,11 +16,9 @@ export default Ember.Component.extend({
       console.log('Sort Ended', this.get('model.pages'));
     },
     addStage: function(){
-      let newDriver = this.get('store').createRecord({
-              type            : 'pipelineStage',
-              name            : null
-            });
-      this.get('modalService').toggleModal('modal-pipeline-new-stage', newDriver)
+      this.get('modalService').toggleModal('modal-pipeline-new-stage', (stage)=>{
+        this.get('model').pushObject(stage);
+      })
     }
   }
 });

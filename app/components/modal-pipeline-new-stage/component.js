@@ -4,32 +4,33 @@ import ModalBase from 'ui/mixins/modal-base';
 
 export default Ember.Component.extend(ModalBase, NewOrEdit, {
   classNames: ['large-modal', 'alert'],
-  originalModel: Ember.computed.alias('modalService.modalOpts'),
+  newStageFn: Ember.computed.alias('modalService.modalOpts'),
   settings: Ember.inject.service(),
-
+  model           : null,
   clone           : null,
   primaryResource : Ember.computed.alias('originalModel'),
-  errors          : null,
 
-  init() {
+  init(){
     this._super(...arguments);
-    console.log(this.get('originalModel'))
-    this.set('model', this.get('originalModel'));
-    Ember.run.scheduleOnce('afterRender', () => {
-      this.$('INPUT')[0].focus();
-    });
+    this.set('model', {
+      id: null,
+      name: null,
+      steps: []
+    })
   },
-
-  editing: function() {
-    return !!this.get('clone.id');
-  }.property('clone.id'),
-
+  editing: false,
   doneSaving() {
     this.send('cancel');
   },
+
   actions: {
     add:function(success){
       success(true)
+      var model
+      this.get('newStageFn')({
+        ...this.get('model'),
+        id: Date.now(),
+      })
       this.send('cancel')
     }
   }

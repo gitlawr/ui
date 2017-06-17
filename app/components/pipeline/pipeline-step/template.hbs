@@ -1,0 +1,14 @@
+{{#if (eq model.type 'task')}}
+  <p class="mt-0 mb-0 clip">{{model.image}}</p>
+  <p class="text-small mt-0 mb-0 clip">{{model.command}}</p>
+{{/if}}
+
+{{#if (eq model.type 'catalog')}}
+  <p class="mt-0 mb-0 clip">{{model.name}}</p>
+  <p class="text-small mt-0 mb-0 clip">{{model.environment}}</p>
+{{/if}}
+
+{{#if (eq model.type 'deploy')}}
+  <p class="mt-0 mb-0 clip">{{model.deployName}} * {{model.count}}</p>
+  <p class="text-small mt-0 mb-0 clip">{{model.deployEnvironment}}</p>
+{{/if}}

@@ -22,20 +22,20 @@
 <div class="inline-form">
   <label>{{t 'newPipelineStep.jobType.task.image'}}{{field-required}}</label>
   <div class="pt-10"></div>
-  {{input class="form-control" value=originalModel.name }}
+  {{input class="form-control" value=model.image }}
 </div>
 
 <div class="pt-20"></div>
 <div class="inline-form">
   <label>{{t 'newPipelineStep.jobType.task.command'}}</label>
   <div class="pt-10"></div>
-  {{input class="form-control" value=originalModel.name }}
+  {{input class="form-control" value=model.command }}
 </div>
 
 <div class="pt-30"></div>
 {{form-key-value
-        initialMap=originalModel.variables
-        changed=(action (mut launchConfig.environment))
+        initialMap=model.variables
+        changed=(action (mut model.variables))
         allowEmptyValue=true
         editing=true
         normalHeader=(t 'newPipeline.build.variable')
