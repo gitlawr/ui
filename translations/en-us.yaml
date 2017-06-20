@@ -601,14 +601,17 @@ newPipelineStep:
     edit: Edit step
   jobType: 
     label: Job Type
+    image: Image
     task: 
       label: Task
-      image: Image
       command: Command
     catalog:
       label: Catalog
     deploy:
       label: Deploy
+      name: Name
+      count: Count
+      
 # If you change translations here also change the translation in app/utils/constants.js under the FALLBACK_TRANSLATIONS key
 # those are present incase we have an error in the app and can not load the translations file
 # the error page will at least make a little sense
