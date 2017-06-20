@@ -1,7 +1,20 @@
 {{top-errors errors=errors}}
 
-<h2 class="alert-header">{{t (if editing 'newPipelineStep.header.edit' 'newPipelineStep.header.create')}}</h2>
-<hr/>
+<section class="header clearfix">
+  <div class="modal-pipeline-head">
+    <h2>{{t (if editing 'newPipelineStep.header.edit' 'newPipelineStep.header.create')}}</h2>
+    <br>
+    <p class="text-muted">{{model.stageIndex}}. {{model.stageInfo}}</p>
+  </div>
+  {{#if editing}}
+  <div class="right-buttons">
+    <button class="btn bg-error" {{action 'remove'}}>
+      {{t 'generic.remove'}}
+    </button>
+  </div>
+  {{/if}}
+</section>
+
 <div class="inline-form">
   <label>{{t 'newPipelineStep.jobType.label'}}</label>
   <div class="pt-10"></div>
@@ -18,32 +31,7 @@
   </div>
 </div>
 
-<div class="pt-20"></div>
-<div class="inline-form">
-  <label>{{t 'newPipelineStep.jobType.task.image'}}{{field-required}}</label>
-  <div class="pt-10"></div>
-  {{input class="form-control" value=model.image }}
-</div>
-
-<div class="pt-20"></div>
-<div class="inline-form">
-  <label>{{t 'newPipelineStep.jobType.task.command'}}</label>
-  <div class="pt-10"></div>
-  {{input class="form-control" value=model.command }}
-</div>
-
-<div class="pt-30"></div>
-{{form-key-value
-        initialMap=model.variables
-        changed=(action (mut model.variables))
-        allowEmptyValue=true
-        editing=true
-        normalHeader=(t 'newPipeline.build.variable')
-        addActionLabel="newPipeline.build.add"
-        keyLabel="newContainer.environment.keyLabel"
-        keyPlaceholder="newContainer.environment.keyPlaceholder"
-        valueLabel="newContainer.environment.valueLabel"
-        valuePlaceholder="newContainer.environment.valuePlaceholder"
+{{pipeline/pipeline-step-form
+    model=model
 }}
-
 {{save-cancel editing=editing createLabel="generic.add" save="add" cancel="cancel"}}

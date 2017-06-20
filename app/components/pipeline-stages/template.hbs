@@ -7,7 +7,7 @@
             <div class="stage-name text-muted clip">
               {{index-add index}}. {{item.name}}
             </div>
-            {{pipeline-steps model=item.steps stageId=item.name stepsDraggble=true editable=editable stagesDraggable=stagesDraggable 
+            {{pipeline-steps stageIndex=(index-add index) stageInfo=item.name model=item.steps stageId=item.name stepsDraggble=true editable=editable stagesDraggable=stagesDraggable 
             addStepAction=addStepAction
             }}
         {{/draggable-object}}
@@ -34,7 +34,7 @@
       <div class="stage-name text-muted clip">
         {{index-add index}}. {{item.name}}
       </div>
-      {{pipeline-steps model=item.steps stageId=item.name stpesDraggable=false stagesDraggable=stagesDraggable editable=editable addStepAction=addStepAction}}
+      {{pipeline-steps stageIndex=(index-add index) stageInfo=item.name model=item.steps stageId=item.name stpesDraggable=false stagesDraggable=stagesDraggable editable=editable addStepAction=addStepAction}}
     </div>
     {{/each}}
   {{/if}}

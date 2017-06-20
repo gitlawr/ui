@@ -3,6 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   sortFinishText: null,
   model: null,
+  stageInfo: null,
   sortingScope: function() {
     return this.get('stageId')
   }.property('stageId'),
@@ -28,6 +29,8 @@ export default Ember.Component.extend({
       this.get('modalService').toggleModal('modal-pipeline-new-step', {
         type: 'edit',
         params: this.get('model')[index],
+        stageInfo: this.get('stageInfo'),
+        stageIndex: this.get('stageIndex'),
         cb: (step) => {
           var model = this.get('model');
           var newModel = model.map((ele,i) => {
@@ -35,6 +38,16 @@ export default Ember.Component.extend({
               return step
             }
             return ele
+          })
+          this.set('model',newModel);
+        },
+        rmCb: ()=>{
+          var model = this.get('model');
+          var newModel = model.filter((ele,i) => {
+            if(i===index){
+              return false
+            }
+            return true
           })
           this.set('model',newModel);
         }
