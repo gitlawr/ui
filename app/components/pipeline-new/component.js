@@ -1,21 +1,20 @@
 import Ember from 'ember';
-
-export default Ember.Component.extend({
+import NewOrEdit from 'ui/mixins/new-or-edit';
+export default Ember.Component.extend(NewOrEdit, {
   userList: null,
-  pageModel: Ember.Object.create({
-    selectedApprovers: []
+  model: Ember.Object.create({
+    selectedApprovers: [],
+    validationErrors: function(){
+      return 'error'
+    }
   }),
   init() {
     this._super(...arguments);
   },
   selectedApprovers: function() {
-    return this.get('userList').filter(ele=>!!ele.selected)
+    return this.get('userList').filter(ele => !!ele.selected)
   }.property('userList.@each.selected'),
   actions: {
-    save: function(success) {
-      success(true)
-      return false
-    },
     cancel: function() {
       // TODO: set default done() go back to pipelines.index.active
       this.done();
@@ -25,5 +24,8 @@ export default Ember.Component.extend({
       let selected = this.get('userList')[index].selected;
       this.get('userList')[index].set('selected', !selected);
     }
-  }
+  },
+  doneSaving() {
+    this.sendAction('cancel');
+  },
 });
