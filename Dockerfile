@@ -3,6 +3,8 @@ RUN mkdir /source
 WORKDIR /source
 COPY package.json bower.json ./
 COPY scripts ./scripts
+# Uncomment it when build in China.
+# RUN npm config set registry=http://registry.npm.taobao.org && yarn config set registry https://registry.npm.taobao.org
 RUN yarn install && yarn global add bower phantomjs-prebuilt && bower --allow-root install && yarn cache clean && bower --allow-root cache clean
 COPY . /source
 EXPOSE 8000
