@@ -6,6 +6,7 @@
   {{form-name-description
     model=primaryResource
     namePlaceholder="newPipeline.name.placeholder"
+    nameRequired=true
     descriptionPlaceholder="newPipeline.description.placeholder"
   }}
 </section>
@@ -79,7 +80,7 @@
   <div class="col span-12">
     <label class="pb-5">{{t 'newPipeline.builder.label'}}</label>
     <div class="radio mb-0">
-      <label>{{radio-button selection=isRequestedHost value=true}}
+      <label>{{radio-button selection=model.buildType value=true}}
           {{t 'newPipeline.builder.buildIn'}}
       </label>
           {{new-select
@@ -88,13 +89,12 @@
             value=requestedHostId
             optionValuePath="id"
             optionLabelPath="name"
-            disabled=(not isRequestedHost)
             style="display: inline-block; width: auto;"
           }}
     </div>
 
     <div class="radio mb-0">
-      <label>{{radio-button selection=isRequestedHost value=false}}
+      <label>{{radio-button selection=model.buildType value=false}}
           {{t 'newPipeline.builder.custom'}}
       </label>
       {{input class="form-control input-sm value" type="text" value=row.value placeholder=valuePlaceholder disabled=(eq row.editable false)}}
@@ -156,6 +156,6 @@
     {{input class="form-control input-sm value" type="text" value=row.value placeholder=valuePlaceholder disabled=(eq row.editable false)}}
   </div>
 </div>
-
+{{top-errors errors=errors}}
 {{#save-cancel classNames=className createLabel="newPipeline.save" save="save" cancel="cancel"}}
 {{/save-cancel}}
