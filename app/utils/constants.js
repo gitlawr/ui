@@ -392,6 +392,11 @@ C.REMOVEDISH_STATES = [
   'purged'
 ];
 
+C.DISCONNECTED_STATES = [
+  'disconnected',
+  'reconnecting',
+];
+
 C.INITIALIZING_STATES = [
   'initializing',
   'reinitializing'
@@ -419,6 +424,5 @@ C.SUPPORTED_SCHEMA_INPUTS= [
   'masked',
   'secret',
 ];
-
 
 export default C;
