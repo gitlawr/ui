@@ -4,10 +4,20 @@ export default Ember.Component.extend({
   sortFinishText: null,
   model: null,
   stageInfo: null,
+  stageIndex: null,
   sortingScope: function() {
     return this.get('stageId')
   }.property('stageId'),
-
+  didInsertElement(){
+    var stepMode = this.get('stepMode')
+    var editMode= this.get('editMode')
+    if(stepMode==="scm"&&editMode==="new"){
+      this.triggerAction({
+        action: 'addStep',
+        target: this
+      })
+    }
+  },
   modalService: Ember.inject.service('modal'),
   actions: {
     dragStart: function(object) {
@@ -20,6 +30,10 @@ export default Ember.Component.extend({
     addStep: function() {
       this.get('modalService').toggleModal('modal-pipeline-new-step', {
         type: 'add',
+        stageInfo: this.get('stageInfo'),
+        stageIndex: this.get('stageIndex'),
+        stepMode: this.get('stepMode'),
+        editMode: this.get('editMode'),
         cb: (step) => {
           this.get('model').pushObject(step);
         }
@@ -31,6 +45,8 @@ export default Ember.Component.extend({
         params: this.get('model')[index],
         stageInfo: this.get('stageInfo'),
         stageIndex: this.get('stageIndex'),
+        stepMode: this.get('stepMode'),
+        editMode: this.get('editMode'),
         cb: (step) => {
           var model = this.get('model');
           var newModel = model.map((ele,i) => {

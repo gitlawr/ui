@@ -1,0 +1,29 @@
+<section class="header has-tabs clearfix">
+  <ul class="tab-nav">
+    <li>{{#link-to "pipelines.index.activities"}}All{{/link-to}}</li>
+    <li>{{#link-to "pipelines.index.activities" (query-params status="running")}}Running{{/link-to}}</li>
+    <li>{{#link-to "pipelines.index.activities" (query-params status="success")}}Success{{/link-to}}</li>
+    <li>{{#link-to "pipelines.index.activities" (query-params status="fail")}}Fail{{/link-to}}</li>
+  </ul>
+  <div class="right-buttons">
+    <button class="btn bg-link btn-sm icon-btn p-0">
+      <span class="darken"><i class="icon icon-play text-small"/></span>
+      <span>Run pipeline</span>
+    </button>
+  </div>
+</section>
+
+
+<section class="instances">
+  {{pipeline-table
+      body=filtered
+      sortBy=sortBy
+      bulkActions=true
+      search=true
+      paging=true
+      showHost=true
+      showInstanceState=false
+      groupByKey=groupBy
+      groupByRef="stack"
+    }}
+</section>

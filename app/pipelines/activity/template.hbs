@@ -1,0 +1,57 @@
+<section class="header has-tabs clearfix">
+  <h1>{{model.pipeline.name}}</h1>
+
+  <div class="right-buttons">
+    <button class="btn bg-link btn-sm icon-btn p-0" {{action 'run'}}>
+        <span class="darken"><i class="icon icon-refresh text-small"/></span>
+        <span>Run Again</span>
+    </button>
+  </div>
+</section>
+
+<section class="pipeline-container">
+  {{pipeline-stages stagesDraggable=false model=model.pipeline.stages}}
+</section>
+
+<div class="mt-40"></div>
+<section class="header has-tabs clearfix">
+  <ul class="tab-nav">
+    <li>
+      <a href="javascript:void(0);" onclick={{action "setActiveTab" "history"}} class="{{if isHistory 'active'}} ember-view">Records</a>
+    </li>
+  </ul>
+</section>
+
+<section>
+  {{#if filterdPiplineHistory.length}}
+    {{#accordion-list as |al expandFn| }}
+      {{#each filterdPiplineHistory as |activity|}}
+        {{#accordion-list-item
+             title=model.pipeline.repository
+             detail=(date-str model.pipeline.start_ts)
+             status=activity.status
+             statusClass=(if (eq activity.status 'Success') 'bg-success' 'text-muted')
+             expandAll=al.expandAll
+             expand=(action expandFn)
+             componentName='container-table'
+             as | parent |
+        }}
+          {{pipeline-history-table
+            body=activity.activity_stages
+            sortBy=sortBy
+            bulkActions=true
+            search=true
+            paging=true
+            showHost=true
+            showInstanceState=false
+            groupByKey=groupBy
+            groupByRef="stack"
+        }}
+        {{/accordion-list-item}}
+      {{/each}}
+    {{/accordion-list}}
+  {{else}}
+    <p class="text-center text-muted">No {{if isHistory 'History' 'Activity'}}</p>
+  {{/if}}
+
+</section>

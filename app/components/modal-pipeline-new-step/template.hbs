@@ -4,34 +4,24 @@
   <div class="modal-pipeline-head">
     <h2>{{t (if editing 'newPipelineStep.header.edit' 'newPipelineStep.header.create')}}</h2>
     <br>
-    <p class="text-muted">{{model.stageIndex}}. {{model.stageInfo}}</p>
+    <p class="text-muted">{{modalOpts.stageIndex}}. {{modalOpts.stageInfo}}</p>
   </div>
   {{#if editing}}
-  <div class="right-buttons">
-    <button class="btn bg-error" {{action 'remove'}}>
-      {{t 'generic.remove'}}
-    </button>
-  </div>
+    {{#if (eq type 'scm')}}
+    {{else}}
+    <div class="right-buttons">
+      <button class="btn bg-error" {{action 'remove'}}>
+        {{t 'generic.remove'}}
+      </button>
+    </div>
+    {{/if}}
   {{/if}}
 </section>
 
-<div class="inline-form">
-  <label>{{t 'newPipelineStep.jobType.label'}}</label>
-  <div class="pt-10"></div>
-  <div>
-    <label class="mr-30">{{radio-button selection=model.type value="task"}}
-        {{t 'newPipelineStep.jobType.task.label'}}
-    </label>
-    <label class="mr-30">{{radio-button selection=model.type value="catalog"}}
-        {{t 'newPipelineStep.jobType.catalog.label'}}
-    </label>
-    <label class="mr-30">{{radio-button selection=model.type value="deploy"}}
-        {{t 'newPipelineStep.jobType.deploy.label'}}
-    </label>
-  </div>
-</div>
-
 {{pipeline/pipeline-step-form
-    model=model
+    model=editingModels
+    type=type
+    editing=editing
+    modalOpts=modalOpts
 }}
 {{save-cancel editing=editing createLabel="generic.add" save="add" cancel="cancel"}}
