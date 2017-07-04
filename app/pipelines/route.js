@@ -5,7 +5,6 @@ export default Ember.Route.extend({
   model: function() {
   },
   beforeModel:function(){
-    debugger
     this.set('pipelineStore.baseUrl',this.get('pipeline.pipelinesEndpoint'));
   },
 });

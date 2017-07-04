@@ -1,14 +1,19 @@
+{{#if (eq model.type 'scm')}}
+  <p class="mt-0 mb-0 clip">{{upper-case model.type}}: {{model.repository}}</p>
+  <p class="text-small mt-0 mb-0 clip italian text-italic">{{model.branch}}</p>
+{{/if}}
+
 {{#if (eq model.type 'task')}}
-  <p class="mt-0 mb-0 clip">{{model.image}}</p>
-  <p class="text-small mt-0 mb-0 clip">{{model.command}}</p>
+  <p class="mt-0 mb-0 clip">{{upper-case model.type}}: {{model.image}}</p>
+  <p class="text-small mt-0 mb-0 clip text-italic">{{model.command}}</p>
 {{/if}}
 
 {{#if (eq model.type 'catalog')}}
-  <p class="mt-0 mb-0 clip">{{model.name}}</p>
-  <p class="text-small mt-0 mb-0 clip">{{model.environment}}</p>
+  <p class="mt-0 mb-0 clip">{{upper-case model.type}} {{model.name}}</p>
+  <p class="text-small mt-0 mb-0 clip text-italic">{{model.environment}}</p>
 {{/if}}
 
 {{#if (eq model.type 'deploy')}}
-  <p class="mt-0 mb-0 clip">{{model.deployName}} * {{model.count}}</p>
-  <p class="text-small mt-0 mb-0 clip">{{model.deployEnvironment}}</p>
+  <p class="mt-0 mb-0 clip">{{upper-case model.type}} {{model.deployName}} * {{model.count}}</p>
+  <p class="text-small mt-0 mb-0 clip text-italic">{{model.deployEnvironment}}</p>
 {{/if}}

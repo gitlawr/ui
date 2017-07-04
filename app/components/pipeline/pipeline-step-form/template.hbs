@@ -1,22 +1,44 @@
-{{#if (eq model.type 'task')}}
+<div class="inline-form">
+  <label>{{t 'newPipelineStep.jobType.label'}}</label>
+  <div class="pt-10"></div>
+  <div>
+  {{#if (eq modalOpts.stepMode "scm")}}
+    <label class="mr-30">{{radio-button selection=type value="scm"}}
+        SCM
+    </label>
+  {{else}}
+    <label class="mr-30">{{radio-button selection=type value="task"}}
+        {{t 'newPipelineStep.jobType.task.label'}}
+    </label>
+    {{!-- <label class="mr-30">{{radio-button selection=type value="catalog"}}
+        {{t 'newPipelineStep.jobType.catalog.label'}}
+    </label>
+    <label class="mr-30">{{radio-button selection=type value="deploy"}}
+        {{t 'newPipelineStep.jobType.deploy.label'}}
+    </label> --}}
+    {{/if}}
+  </div>
+</div>
+
+{{#if (eq type 'task')}}
   <div class="pt-20"></div>
   <div class="inline-form">
     <label>{{t 'newPipelineStep.jobType.image'}}{{field-required}}</label>
     <div class="pt-10"></div>
-    {{input class="form-control" value=model.image }}
+    {{input class="form-control" value=selectedModel.image }}
   </div>
 
   <div class="pt-20"></div>
   <div class="inline-form">
     <label>{{t 'newPipelineStep.jobType.task.command'}}</label>
     <div class="pt-10"></div>
-    {{input class="form-control" value=model.command }}
+    {{input class="form-control" value=selectedModel.command }}
   </div>
 
   <div class="pt-30"></div>
   {{form-key-value
-          initialMap=model.parameters
-          changed=(action (mut model.parameters))
+          initialMap=selectedModel.parameters
+          changed=(action (mut selectedModel.parameters))
           allowEmptyValue=false
           editing=true
           normalHeader=(t 'newPipeline.build.variable')
@@ -24,11 +46,29 @@
   }}
 {{/if}}
 
-{{#if (eq model.type 'catalog')}}
+{{#if (eq type 'scm')}}
+  <div class="pt-20"></div>
+  <div class="inline-form">
+    <label>Repository{{field-required}}</label>
+    <div class="pt-10"></div>
+    {{input class="form-control" value=selectedModel.repository placeholder="https://github.com/rancher/ui.git"}}
+  </div>
+
+  <div class="pt-20"></div>
+  <div class="inline-form">
+    <label>Branch</label>
+    <div class="pt-10"></div>
+    {{input class="form-control" value=selectedModel.branch placeholder="master"}}
+  </div>
+{{/if}}
+
+
+{{!-- 
+{{#if (eq type 'catalog')}}
   
 {{/if}}
 
-{{#if (eq model.type 'deploy')}}
+{{#if (eq type 'deploy')}}
 <div class="pt-20"></div>
 <div class="noHeader">
   {{container/new-edit
@@ -43,4 +83,4 @@
     configName=configName
   }}
 </div>
-{{/if}}
+{{/if}} --}}

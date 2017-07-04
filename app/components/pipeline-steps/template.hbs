@@ -24,11 +24,14 @@
       {{/each}}
     {{/if}}
     {{#if editable}}
-      <div class="step-add step-content" {{action 'addStep'}}>
-        <a href="javascript:void(0);" class="text-small">
-          {{t 'pipelineDetail.addStep'}}
-        </a>
-      </div>
+      {{#if (eq stepMode 'scm')}}
+      {{else}}
+        <div class="step-add step-content" {{action 'addStep'}}>
+          <a href="javascript:void(0);" class="text-small">
+            {{t 'pipelineDetail.addStep'}}
+          </a>
+        </div>
+      {{/if}}
     {{/if}}
   </div>
 </div>

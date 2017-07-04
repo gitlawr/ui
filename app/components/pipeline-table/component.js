@@ -5,7 +5,8 @@ export const headersAll =  [
     name: 'name',
     sort: ['name'],
     searchField: 'name',
-    translationKey: 'generic.pipelineName',
+    // translationKey: 'generic.pipelineName',
+    label: 'Pipeline'
   },
   {
     name: 'repository',
@@ -18,6 +19,13 @@ export const headersAll =  [
     sort: ['branch'],
     searchField: 'branch',
     translationKey: 'generic.branch',
+  },
+  {
+    name: 'branch',
+    sort: ['branch'],
+    searchField: 'branch',
+    // translationKey: 'generic.branch',
+    label: 'Commit'
   },
   {
     name: 'status',

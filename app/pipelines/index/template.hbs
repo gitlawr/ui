@@ -1,24 +1,7 @@
 <section class="header has-tabs clearfix">
-  <h1>{{t 'nav.pipelines.tab'}}</h1>
-
-  <div class="right-buttons">
-    <button class="btn bg-link btn-sm icon-btn p-0">
-      {{#link-to "pipelines.new" class="btn bg-link icon-btn p-0"}}
-        <span class="darken"><i class="icon icon-plus text-small"/></span>
-        <span>{{t 'nav.pipelines.add'}}</span>
-      {{/link-to}}
-    </button>
-  </div>
-</section>
-<section class="header has-tabs clearfix">
-  <ul class="tab-nav">
-    <li>{{#link-to "pipelines.index.active"}}{{t 'nav.pipelines.active'}}{{/link-to}}</li>
-    <li>{{#link-to "pipelines.index.inactive"}}{{t 'nav.pipelines.inactive'}}{{/link-to}}</li>
+   <ul class="tab-nav">
+    <li>{{#link-to "pipelines.index.activities"}}Activities{{/link-to}}</li>
+    <li>{{#link-to "pipelines.index.pipelines"}}Pipelines{{/link-to}}</li>
   </ul>
-
 </section>
-
-
-<section class="instances">
-  {{outlet}}
-</section>
+{{outlet}}

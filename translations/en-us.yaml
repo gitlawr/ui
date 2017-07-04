@@ -55,6 +55,7 @@ generic:
   none: None
   ports: Ports
   pipelineName: Pipeline Name
+  pipeline: Pipeline
   remove: Remove
   role: Role
   repository: Repository
@@ -3683,7 +3684,7 @@ nav:
   userPreferences:
     link: "Preferences"
   pipelines:
-    tab: Pipelines
+    tab: Pipeline
     active: Active
     inactive: Inactive
     add: Add a pipeline
@@ -3717,6 +3718,7 @@ action:
   replay: Replay
   restart: Restart
   retry: Retry
+  run: Run
   rollback: Rollback
   setDefault: Set as Login Environment
   start: Start

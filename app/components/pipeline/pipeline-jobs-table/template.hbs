@@ -13,24 +13,18 @@
   {{#if (eq kind "row")}}
     <tr class="main-row">
       <td data-title="{{dt.name}}" class="clip">
-        <a href="{{href-to "pipelines.activity" inst.id}}">{{inst.name}}</a>
+        <a href="{{href-to "pipelines.pipeline" inst.id}}">{{inst.name}}</a>
       </td>
       <td data-title="{{dt.repository}}" class="clip text-muted">
         {{inst.repository}}
-      </td>
-      <td data-title="{{dt.branch}}" class="clip text-muted">
-        {{inst.branch}}
-      </td>
-      <td data-title="{{dt.status}}" class="clip text-muted">
-        <span class="badge-state">{{inst.status}}</span>
       </td>
       <td data-title="{{dt.actions}}" class="actions">
         {{action-menu model=inst showPrimary=false}}
       </td>
     </tr>
   {{else if (eq kind "nomatch")}}
-    <tr><td colspan="{{sortable.fullColspan}}" class="text-center text-muted lacsso pt-20 pb-20">{{t 'pipelinesPage.table.noMatch'}}</td></tr>
+    <tr><td colspan="{{sortable.fullColspan}}" class="text-center text-muted lacsso pt-20 pb-20">There are no matched jobs</td></tr>
   {{else if (eq kind "norows")}}
-    <tr><td colspan="{{sortable.fullColspan}}" class="text-center text-muted lacsso pt-20 pb-20">{{t 'pipelinesPage.table.noData'}}</td></tr>
+    <tr><td colspan="{{sortable.fullColspan}}" class="text-center text-muted lacsso pt-20 pb-20">There are no jobs to show</td></tr>
   {{/if}}
 {{/sortable-table}}

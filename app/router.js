@@ -92,15 +92,22 @@ Router.map(function() {
       this.route('waiting');
 
       this.route('pipelines', {resetNamespace: true}, function() {
-        this.route('new', {path: '/add'});
+        this.route('new-pipeline', {path: '/addPipeline'});
         this.route('index', {path: '/'},function(){
-          this.route('active',{path: '/'});
-          this.route('inactive',{path: '/inactive'});
+          this.route('activities',{path:'/'},function(){
+          
+          });
+          this.route('pipelines',{path:'/pipelines'},function(){
+          
+          });
         });
-        this.route('edit', {path: '/edit/:pipeline_id'});
-        this.route('pipeline', {path: '/:pipeline_id', resetNamespace: true},function(){
+        this.route('activity', {path: '/activities/:activity_id'},function(){
 
         });
+        
+        this.route('pipeline', {path: '/pipelines/:pipeline_id'},function(){
+          
+        })
       });
       
       this.route('containers', {resetNamespace: true}, function() {
