@@ -5,7 +5,8 @@ export default Ember.Component.extend({
   resourceActions : Ember.inject.service('resource-actions'),
   tooltipService  : Ember.inject.service('tooltip'),
   model           : null,
-  tagName         : 'span',
+  tagName         : 'div',
+  classNames      : ['vertical-middle'],
   type            : 'tooltip-action-menu',
   template        : null,
 
@@ -14,15 +15,18 @@ export default Ember.Component.extend({
     this.get('tooltipService').hide();
   },
 
-  details(/*event*/) {
+  alt: function() {
+    return this.get('model.displayName') + ': ' + this.get('model.displayState');
+  }.property('model.{displayState,displayName}'),
 
+  details(/*event*/) {
     var route = 'container';
     if ( this.get('model.isVm') )
-      {
-        route = 'virtualmachine';
-      }
+    {
+      route = 'virtualmachine';
+    }
 
-      this.get('router').transitionTo(route, this.get('model.id'));
+    this.get('router').transitionTo(route, this.get('model.id'));
   },
 
   contextMenu(event) {
@@ -44,11 +48,8 @@ export default Ember.Component.extend({
   },
 
   resourceActionsObserver: Ember.observer('resourceActions.open', function() {
-
     if (this.get('tooltipService.openedViaContextClick')) {
-
       this.get('tooltipService').set('openedViaContextClick', false);
     }
-
   }).on('init'),
 });
