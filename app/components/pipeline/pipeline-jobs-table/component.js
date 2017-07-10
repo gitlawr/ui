@@ -8,9 +8,9 @@ export const headersAll =  [
     label: 'Name'
   },
   {
-    name: 'repository',
-    sort: ['repository'],
-    searchField: 'repository',
+    name: 'activity',
+    sort: ['activity'],
+    searchField: 'activity',
     label: 'Latest Activity'
   }
 ];

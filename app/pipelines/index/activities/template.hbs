@@ -1,9 +1,9 @@
 <section class="header has-tabs clearfix">
   <ul class="tab-nav">
     <li>{{#link-to "pipelines.index.activities"}}All{{/link-to}}</li>
-    <li>{{#link-to "pipelines.index.activities" (query-params status="running")}}Running{{/link-to}}</li>
-    <li>{{#link-to "pipelines.index.activities" (query-params status="success")}}Success{{/link-to}}</li>
-    <li>{{#link-to "pipelines.index.activities" (query-params status="fail")}}Fail{{/link-to}}</li>
+    <li>{{#link-to "pipelines.index.activities" (query-params status="running") replace=true}}Running{{/link-to}}</li>
+    <li>{{#link-to "pipelines.index.activities" (query-params status="success") replace=true}}Success{{/link-to}}</li>
+    <li>{{#link-to "pipelines.index.activities" (query-params status="fail") replace=true}}Fail{{/link-to}}</li>
   </ul>
   <div class="right-buttons">
     <button class="btn bg-link btn-sm icon-btn p-0">

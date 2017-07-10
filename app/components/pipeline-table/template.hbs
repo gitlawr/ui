@@ -13,13 +13,17 @@
   {{#if (eq kind "row")}}
     <tr class="main-row">
       <td data-title="{{dt.name}}" class="clip">
-        <a href="{{href-to "pipelines.activity" inst.id}}">{{inst.name}}</a>
+        <a href="{{href-to "pipelines.activity" inst.id}}">
+          <p class="clip">#{{inst.runSequence}}</p>
+          <p>by {{inst.pipeline.name}}</p>
+        </a>
       </td>
       <td data-title="{{dt.repository}}" class="clip text-muted">
-        {{inst.repository}}
+        <p>{{inst.repository}}</p>
+        <p>{{inst.branch}} <i class="icon icon-link text-small"></i> {{sub-str inst.commitInfo 0 8}}</p>
       </td>
-      <td data-title="{{dt.branch}}" class="clip text-muted">
-        {{inst.branch}}
+      <td data-title="{{dt.time}}" class="clip text-muted">
+        {{date-str inst.start_ts}}
       </td>
       <td data-title="{{dt.status}}" class="clip text-muted">
         <span class="badge-state">{{inst.status}}</span>
