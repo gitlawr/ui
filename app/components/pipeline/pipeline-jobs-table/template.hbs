@@ -15,8 +15,12 @@
       <td data-title="{{dt.name}}" class="clip">
         <a href="{{href-to "pipelines.pipeline" inst.id}}">{{inst.name}}</a>
       </td>
-      <td data-title="{{dt.repository}}" class="clip text-muted">
-        {{inst.repository}}
+      <td data-title="{{dt.activity}}" class="clip text-muted">
+        {{#if inst.activity}}
+          {{inst.activity}}
+        {{else}}
+          N/A
+        {{/if}}
       </td>
       <td data-title="{{dt.actions}}" class="actions">
         {{action-menu model=inst showPrimary=false}}

@@ -26,10 +26,9 @@ export default Ember.Component.extend(ModalBase, NewOrEdit, {
   actions: {
     add:function(success){
       success(true)
-      var model
       this.get('newStageFn')({
         ...this.get('model'),
-        id: Date.now(),
+        id: Date.now()
       })
       this.send('cancel')
     }

@@ -1,5 +1,8 @@
 <section class="header has-tabs clearfix">
-  <h1>{{model.pipeline.name}}</h1>
+  <h1>
+    <p style="margin:0;line-height:1.5" class="text-small">#{{model.runSequence}}</p>
+    <p style="margin:0;line-height:1" class="text-small text-italic text-muted">by {{model.pipeline.name}}</p>
+  </h1>
 
   <div class="right-buttons">
     <button class="btn bg-link btn-sm icon-btn p-0" {{action 'run'}}>
@@ -17,7 +20,7 @@
 <section class="header has-tabs clearfix">
   <ul class="tab-nav">
     <li>
-      <a href="javascript:void(0);" onclick={{action "setActiveTab" "history"}} class="{{if isHistory 'active'}} ember-view">Records</a>
+      <a href="javascript:void(0);" class="{{if isHistory 'active'}} ember-view">Records</a>
     </li>
   </ul>
 </section>
@@ -27,17 +30,19 @@
     {{#accordion-list as |al expandFn| }}
       {{#each filterdPiplineHistory as |activity|}}
         {{#accordion-list-item
-             title=model.pipeline.repository
-             detail=(date-str model.pipeline.start_ts)
-             status=activity.status
-             statusClass=(if (eq activity.status 'Success') 'bg-success' 'text-muted')
+             title=repository
+             detail=(concat-str branch ' ' (sub-str commitInfo 0 8) ' ' (date-str model.start_ts) )
+             status=model.status
+             statusClass=model.status
              expandAll=al.expandAll
              expand=(action expandFn)
-             componentName='container-table'
+             componentName='activity-table'
+             className=(concat-str "header-pipeline" model.status)
              as | parent |
         }}
           {{pipeline-history-table
             body=activity.activity_stages
+            activity=model
             sortBy=sortBy
             bulkActions=true
             search=true

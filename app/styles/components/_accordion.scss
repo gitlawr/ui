@@ -52,18 +52,67 @@ $accordion-header-border: $bg-default !default;
       &.Success {
         background-color: lighten($success,50%);
         color: $success;
+        *{
+          color: $success !important;
+        }
         .expand {
           background-color: $success;
           color: white;
+          i{
+            color: white !important;
+          }
+        }
+      }
+      &.Fail {
+        background-color: rgba(241, 83, 84, 0.2);
+        color: $error;
+        *{
+          color: $error !important;
+        }
+        .expand {
+          background-color: $error;
+          color: white;
+          i{
+            color: white !important;
+          }
         }
       }
       &.Building {
         background-color: lighten($primary,50%);
         color: $primary;
+        *{
+          color: $primary !important;
+        }
+        .expand {
+          background-color: $primary;
+          color: white;
+          i{
+            color: white !important;
+          }
+        }
       }
+      &.Waiting {
+        background-color: lighten($mid-grey,50%);
+        color: $mid-grey;
+        *{
+          color: $mid-grey !important;
+        }
+        .expand {
+          background-color: $mid-grey;
+          color: white;
+          i{
+            color: white !important;
+          }
+        }
+      }
+
       .text-cell {
         display: inline-block;
         width: 200px;
+        height: 20px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
       }
       .badge-state {
         width: 200px;

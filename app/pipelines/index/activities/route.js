@@ -5,8 +5,7 @@ export default Ember.Route.extend({
   pipeline: Ember.inject.service(),
   model: function() {
     var pipelineStore = this.get('pipelineStore');
-    debugger
-    var model = pipelineStore.find('activity');
+    var model = pipelineStore.find('activities',null,{url:pipelineStore.baseUrl+'/activities',forceReload:true});
     return model
   }
 });
