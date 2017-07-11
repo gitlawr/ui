@@ -5,7 +5,7 @@ export default Ember.Route.extend({
   pipeline: Ember.inject.service(),
   model: function() {
     var pipelineStore = this.get('pipelineStore');
-    var model = pipelineStore.find('pipeline',null,{forceReload: true});
+    var model = pipelineStore.findAll('pipeline',null,{forceReload: true});
     return model
   }
 });

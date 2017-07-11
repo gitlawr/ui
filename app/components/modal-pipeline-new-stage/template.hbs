@@ -1,7 +1,20 @@
 {{top-errors errors=errors}}
 
-<h2 class="alert-header">{{t (if editing 'newPipelineStage.header.edit' 'newPipelineStage.header.create')}}</h2>
-<hr/>
+{{!-- <h2 class="alert-header">{{t (if editing 'newPipelineStage.header.edit' 'newPipelineStage.header.create')}}</h2>
+ --}}
+
+<section class="header clearfix">
+  <h2 style="display: inline-block;">{{t (if editing 'newPipelineStage.header.edit' 'newPipelineStage.header.create')}}</h2>
+  {{#if editing}}
+    <div class="right-buttons pb-0 pt-0">
+      <button class="btn bg-error" {{action 'remove'}}>
+        {{t 'generic.remove'}}
+      </button>
+    </div>
+  {{/if}}
+</section>
+
+{{!-- <hr/> --}}
 <div class="inline-form">
   <label>{{t 'newPipelineStage.name'}}{{field-required}}</label>
   {{input class="form-control" value=model.name }}

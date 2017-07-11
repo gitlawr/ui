@@ -16,8 +16,35 @@ export default Ember.Component.extend({
       console.log('Sort Ended', this.get('model.pages'));
     },
     addStage: function(){
-      this.get('modalService').toggleModal('modal-pipeline-new-stage', (stage)=>{
-        this.get('model').pushObject(stage);
+      this.get('modalService').toggleModal('modal-pipeline-new-stage', {
+        mode: 'new',
+        cb:(stage)=>{
+          this.get('model').pushObject(stage);
+        }
+    })
+    },
+    editStage: function(index){
+      this.get('modalService').toggleModal('modal-pipeline-new-stage',{
+          stage: this.get('model')[index],
+          mode: 'edit',
+          cb: (stage)=>{
+            var newStage = this.get('model').map((ele,i)=>{
+              if(i==index){
+                return stage
+              }
+              return ele
+            })
+            this.set('model', newStage);
+          },
+          rmCb: ()=>{
+            var newStage = this.get('model').filter((ele,i)=>{
+              if(i==index){
+                return false
+              }
+              return true
+            })
+            this.set('model', newStage);
+          }
       })
     }
   }
