@@ -43,23 +43,31 @@
   position: relative;
   top: 0;
   display: inline-block;
+  .draggable {
+      cursor: move;
+  }
   .stage-name {
     text-align: center;
     line-height: 3;
     width: 100%;
+  }
+  .chrome-shim{
+    position:relative;
+    z-index:1;
   }
   > .stages-line {
     position: absolute;
     top: 55px;
     left: 90px;
     border-top: 2px solid #ecf0f1;
-    width: calc(100% - 180px);
+    width: calc(100% - 190px);
     height: 1px;
   }
   .stage-wrap {
     display: inline-block;
     vertical-align: top;
     width: 168px;
+    margin-right: 20px;
   }
 }
 
@@ -77,9 +85,6 @@
     height: 15px;
     border-radius: 50%;
     background-color: $info;
-    &.draggable {
-      cursor: move;
-    }
   }
   > .steps-line {
     position: absolute;
