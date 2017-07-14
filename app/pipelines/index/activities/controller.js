@@ -1,22 +1,22 @@
 import Ember from 'ember';
 export default Ember.Controller.extend({
-  queryParams: ['status','sortBy','descending'],
+  queryParams: ['status', 'sortBy', 'descending'],
   status: 'all',
-  sortBy:'start_ts',
+  sortBy: 'start_ts',
   descending: true,
+  modalService: Ember.inject.service('modal'),
   filtered: function() {
-    debugger
     var status = this.get('status')
     let out = this.get('model')
-    .filter(ele=>{
+      .filter(ele => {
 
-      if(status==='all'){
-        return true
-      }
-      return ele.status === status
-    })
-    
-    return out.map(ele=>{
+        if (status === 'all') {
+          return true
+        }
+        return ele.status === status
+      })
+
+    return out.map(ele => {
       return {
         ...ele,
         name: ele.pipeline.name,
@@ -25,4 +25,13 @@ export default Ember.Controller.extend({
       }
     });;
   }.property('model.@each.status'),
+  actions: {
+    runPipelines: function() {
+      this.get('modalService').toggleModal('modal-pipeline-run', {
+        cb: (pipelines) => {
+          console.log(pipelines)
+        }
+      })
+    }
+  }
 });

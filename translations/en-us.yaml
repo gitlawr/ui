@@ -638,6 +638,7 @@ newPipeline:
     buildIn: Build In
     custom: Custom
   save: Save
+  add: Add
 
 pipelineDetail:
   history:
@@ -655,7 +656,7 @@ newPipelineStep:
     create: Add a step to stage
     edit: Edit step
   jobType: 
-    label: Job Type
+    label: Step Type
     image: Image
     task: 
       label: Task
@@ -3704,6 +3705,7 @@ action:
   console: Open Console
   convertToService: Convert to Service
   deactivate: Deactivate
+  duplicate: Duplicate
   edit: Edit
   editService: Edit Service
   evacuate: Evacuate

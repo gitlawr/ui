@@ -1,8 +1,11 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+  queryParams: ['mode'],
+  mode:'',
   stages: function() {
     var pipeline = this.get('model.pipeline')
+    debugger
     return pipeline.stages
   }.property('model'),
   errors: null,
@@ -15,7 +18,14 @@ export default Ember.Controller.extend({
         success(false)
         return
       }
-      model.pipeline.doAction('update', model.pipeline.serialize()).then(() => {
+      var mode = this.get('mode');
+      (function(){
+        if(mode==='duplicate'){
+          return model.pipeline.save()
+        }
+        return model.pipeline.doAction('update', model.pipeline.serialize())
+      })()
+      .then(() => {
         this.transitionToRoute('pipelines.index.pipelines')
       })
     },
