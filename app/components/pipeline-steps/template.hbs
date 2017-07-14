@@ -3,9 +3,23 @@
   <div class="steps-head-dot js-dragHandle" class={{if stagesDraggable 'draggable' ''}}></div>
   <div class="steps-wrap">
     {{#if stepsDraggble}}
-      {{#sortable-objects class=(if stagesDraggable 'draggable' '') sortableObjectList=model sortEndAction='sortEndAction' enableSort=true sortingScope=sortingScope}}
+      {{#sortable-objects
+        class=(if stagesDraggable 'draggable' '')
+        sortableObjectList=model 
+        enableSort=true 
+        sortingScope=sortingScope}}
         {{#each model as |item index|}}
-          {{#draggable-object isDraggable=(if stagesDraggable true false) class="step-content" content=item overrideClass='sortObject' isSortable=true sortingScope=sortingScope}}
+          {{#draggable-object 
+            isDraggable=(if stagesDraggable true false) 
+            class="step-content" 
+            content=item 
+            overrideClass='sortObject' 
+            isSortable=true 
+            sortingScope=sortingScope
+            dragStartAction="dragStart"
+            dragStartHook=(action 'startHook')
+            dragEndHook=(action "dragEnd")
+            }}
               <div class="step-name text-muted" {{action 'editStep' index}}>
                 {{pipeline/pipeline-step model=item }}
               </div>

@@ -3,6 +3,8 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   sortFinishText: null,
   model: null,
+  crt: null,
+  dragDom: null,
   stageInfo: null,
   stageIndex: null,
   sortingScope: function() {
@@ -20,12 +22,31 @@ export default Ember.Component.extend({
   },
   modalService: Ember.inject.service('modal'),
   actions: {
-    dragStart: function(object) {
-      console.log('Drag Start', object);
+    dragStart: function(content,e) {
+      var dom = e.target
+      var crt = dom.cloneNode(true);
+      crt.style.position = "fixed"; 
+      crt.style.top = "0"; crt.style.right = "0";
+      crt.style.backgroundColor=crt.style.color
+      dom.appendChild(crt);
+      debugger
+      e.dataTransfer.setDragImage(crt,e.offsetX,e.offsetY);
+      dom.style.backgroundColor=document.defaultView.getComputedStyle(dom.getElementsByClassName('step-name')[0]).color
+      dom.style.filter = 'brightness(1.3)';
+      this.dragDom = dom;
+      this.crt=crt;
     },
-    sortEndAction: function() {
-      console.log(this.get('stageId'));
-      console.log('Sort Ended', this.get('model.pages'));
+    startHook: function(){
+
+    },
+    dragEnd: function(){
+      var crt = this.crt
+      debugger
+      crt&&crt.remove()
+      if(this.dragDom){
+        this.dragDom.style.filter="";
+        this.dragDom.style.backgroundColor="white";
+      }
     },
     addStep: function() {
       this.get('modalService').toggleModal('modal-pipeline-new-step', {

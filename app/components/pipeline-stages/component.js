@@ -2,18 +2,33 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   sortFinishText: null,
-  model: [
-    {id:'stage1', title:'Page Title 1',steps:[{id:'stage1step1'},{id:'stage1step2'}]},
-    {id:'stage2', title:'Page Title 2',steps:[{id:'stage2step1'},{id:'stage2step2'}]},
-    {id:'stage3', title:'Page Title 3',steps:[{id:'stage3step1'},{id:'stage3step2'}]}
-  ],
+  crt: null,
+  dragDom: null,
+  model: null,
   modalService: Ember.inject.service('modal'),
   actions: {
-    dragStart: function(object) {
-      console.log('Drag Start', object);
+    dragStart: function(content,e) {
+      var dom = e.target
+      var crt = dom.cloneNode(true);
+      crt.style.position = "fixed"; 
+      crt.style.top = "0"; crt.style.right = "0";
+      crt.style.filter="grayscale(1)";
+      var stepWrapGhost = crt.getElementsByClassName('steps-wrap')[0]
+      stepWrapGhost.style.border="1px dashed gray";
+      dom.appendChild(crt);
+      e.dataTransfer.setDragImage(crt, 84, 50);
+      dom.style.filter = 'grayscale(1) drop-shadow(5px 5px 5px #ccc)';
+      this.dragDom = dom;
+      this.crt=crt;
     },
-    sortEndAction: function() {
-      console.log('Sort Ended', this.get('model.pages'));
+    startHook: function(){
+
+    },
+    dragEnd: function(){
+      var crt = this.crt
+      debugger
+      crt&&crt.remove()
+      this.dragDom&&(this.dragDom.style.filter="")
     },
     addStage: function(){
       this.get('modalService').toggleModal('modal-pipeline-new-stage', {
