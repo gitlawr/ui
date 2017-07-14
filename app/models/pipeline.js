@@ -10,6 +10,11 @@ export default Resource.extend({
         this.get('router').transitionTo('pipelines.activity', res.id)
       });
     },
+    duplicate: function(){
+      this.get('router').transitionTo('pipelines.pipeline', this.get('id'),{queryParams:{
+        mode:'duplicate'
+      }})
+    },
     edit: function(){
       this.get('router').transitionTo('pipelines.pipeline', this.get('id'))
     },
@@ -27,6 +32,7 @@ export default Resource.extend({
       { label: 'action.run',          icon: 'icon icon-play',   action: 'run',         enabled: true },
       { divider: true },
       { label: 'action.edit',          icon: 'icon icon-edit',   action: 'edit',         enabled: true },
+      { label: 'action.duplicate',          icon: 'icon icon-copy',   action: 'duplicate',         enabled: true },
       { divider: true },
       { label: 'action.remove',      icon: 'icon icon-trash',   action: 'remove',     enabled: true },
     ];

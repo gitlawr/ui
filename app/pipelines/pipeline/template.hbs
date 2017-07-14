@@ -3,7 +3,7 @@
 <section class="header has-tabs clearfix">
   <h1 style="margin-top: 8px">{{input type="text" value=model.pipeline.name classNames="form-control" placeholder="Pipeline Name"}}</h1>
   <div class="right-buttons pipeline-wrap-header-button">
-    {{#save-cancel class="pipeline-save-cancel" createLabel="newPipeline.save" save="save" cancel="cancel"}}
+    {{#save-cancel class="pipeline-save-cancel" createLabel=(if (eq mode 'duplicate') 'newPipeline.add' 'newPipeline.save') save="save" cancel="cancel"}}
     {{/save-cancel}}
   </div>
 </section>

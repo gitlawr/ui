@@ -6,7 +6,7 @@
     <li>{{#link-to "pipelines.index.activities" (query-params status="Fail") replace=true}}Fail{{/link-to}}</li>
   </ul>
   <div class="right-buttons">
-    <button class="btn bg-link btn-sm icon-btn p-0">
+    <button class="btn bg-link btn-sm icon-btn p-0" {{action "runPipelines"}}>
       <span class="darken"><i class="icon icon-play text-small"/></span>
       <span>Run pipeline</span>
     </button>
