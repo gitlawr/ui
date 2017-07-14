@@ -81,20 +81,12 @@ Router.map(function() {
       this.route('pipelines', {resetNamespace: true}, function() {
         this.route('new-pipeline', {path: '/addPipeline'});
         this.route('index', {path: '/'},function(){
-          this.route('activities',{path:'/'},function(){
-          
-          });
-          this.route('pipelines',{path:'/pipelines'},function(){
-          
-          });
+          this.route('activities',{path:'/'});
+          this.route('pipelines',{path:'/pipelines'});
         });
-        this.route('activity', {path: '/activities/:activity_id'},function(){
-
-        });
+        this.route('activity', {path: '/activities/:activity_id'});
         
-        this.route('pipeline', {path: '/pipelines/:pipeline_id'},function(){
-          
-        })
+        this.route('pipeline', {path: '/pipelines/:pipeline_id'});
       });
       
       this.route('containers', {resetNamespace: true}, function() {

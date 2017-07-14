@@ -45,5 +45,5 @@ export default Ember.Component.extend({
   filtered: function() {
     let out = this.get('body')||[];
     return out;
-  }.property(),
+  }.property('body'),
 });

@@ -1,12 +1,37 @@
 <section class="pipeline-stages">
   <div class="stages-line"></div>
   {{#if stagesDraggable}}
-    {{#sortable-objects useSwap=true sortableObjectList=model sortEndAction='sortEndAction' enableSort=true sortingScope="sortingGroup" class="chrome-shim"}}
+    {{#sortable-objects 
+    useSwap=true 
+    sortableObjectList=model 
+    enableSort=true 
+    sortingScope="sortingGroup" 
+    class="chrome-shim"
+    }}
       {{#each model as |item index|}}
-        {{#draggable-object isDraggable=(if (eq index 0) false true) dragHandle='.js-dragHandle' class="stage-wrap" content=item overrideClass='sortObject' isSortable=true sortingScope="sortingGroup"}}
-            <div class="stage-name text-muted clip" {{action 'editStage' index}}>
-              {{index-add index}}. {{item.name}}
-            </div>
+        {{#draggable-object 
+        id=(concat-str 'stage_' index character="")
+        isDraggable=(if (eq index 0) false true) 
+        dragHandle='.js-dragHandle' 
+        class="stage-wrap" 
+        content=item 
+        overrideClass='sortObject' 
+        isSortable=(if (eq index 0) false true) 
+        sortingScope="sortingGroup"
+        dragStartAction="dragStart"
+        dragStartHook=(action 'startHook')
+        dragEndHook=(action "dragEnd")
+        }}
+            {{#if (eq index 0)}}
+              <div class="stage-name text-muted clip">
+                {{index-add index}}. {{item.name}}
+              </div>
+            {{else}}
+              <div class="stage-name text-muted clip" style="curosor: pointer;" {{action 'editStage' index}}>
+                {{index-add index}}. {{item.name}}
+              </div>
+            {{/if}}
+              
             {{pipeline-steps 
               stageIndex=(index-add index) 
               stageInfo=item.name 
