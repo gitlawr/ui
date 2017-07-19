@@ -10,6 +10,9 @@
     <label class="mr-30">{{radio-button selection=type value="task"}}
         {{t 'newPipelineStep.jobType.task.label'}}
     </label>
+    <label class="mr-30">{{radio-button selection=type value="build"}}
+        Build
+    </label>
     {{!-- <label class="mr-30">{{radio-button selection=type value="catalog"}}
         {{t 'newPipelineStep.jobType.catalog.label'}}
     </label>
@@ -20,33 +23,17 @@
   </div>
 </div>
 
-{{#if (eq type 'task')}}
-  <div class="pt-20"></div>
-  <div class="inline-form">
-    <label>{{t 'newPipelineStep.jobType.image'}}{{field-required}}</label>
-    <div class="pt-10"></div>
-    {{input class="form-control" value=selectedModel.image }}
-  </div>
-
-  <div class="pt-20"></div>
-  <div class="inline-form">
-    <label>{{t 'newPipelineStep.jobType.task.command'}}</label>
-    <div class="pt-10"></div>
-    {{input class="form-control" value=selectedModel.command }}
-  </div>
-
-  <div class="pt-30"></div>
-  {{form-key-value
-          initialMap=selectedModel.parameters
-          changed=(action (mut selectedModel.parameters))
-          allowEmptyValue=false
-          editing=true
-          normalHeader=(t 'newPipeline.build.variable')
-          addActionLabel="newPipeline.build.add"
-  }}
-{{/if}}
-
 {{#if (eq type 'scm')}}
+  <section class="header has-tabs clearfix">
+    <ul class="tab-nav">
+      <li {{action "changeSCMType" 'git'}}>
+        <a href="javascript:void(0);" class="{{if (eq selectedModel.sourceType 'git') 'active'}} ember-view">Git</a>
+      </li>
+      <li {{action "changeSCMType" 'github'}}>
+        <a href="javascript:void(0);" class="{{if (eq selectedModel.sourceType 'github') 'active'}} ember-view">Github</a>
+      </li>
+    </ul>
+  </section>
   <div class="pt-20"></div>
   <div class="inline-form">
     <label>Repository{{field-required}}</label>
@@ -60,8 +47,84 @@
     <div class="pt-10"></div>
     {{input class="form-control" value=selectedModel.branch placeholder="master"}}
   </div>
+
+  {{#if (eq selectedModel.sourceType 'github')}}
+    <div class="pt-20"></div>
+    <div class="inline-form">
+      <div class="pt-10"></div>
+      <label>{{check-box class="form-control" checked=selectedModel.webhook}}
+        Webhook
+      </label>
+    </div>
+    {{#if selectedModel.webhook}}
+      <div class="pt-20"></div>
+      <div class="inline-form">
+        <label>Token{{field-required}}</label>
+        <div class="pt-10"></div>
+        {{input class="form-control" value=selectedModel.token placeholder="Personal access token"}}
+      </div>
+    {{/if}}
+  {{/if}}
+
 {{/if}}
 
+{{#if (eq type 'build')}}
+  <div class="pt-20"></div>
+  <div class="inline-form">
+    <label>Source of Dockerfile</label>
+    <div class="pt-10"></div>
+    <label class="mr-30">{{radio-button selection=selectedModel.sourceType value="sc"}}
+        Read from source code
+    </label>
+    <label class="mr-30">{{radio-button selection=selectedModel.sourceType value="file"}}
+        Read from a file
+    </label>
+  </div>
+  {{#if (eq selectedModel.sourceType 'file')}}
+    <div class="pt-20"></div>
+    {{input-text-file
+      name="Dockerfile"
+      canChangeName=false
+      value=selectedModel.file
+      placeholder="newStack.dockerCompose.placeholder"
+    }}
+  {{/if}}
+
+  <div class="pt-20"></div>
+  <div class="inline-form">
+    <label>Tag{{field-required}}</label>
+    <div class="pt-10"></div>
+    {{input class="form-control" value=selectedModel.tag placeholder="hello-world:latest"}}
+  </div>
+
+  <div class="pt-20"></div>
+  <div class="inline-form">
+    <div class="pt-10"></div>
+    <label>{{check-box class="form-control" checked=selectedModel.push}}
+      Push
+    </label>
+  </div>
+  {{#if selectedModel.push}}
+    <div class="pt-20"></div>
+    <div class="inline-form">
+      <label>Username</label>
+      <div class="pt-10"></div>
+      {{input class="form-control" value=selectedModel.username placeholder="private registry username"}}
+    </div>
+    <div class="pt-20"></div>
+    <div class="inline-form">
+      <label>Password</label>
+      <div class="pt-10"></div>
+      {{input class="form-control" value=selectedModel.password placeholder="private registry password"}}
+    </div>
+  {{/if}}
+{{/if}}
+
+{{#if (eq type 'task')}}
+  {{pipeline/pipeline-step-task
+    selectedModel=selectedModel
+  }}
+{{/if}}
 
 {{!-- 
 {{#if (eq type 'catalog')}}

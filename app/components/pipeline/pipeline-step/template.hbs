@@ -5,7 +5,18 @@
 
 {{#if (eq model.type 'task')}}
   <p class="mt-0 mb-0 clip">{{upper-case model.type}}: {{model.image}}</p>
-  <p class="text-small mt-0 mb-0 clip text-italic">{{model.command}}</p>
+  <p class="text-small mt-0 mb-0 clip text-italic">{{showCommand}}</p>
+{{/if}}
+
+{{#if (eq model.type 'build')}}
+  <p class="mt-0 mb-0 clip">{{upper-case model.type}}: {{model.tag}}</p>
+  <p class="text-small mt-0 mb-0 clip text-italic">
+    {{#if model.push}}
+      push
+    {{else}}
+      --
+    {{/if}}
+  </p>
 {{/if}}
 
 {{#if (eq model.type 'catalog')}}

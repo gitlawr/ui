@@ -35,7 +35,7 @@
             <a href="javascript:;" {{action "pipelineSelect" model}}><i class="icon icon-close"></i></a>
           </td>
         {{else if (eq kind "norows")}}
-          <td colspan="{{if isLocal '6' '5'}}" class="text-center pt-20 pb-20"><span class="text-muted">Not found what you need? click</span> {{#link-to "pipelines.new-pipeline" (query-params status="Fail") replace=true}}here{{/link-to}}<span class="text-muted"> to add a new pipeline</span></td>
+          <td colspan="{{if isLocal '6' '5'}}" class="text-center pt-20 pb-20"><span class="text-muted">Not found what you need? click</span> <a href="javascript:void(0);" {{action "toAddPipelinePage"}}>here</a><span class="text-muted"> to add a new pipeline</span></td>
         {{/if}}
       </tr>
       {{/sortable-table}}

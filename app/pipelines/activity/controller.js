@@ -19,7 +19,7 @@ export default Ember.Controller.extend({
   filterdPiplineHistory: function() {
     var tab = this.get('activeTab');
     return [{activity_stages:this.get('model').activity_stages}];
-  }.property('activeTab','model'),
+  }.property('model.activity_stages'),
   isHistory: function() {
     return this.get('activeTab') === 'history'
   }.property('activeTab'),
