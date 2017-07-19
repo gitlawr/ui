@@ -16,10 +16,20 @@
         <a href="{{href-to "pipelines.pipeline" inst.id}}">{{inst.name}}</a>
       </td>
       <td data-title="{{dt.activity}}" class="clip text-muted">
-        {{#if inst.activity}}
-          {{inst.activity}}
+        {{#if inst.runCount}}
+          {{#link-to "pipelines.activity" inst.lastRunId}} #{{inst.runCount}} {{inst.lastRunStatus}}{{/link-to}}
         {{else}}
           N/A
+        {{/if}}
+      </td>
+      <td data-title="{{dt.webhookToken}}" class="clip">
+        <span >{{inst.webhookToken}}</span>
+      </td>
+      <td data-title="{{dt.isActivate}}">
+        {{#if inst.isActivate}}
+          Active
+        {{else}}
+          Inactive
         {{/if}}
       </td>
       <td data-title="{{dt.actions}}" class="actions">

@@ -8,8 +8,8 @@ export default Ember.Component.extend({
     item.toggleProperty('expanded');
   },
   schdulePattern: 'custome',
-  schedule: function(){
+  pipeline: function(){
     var pipeline = this.get('model.pipeline')
-    return pipeline.trigger
+    return pipeline
   }.property('model'),
 });
