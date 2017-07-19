@@ -7,11 +7,9 @@ export default Ember.Component.extend({
   activity: null,
   sortBy: 'name',
   body: null,
-  filtered: null,
-  init(){
-    this._super(...arguments)
-    this.set('filtered',this.get('body'))
-  },
+  filtered: function(){
+    return this.get('body')
+  }.property('body'),
   actions: {
     showLogs: function(stageIndex,stepIndex){
       this.get('modalService').toggleModal('modal-pipeline-logs', {

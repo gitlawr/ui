@@ -5,8 +5,8 @@ var convertObjectToArry = function(obj) {
   var arry = [];
   for (var key in obj) {
     if (obj.hasOwnProperty(key)) {
-      var value = obj[key]
-      arry.push(key + '=' + value)
+      var value = obj[key];
+      arry.push(key + '=' + value);
     }
   }
   return arry;
@@ -16,39 +16,51 @@ class StepType {
   constructor(type, val) {
     switch (type) {
       case 'scm':
-        this.type = 'scm'
-        this.repository = ''
-        this.branch = ''
-        break
+        this.type = 'scm';
+        this.sourceType="git";
+        this.repository = '';
+        this.branch = '';
+        this.webhook=false;
+        this.token='';
+        break;
       case 'task':
-        this.type = 'task'
-        this.image = '',
-          this.command = '',
-          this.name = '',
-          this.parameters = {}
-        break
+        this.type = 'task';
+        this.image = '';
+        this.command = [{value:''}];
+        this.name = '';
+        this.parameters = {};
+        break;
+      case 'build':
+        this.type = 'build';
+        this.file = '';
+        this.sourceType='sc';
+        this.push=false;
+        this.username='';
+        this.password='';
+        break;
+      default: break;
     }
     if (val && typeof val === 'object') {
       for (var item in val) {
         if (val.hasOwnProperty(item)) {
-          this[item] = val[item]
+          this[item] = val[item];
         }
       }
     }
   }
 }
 
-var validationErrors = (module)=>{
-  var errors=[]
-  switch(module.type){
+var validationErrors = (module) => {
+  var errors = [];
+  switch (module.type) {
     case 'scm':
-      if(module.repository.indexOf('.git')===-1){
-        errors.push('Repository should be a valid git address!')
+      if (module.repository.indexOf('.git') === -1) {
+        errors.push('Repository should be a valid git address!');
       }
       break;
     case 'task':
-      if(module.image.trim()===''){
-        errors.push('"Image" is required!')
+      if (module.image.trim() === '') {
+        errors.push('"Image" is required!');
       }
     default:
       break;
@@ -77,27 +89,28 @@ export default Ember.Component.extend(ModalBase, {
           objectParameter[k] = v;
         }
       }
-      this.set('type', opts.params.type)
+      this.set('type', opts.params.type);
       var model = new StepType(opts.params.type, {
         ...opts.params,
         parameters: objectParameter
-      })
+      });
       this.get('editingModels').set(opts.params.type, model);
     } else {
       if (opts.stepMode === 'scm') {
-        this.set('type', 'scm')
+        this.set('type', 'scm');
       }
-      this.get('editingModels').set(this.get('type'), new StepType(this.get('type')))
+      this.get('editingModels').set(this.get('type'), new StepType(this.get('type')));
     }
   },
   observeTypeChange: function() {
     var type = this.get('type');
-    var models = this.get('editingModels')
-    models[type] || models.set(type, new StepType(type))
+    var models = this.get('editingModels');
+    models[type] || models.set(type, new StepType(type));
+    console.log(models)
   }.observes('type'),
 
   editing: function() {
-    return this.get('modalOpts.type') === 'edit' ? true : false
+    return this.get('modalOpts.type') === 'edit' ? true : false;
   }.property('modalOpts.type'),
 
   doneSaving() {
@@ -105,14 +118,14 @@ export default Ember.Component.extend(ModalBase, {
   },
   actions: {
     add: function(success) {
-      var model = this.get('editingModels')[this.get('type')]
-      var errors = validationErrors(model)
-      if(errors.length>0){
-        this.set('errors',errors)
-        success(false)
-        return true
+      var model = this.get('editingModels')[this.get('type')];
+      var errors = validationErrors(model);
+      if (errors.length > 0) {
+        this.set('errors', errors);
+        success(false);
+        return true;
       }
-      var arryParameters = convertObjectToArry(model.parameters)
+      var arryParameters = convertObjectToArry(model.parameters);
       this.get('modalOpts').cb({
         ...model,
         parameters: arryParameters
@@ -120,7 +133,7 @@ export default Ember.Component.extend(ModalBase, {
       this.get('modalService').toggleModal();
     },
     edit: function() {
-      var arryParameters = convertObjectToArry(model.parameters)
+      var arryParameters = convertObjectToArry(model.parameters);
       this.get('modalOpts').cb({
         ...this.get('editingModels')[this.get('type')],
         parameters: arryParameters
@@ -132,9 +145,9 @@ export default Ember.Component.extend(ModalBase, {
       this.get('modalService').toggleModal();
     },
     cancel: function() {
-      var type = this.get('type')
-      if (type === "scm"&&!this.get('modalOpts.params.repository')) {
-        this.get('router').transitionTo('pipelines.index.pipelines')
+      var type = this.get('type');
+      if (type === "scm" && !this.get('modalOpts.params.repository')) {
+        this.get('router').transitionTo('pipelines.index.pipelines');
       }
       this.get('modalService').toggleModal();
     }

@@ -1,0 +1,35 @@
+<section>
+{{#accordion-list-item
+  title='Schedule'
+  detail='Schedule to trigger pipeline'
+  status=''
+  statusClass='text-muted'
+  expandAll=null
+  expand=(action expandFn)
+}}
+  <div class="pt-20"></div>
+  <div class="inline-form">
+    <label>Interval Pattern</label>
+    <div class="pt-10"></div>
+    <label class="mr-30">{{radio-button selection=schdulePattern value="custome"}}
+        Custom(<a href="https://en.wikipedia.org/wiki/Cron" target="blank">Cron syntax</a>)
+    </label>
+    <div class="pt-10"></div>
+    {{input class="form-control" value=schedule.spec}}
+  </div>
+
+  <div class="pt-20"></div>
+  <div class="inline-form">
+    <label>Corn Timezone</label>
+    <div class="pt-10"></div>
+    {{input class="form-control" value=schedule.timezone}}
+  </div>
+
+{{/accordion-list-item}}
+
+<div class="box">
+    <label>{{check-box class="form-control" checked=model.pipeline.active}}
+      Active
+    </label>
+</div>
+</section>

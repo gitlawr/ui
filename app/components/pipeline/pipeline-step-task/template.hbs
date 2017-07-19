@@ -1,0 +1,38 @@
+<div class="pt-20"></div>
+  <div class="inline-form">
+    <label>{{t 'newPipelineStep.jobType.image'}}{{field-required}}</label>
+    <div class="pt-10"></div>
+    {{input class="form-control" value=selectedModel.image }}
+  </div>
+
+  <div class="pt-20"></div>
+  <div class="inline-form">
+    <label>{{t 'newPipelineStep.jobType.task.command'}}</label>
+    {{#if selectedModel.command.length}}
+      <div class="mt-20">
+        {{#each selectedModel.command as |val index|}}
+          <div class="row mt-10">
+          <div class="input-group">
+              {{input type="text" class="form-control" value=val.value placeholder="sh" style="width:100%;"}}
+              <div class="input-group-btn bg-primary"><button class="btn" {{action "removeCommand" index}}><i class="icon icon-minus"/></button></div>
+              </div>
+          </div>
+        {{/each}}
+      </div>
+    {{/if}}
+    <div class="pt-10"></div>
+    <button class="btn bg-link icon-btn" {{action "addCommand"}}>
+      <span class="darken"><i class="icon icon-plus text-small"/></span>
+      <span>Add Command</span>
+    </button>
+  </div>
+
+  <div class="pt-30"></div>
+  {{form-key-value
+    initialMap=selectedModel.parameters
+    changed=(action (mut selectedModel.parameters))
+    allowEmptyValue=false
+    editing=true
+    normalHeader=(t 'newPipeline.build.variable')
+    addActionLabel="newPipeline.build.add"
+  }}

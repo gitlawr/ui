@@ -26,10 +26,9 @@ export default Ember.Component.extend({
       var dom = e.target
       var crt = dom.cloneNode(true);
       crt.style.position = "fixed"; 
-      crt.style.top = "0"; crt.style.right = "0";
+      crt.style.top = "-100%"; crt.style.right = "-100%";
       crt.style.backgroundColor=crt.style.color
       dom.appendChild(crt);
-      debugger
       e.dataTransfer.setDragImage(crt,e.offsetX,e.offsetY);
       dom.style.backgroundColor=document.defaultView.getComputedStyle(dom.getElementsByClassName('step-name')[0]).color
       dom.style.filter = 'brightness(1.3)';

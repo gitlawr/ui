@@ -20,7 +20,7 @@ export default Ember.Component.extend(ThrottledResize, {
   showProtip: true,
   status: 'connecting',
   socket: null,
-
+  pipeline: Ember.inject.service(),
   logHeight: 300,
 
   onlyCombinedLog: Ember.computed.alias('instance.tty'),
@@ -82,7 +82,6 @@ export default Ember.Component.extend(ThrottledResize, {
   connect: function(logs) {
 
     this.set('status','initializing');
-    this.set('status','connected');
     var body = this.$('.log-body')[0];
     var $body = $(body);
     var onmessage = (message) => {
@@ -93,6 +92,7 @@ export default Ember.Component.extend(ThrottledResize, {
       //var framingVersion = message.data.substr(0,1); -- Always 0
       var type = parseInt(message.substr(1,1),10); // 0 = combined, 1 = stdout, 2 = stderr
 
+      body.innerHTML = '';
       message.substr(2).trim().split(/\n/).forEach((line) => {
         var match = line.match(/^\[?([^ \]]+)\]?\s?/);
         var dateStr, msg;
@@ -126,24 +126,39 @@ export default Ember.Component.extend(ThrottledResize, {
 
     var instance = this.get('instance');
     var step = instance.step;
-    var activity = instance.activity
-    if(activity.status!=='Building'){
-      onmessage(getStepMessage(activity, step))
-      return
-    }
-    var pipelineStore = this.get('pipelineStore')
-    var socket = setInterval(()=>{
-      var activities = pipelineStore.find('activity',null,{url:`${pipelineStore.baseUrl}/activitys/${activity.id}`,forceReload:true})
-      activities.then(res =>{
-        if(res.status!=='Building'){
-          this.disconnect()
-          return
-        }
-        onmessage(getStepMessage(res, step))
-      })
-
-    },1000)
+    var activity = instance.activity;
+    var pipelineStore = this.get('pipelineStore');
+    var params = `?activityId=${activity.id}&stageOrdinal=${step[0]}&stepOrdinal=${step[1]}`;
+    var url = ("ws://"+window.location.host + this.get('pipeline.pipelinesEndpoint')+'/ws/log'+params);
+    var socket = new WebSocket(url);
     this.set('socket', socket);
+    socket.onopen = () => {
+      this.set('status','connected');
+    };
+    socket.onmessage = (message)=>{
+      this.set('status','connected');
+      var msg = JSON.parse(message.data);
+      if(msg.data){
+        onmessage(msg.data);
+      }
+    }
+    // setInterval(()=>{
+    //   var activities = pipelineStore.find('activity',null,{url:`${pipelineStore.baseUrl}/activitys/${activity.id}`,forceReload:true})
+    //   activities.then(res =>{
+    //     if(res.status!=='Building'){
+    //       this.disconnect()
+    //       return
+    //     }
+    //     onmessage(getStepMessage(res, step))
+    //   })
+
+    // },1000)
+    socket.onclose = () => {
+      if ( this.isDestroyed || this.isDestroying ) {
+        return;
+      }
+      this.set('status','disconnected');
+    };
   },
 
   disconnect: function() {
@@ -152,7 +167,7 @@ export default Ember.Component.extend(ThrottledResize, {
     var socket = this.get('socket');
     if (socket)
     {
-      clearInterval(socket);
+      socket.close();
       this.set('socket', null);
     }
   },

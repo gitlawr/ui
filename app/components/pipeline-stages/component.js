@@ -11,7 +11,7 @@ export default Ember.Component.extend({
       var dom = e.target
       var crt = dom.cloneNode(true);
       crt.style.position = "fixed"; 
-      crt.style.top = "0"; crt.style.right = "0";
+      crt.style.top = "-100%"; crt.style.right = "-100%";
       crt.style.filter="grayscale(1)";
       var stepWrapGhost = crt.getElementsByClassName('steps-wrap')[0]
       stepWrapGhost.style.border="1px dashed gray";
@@ -53,7 +53,7 @@ export default Ember.Component.extend({
           },
           rmCb: ()=>{
             var newStage = this.get('model').filter((ele,i)=>{
-              if(i==index){
+              if(i===index){
                 return false
               }
               return true

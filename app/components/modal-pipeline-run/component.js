@@ -30,7 +30,6 @@ export default Ember.Component.extend(ModalBase,NewOrEdit, {
   }.property('pipelineList.@each.selected'),
   actions: {
     pipelineSelect: function(item) {
-      debugger
       var index = this.get('pipelineList').findIndex(ele=>ele.id===item.id)
       let selected = this.get('pipelineList')[index].selected;
 
@@ -45,6 +44,10 @@ export default Ember.Component.extend(ModalBase,NewOrEdit, {
         return ele
       })
       success(true)
+      this.send('cancel');
+    },
+    toAddPipelinePage: function(){
+      this.get('router').transitionTo('pipelines.new-pipeline');
       this.send('cancel');
     }
   }
