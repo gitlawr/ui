@@ -10,8 +10,21 @@ export const headersAll =  [
   {
     name: 'activity',
     sort: ['activity'],
+    width: '200px',
     searchField: 'activity',
     label: 'Latest Activity'
+  },
+  {
+    name: 'webhookToken',
+    sort: ['webhookToken'],
+    searchField: 'webhook',
+    label: 'Webhook Secret'
+  },
+  {
+    name: 'isActivate',
+    sort: ['isActivate'],
+    searchField: 'isActivate',
+    label: 'Status'
   }
 ];
 

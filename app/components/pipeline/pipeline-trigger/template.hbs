@@ -15,20 +15,20 @@
         Custom(<a href="https://en.wikipedia.org/wiki/Cron" target="blank">Cron syntax</a>)
     </label>
     <div class="pt-10"></div>
-    {{input class="form-control" value=schedule.spec}}
+    {{input class="form-control" value=pipeline.triggerSpec}}
   </div>
 
   <div class="pt-20"></div>
   <div class="inline-form">
     <label>Corn Timezone</label>
     <div class="pt-10"></div>
-    {{input class="form-control" value=schedule.timezone}}
+    {{input class="form-control" value=pipeline.triggerTimezone}}
   </div>
 
 {{/accordion-list-item}}
 
 <div class="box">
-    <label>{{check-box class="form-control" checked=model.pipeline.active}}
+    <label>{{check-box class="form-control" checked=pipeline.isActivate}}
       Active
     </label>
 </div>
