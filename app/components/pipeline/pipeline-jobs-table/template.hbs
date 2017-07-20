@@ -1,7 +1,7 @@
 {{#sortable-table
   tableClassNames="double-rows"
   bulkActions=false
-  body=filtered
+  body=body
   sortBy=sortBy
   stickyHeader=stickyHeader
   fullRows=true
@@ -37,8 +37,8 @@
       </td>
     </tr>
   {{else if (eq kind "nomatch")}}
-    <tr><td colspan="{{sortable.fullColspan}}" class="text-center text-muted lacsso pt-20 pb-20">There are no matched jobs</td></tr>
+    <tr><td colspan="{{sortable.fullColspan}}" class="text-center text-muted lacsso pt-20 pb-20">There are no matched pipelines</td></tr>
   {{else if (eq kind "norows")}}
-    <tr><td colspan="{{sortable.fullColspan}}" class="text-center text-muted lacsso pt-20 pb-20">There are no jobs to show</td></tr>
+    <tr><td colspan="{{sortable.fullColspan}}" class="text-center text-muted lacsso pt-20 pb-20">There are no pipelines to show</td></tr>
   {{/if}}
 {{/sortable-table}}

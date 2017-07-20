@@ -5,7 +5,7 @@
 
 {{#if (eq model.type 'task')}}
   <p class="mt-0 mb-0 clip">{{upper-case model.type}}: {{model.image}}</p>
-  <p class="text-small mt-0 mb-0 clip text-italic">{{showCommand}}</p>
+  <p class="text-small mt-0 mb-0 clip text-italic">{{model.command}}</p>
 {{/if}}
 
 {{#if (eq model.type 'build')}}

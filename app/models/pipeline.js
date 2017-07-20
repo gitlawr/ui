@@ -43,7 +43,7 @@ export default Resource.extend({
       { label: 'action.run',          icon: 'icon icon-play',   action: 'run',         enabled: true },
       { divider: true },
       { label: 'action.edit',          icon: 'icon icon-edit',   action: 'edit',         enabled: true },
-      { label: 'action.duplicate',          icon: 'icon icon-copy',   action: 'duplicate',         enabled: true },
+      { label: 'action.clone',          icon: 'icon icon-copy',   action: 'duplicate',         enabled: true },
       { divider: true },
       { label: 'action.activate',          icon: 'icon icon-copy',   action: 'activate',         enabled: isActivate?false: true },
       { label: 'action.deactivate',          icon: 'icon icon-copy',   action: 'deactivate',         enabled: isActivate?true: false },

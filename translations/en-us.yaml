@@ -611,6 +611,7 @@ newPipelineStep:
     task: 
       label: Task
       command: Command
+      commandLabel: 'sh'
     catalog:
       label: Catalog
     deploy:
@@ -3524,7 +3525,6 @@ action:
   console: Open Console
   convertToService: Convert to Service
   deactivate: Deactivate
-  duplicate: Duplicate
   edit: Edit
   evacuate: Evacuate
   execute: Execute Shell

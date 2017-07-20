@@ -26,7 +26,7 @@ class StepType {
       case 'task':
         this.type = 'task';
         this.image = '';
-        this.command = [{value:''}];
+        this.command = '';
         this.name = '';
         this.parameters = {};
         break;
