@@ -63,22 +63,29 @@ var Service = Resource.extend(StateCounts, {
     },
 
     scaleUp() {
-      this.incrementProperty('scale');
+      let scale = this.get('scale');
+      let max = this.get('scaleMax');
+      scale += this.get('scaleIncrement')||1;
+      if ( max ) {
+        scale = Math.min(scale, max);
+      }
+      this.set('scale', scale);
       this.saveScale();
     },
 
     scaleDown() {
-      if ( this.get('scale') >= 1 )
-      {
-        this.decrementProperty('scale');
-        this.saveScale();
-      }
+      let scale = this.get('scale');
+      let min = this.get('scaleMin') || 0;
+      scale -= this.get('scaleIncrement')||1;
+      scale = Math.max(scale, min);
+      this.set('scale', scale);
+      this.saveScale();
     },
 
     upgrade(upgradeImage='false') {
       var route = 'containers.run';
       if ( this.get('lcType') === 'loadbalancerservice' ) {
-        route = 'balancers.new';
+        route = 'balancers.run';
       }
 
       this.get('application').transitionToRoute(route, {queryParams: {
@@ -95,9 +102,9 @@ var Service = Resource.extend(StateCounts, {
       {
         case 'service':             route = 'containers.run'; break;
         case 'scalinggroup':        route = 'containers.run'; break;
-        case 'dnsservice':          route = 'dns.new';            break;
-        case 'loadbalancerservice': route = 'balancers.new';      break;
-        case 'externalservice':     route = 'dns.new';            break;
+        case 'dnsservice':          route = 'dns.new';        break;
+        case 'loadbalancerservice': route = 'balancers.run';  break;
+        case 'externalservice':     route = 'dns.new';        break;
         default: return void this.send('error','Unknown service type: ' + this.get('type'));
       }
 
@@ -234,16 +241,32 @@ var Service = Resource.extend(StateCounts, {
     return (this.get('launchConfig.labels')||{})[C.LABEL.SCHED_GLOBAL] + '' === 'true';
   }.property('launchConfig.labels'),
 
-  canScale: function() {
-    if ( this.get('isReal') )
-    {
-      return !this.get('isGlobalScale');
-    }
-    else
-    {
+  canScaleUp: function() {
+    if ( !this.get('canScale') ) {
       return false;
     }
-  }.property('isReal','isGlobalScale'),
+
+    let scale = this.get('scale');
+    let max = this.get('scaleMax');
+    if ( !max ) {
+      return true;
+    }
+
+    scale += this.get('scaleIncrement')||1;
+    return scale <= max;
+  }.property('canScale','scaleMax','scaleIncrement','scale'),
+
+  canScaleDown: function() {
+    if ( !this.get('canScale') ) {
+      return false;
+    }
+
+    let scale = this.get('scale');
+    let min = this.get('scaleMin')||1;
+
+    scale -= this.get('scaleIncrement')||1;
+    return scale >= min;
+  }.property('canScale','scaleMin','scaleIncrement','scale'),
 
   displayScale: function() {
     if ( this.get('isGlobalScale') ) {
@@ -283,6 +306,7 @@ var Service = Resource.extend(StateCounts, {
   hasImage: Ember.computed.alias('isReal'),
   hasLabels: Ember.computed.alias('isReal'),
   canUpgrade: Ember.computed.alias('isReal'),
+  canScale: Ember.computed.alias('isReal'),
 
   isSelector: function() {
     return !!this.get('selectorContainer');
@@ -328,6 +352,14 @@ var Service = Resource.extend(StateCounts, {
 
     if ( !known.includes(type) ) {
       type = 'service';
+    }
+
+    if ( type === 'externalservice' ) {
+      if ( this.get('hostname') ) {
+        type += '-host';
+      } else {
+        type += '-ip';
+      }
     }
 
     return this.get('intl').t('servicePage.type.'+ type);

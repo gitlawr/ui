@@ -1,6 +1,6 @@
 {{#containers-header tags=tags}}
   {{#link-to "new-stack" classNames="btn btn-sm bg-default mr-10"}}{{t 'nav.containers.importCompose'}}{{/link-to}}
-  {{#link-to "balancers.new" projects.current.id class="btn btn-sm bg-primary"}}{{t 'nav.containers.addBalancer'}}{{/link-to}}
+  {{#link-to "balancers.run" projects.current.id class="btn btn-sm bg-primary"}}{{t 'nav.containers.addBalancer'}}{{/link-to}}
 {{/containers-header}}
 
 <section class="pl-0 pr-0">
@@ -36,10 +36,11 @@
             <td colspan={{sub sortable.fullColspan 4}}>
               {{stack-row model=inst.ref}}
             </td>
+            <td></td>
             <td>
               {{upgrade-btn classNames="btn-sm" model=inst.ref}}
             </td>
-            <td></td>
+
             <td data-title="{{dt.instanceState}}">
               {{progress-bar-multi
                 labelKey="state"
@@ -64,6 +65,6 @@
       {{/if}}
     {{/sortable-table}}
   {{else}}
-    {{empty-table resource="container" newRoute="balancers.new" newTranslationKey="nav.containers.addBalancer"}}
+    {{empty-table resource="container" newRoute="balancers.run" newTranslationKey="nav.containers.addBalancer"}}
   {{/if}}
 </section>

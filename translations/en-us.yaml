@@ -552,6 +552,35 @@ editDns:
     serviceRequired: 'One or more "Targets" are required'
     selectorRequired: '"Container Selector" is required'
 
+editVolume:
+  add:
+    global: Add Volume
+    stack: Add Volume Template
+    container: Add Volume Template
+  edit:
+    global: Edit Volume
+    stack: Edit Volume Template
+    container: Edit Volume Template
+  name:
+    placeholder: e.g. myvol
+  scope:
+    label: Scope
+    global: One volume for the whole environment
+    stack: One volume within a specific stack
+    container: Separate volumes for each container
+  driver:
+    label: Driver
+    local: Local host disk
+    nfs: Rancher NFS
+    ebs: Rancher EBS
+    efs: Rancher EFS
+    longhorn: Rancher Longhorn
+    custom:
+      label: Custom
+      placeholder: Custom driver name
+  driverOpts:
+    label: Driver Options
+    addAction: Add Option
 
 pipelinesPage:
   table:
@@ -620,7 +649,7 @@ newPipelineStep:
       count: Count
       
 # If you change translations here also change the translation in app/utils/constants.js under the FALLBACK_TRANSLATIONS key
-# those are present incase we have an error in the app and can not load the translations file
+# those are present in case we have an error in the app and can not load the translations file
 # the error page will at least make a little sense
 failWhalePage:
   header: Error
@@ -1026,7 +1055,8 @@ servicePage:
     selectorservice: Selector
     loadbalancerservice: Load Balancer
     dnsservice: Alias
-    externalservice: External
+    externalservice-ip: External IP
+    externalservice-host: External Name
     kubernetesservice: K8s Service
     composeservice: Compose Service
     networkdriverservice: Network Service
@@ -1759,6 +1789,9 @@ formContainerLinks:
     label: As Name
     placeholder: e.g. database
 
+formCount:
+  label: Count
+
 formDisks:
   addDiskLabel: Add Disk
   addRootDiskLabel: Add Root Disk
@@ -1980,17 +2013,18 @@ formPorts:
   showIpLink: Customize Host IPs
 
 formScale:
-  label:
-    container: Count
-    service: Scale
-    sidekick: Scale
-    global: Scale per Host
-  showAdvanced: More scaling options
+  label: Scale
+  showAdvanced: Scaling options
   mode:
-    container: "{scale, plural, =1 {Standalone container} other {# standalone containers}}"
-    service: "Service with a scale of {scale}"
-    global: "Global service with a scale of {scale} per host"
-    sidekick: "Sidekick: Matches the scale and scheduling of the primary service"
+    containerPrefix: "Standalone container"
+    containerSuffix: ""
+    servicePrefix: "Service with a scale of"
+    serviceSuffix: ""
+    globalPrefix: "Global service with a scale of"
+    globalSuffix: "per host"
+    sidekickInactive: "Sidekick: Match the scale and scheduling of a service"
+    sidekickPrefix: "Sidekick: Match the scale and scheduling of"
+    sidekickSuffix: ""
 
 formScheduling:
   title: Host Scheduling
@@ -2016,6 +2050,17 @@ formScheduling:
   field: Field
   key: Key
   value: Value
+  scaling:
+    minMaxDetail: If set, the scale will not be allowed to be adjusted by user or API call above or below these limits.
+    incrementDetail: If set, the scale must be a multiple of the increment
+    hostMaxDetail: If set, schedule containers for this service to a maximum of this many hosts.
+  scaleMin: Minimum Scale
+  scaleMax: Maximum Scale
+  scaleIncrement: Scale Increment
+  hostMax: Maximum Hosts
+  perHost: per host
+
+
 
 formSecrets:
   title: Secrets
@@ -3020,17 +3065,18 @@ newCatalog:
 newContainer:
   add:
     container: Add Container
-    scalingGroup: Add Service
+    service: Add Service
+    globalService: Add Global Service
     sidekick: 'Add Sidekick'
+    sidekickName: 'Add Sidekick of "{name}"'
   upgrade:
     container: Upgrade Container
     scalingGroup: Upgrade Service
     sidekick: Upgrade Sidekick
+    sidekickName: 'Upgrade Sidekick of "{name}"'
   selectUpgrade: Select one or more services to upgrade.
   saveUpgrade: Upgrade
   saveNew: Launch
-  addSidekick: Add a Sidekick
-  removeSidekick: Remove this Sidekick
   name:
     placeholder: e.g. myapp
   description:
@@ -3042,10 +3088,15 @@ newContainer:
     keyPlaceholder: e.g. FOO
     valueLabel: Value
     valuePlaceholder: e.g. bar
-  emptyPrimaryService: "(Primary)"
-  emptySidekick: "(Sidekick #{num})"
-  addSidekickContainer: Add Sidekick Container
-  addSidekickVm: Add Sidekick VM
+  sidekick:
+    title: Select service launch config to upgrade
+    detail: '"{service}" has sidekicks.  Which launch config do you want to upgrade?'
+    primary: Primary
+    sidekick: Sidekick
+
+  errors:
+    noSidekick: Choose a service to add the sidekick to
+    duplicateName: 'There is already a sidekick named "{name}" in the service "{service}"'
 
 newPassword:
   placeholder: New Password
@@ -3376,9 +3427,12 @@ volumesPage:
     label: Scope
     global: Environment
     stack: Stack
-    container: Container
+    container: Per Container
+    standalone: Container
   driver:
     label: Driver
+  mounts:
+    label: Mounts
 
 vmConsole:
   header: "Console:"

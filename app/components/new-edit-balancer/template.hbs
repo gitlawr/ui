@@ -18,6 +18,8 @@
       editing=editing
       isGlobal=isGlobal
       isService=true
+      canContainer=false
+      canSidekick=false
       errors=scaleErrors
       setLabels=(action 'setLabels' 'scale')
       setScale=(action  'setScale')
@@ -71,12 +73,27 @@
       expandFn=expandFn
     }}
 
+    {{container/form-networking
+        editing=true
+        instance=service.launchConfig
+        errors=networkingErrors
+        service=service
+        isService=true
+        isSidekick=false
+        initialLabels=service.launchConfig.labels
+        isUpgrade=isUpgrade
+        setLabels=(action 'setLabels' 'networking')
+        expandAll=al.expandAll
+        expandFn=expandFn
+    }}
+
     {{form-stickiness
-      initialLabels=launchConfig.labels
-      setLabels=(action 'setLabels' 'stickiness')
-      service=service
-      expandAll=al.expandAll
-      expandFn=expandFn
+        initialLabels=launchConfig.labels
+        editing=true
+        setLabels=(action 'setLabels' 'stickiness')
+        service=service
+        expandAll=al.expandAll
+        expandFn=expandFn
     }}
 
     {{container/form-upgrade
