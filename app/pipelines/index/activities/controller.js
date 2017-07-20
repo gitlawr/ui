@@ -24,7 +24,7 @@ export default Ember.Controller.extend({
         branch: ele.pipeline.stages[0].steps[0].branch,
       }
     });;
-  }.property('model.@each.status'),
+  }.property('model.@each.status','status'),
   actions: {
     runPipelines: function() {
       this.get('modalService').toggleModal('modal-pipeline-run', {

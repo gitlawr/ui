@@ -38,9 +38,4 @@ export default Ember.Component.extend({
   headers: function() {
     return headersAll;
   }.property(),
-
-  filtered: function() {
-    let out = this.get('body')||[];
-    return out;
-  }.property(),
 });
