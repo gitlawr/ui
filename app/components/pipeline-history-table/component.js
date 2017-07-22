@@ -10,6 +10,9 @@ export default Ember.Component.extend({
   filtered: function(){
     return this.get('body')
   }.property('body'),
+  expandFn:function(item) {
+    item.toggleProperty('expanded');
+  },
   actions: {
     showLogs: function(stageIndex,stepIndex){
       this.get('modalService').toggleModal('modal-pipeline-logs', {

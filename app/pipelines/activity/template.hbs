@@ -27,20 +27,21 @@
 
 <section>
   {{#if filterdPiplineHistory.length}}
-    {{#accordion-list as |al expandFn| }}
+    {{!-- {{#accordion-list as |al expandFn| }} --}}
       {{#each filterdPiplineHistory as |activity|}}
         {{#accordion-list-item
              title=repository
              detail=(concat-str branch ' ' (sub-str commitInfo 0 8) ' ' (date-str model.start_ts) )
              status=model.status
              statusClass=model.status
-             expandAll=al.expandAll
+             expandAll=true
              expand=(action expandFn)
              componentName='activity-table'
              className=(concat-str "header-pipeline" model.status)
              as | parent |
         }}
           {{pipeline-history-table
+            stageInfo = model.pipeline.stages
             body=activity.activity_stages
             activity=model
             sortBy=sortBy
@@ -54,7 +55,7 @@
         }}
         {{/accordion-list-item}}
       {{/each}}
-    {{/accordion-list}}
+    {{!-- {{/accordion-list}} --}}
   {{else}}
     <p class="text-center text-muted">No {{if isHistory 'History' 'Activity'}}</p>
   {{/if}}

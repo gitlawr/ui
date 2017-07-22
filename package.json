@@ -55,6 +55,7 @@
     "ember-intl": "^2.23.1",
     "ember-load-initializers": "^0.6.0",
     "ember-math-helpers": "^2.0.6",
+    "ember-power-select": "^1.9.2",
     "ember-resolver": "^2.0.3",
     "ember-rl-dropdown": "^0.10.1",
     "ember-route-action-helper": "^2.0.0",

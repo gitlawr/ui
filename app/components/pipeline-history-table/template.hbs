@@ -1,4 +1,4 @@
-{{#accordion-list className="test" as |al expandFn| }}
+{{!-- {{#accordion-list className="test" as |al expandFn| }} --}}
   {{#each filtered as |stage stageIndex| }}
     {{#accordion-list-item-pipeline
              title=stage.name
@@ -6,7 +6,7 @@
              date=(date-str stage.start_ts)
              duration=stage.duration
              statusClass=stage.status
-             expandAll=al.expandAll
+             expandAll=true
              expand=(action expandFn)
              componentName='container-table'
              as | parent |
@@ -14,7 +14,7 @@
         {{#each stage.activity_steps as |step stepIndex|}}
           <div class="accordion-header header-pipeline item" class={{step.status}} {{action 'showLogs' stageIndex stepIndex}}>
             <div class="title">
-              <span class="text-cell">{{step.type}}</span>
+              <span class="text-cell">{{upper-case (pipeline-stages-info stageInfo stageIndex stepIndex 'type')}}</span>
               <span class="text-cell">
                 <i class="icon" class={{pipeline-status-to-icon step.status}}></i>&nbsp;{{step.status}}
               </span>
@@ -29,4 +29,4 @@
         {{/each}}
     {{/accordion-list-item-pipeline}}
   {{/each}}
-{{/accordion-list}}
+{{!-- {{/accordion-list}} --}}
