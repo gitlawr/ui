@@ -8,8 +8,8 @@ export const headersAll =  [
     label: 'Name'
   },
   {
-    name: 'activity',
-    sort: ['activity'],
+    name: 'lastRunId',
+    sort: ['lastRunId'],
     width: '200px',
     searchField: 'activity',
     label: 'Latest Activity'

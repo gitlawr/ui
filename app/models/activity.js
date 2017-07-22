@@ -33,5 +33,4 @@ export default Resource.extend({
   branch: function(){
     return this.get('pipeline.stages')[0].steps[0].branch
   }.property('pipeline.stages')
-
 });

@@ -1,7 +1,7 @@
 import Ember from 'ember';
 export default Ember.Controller.extend({
   queryParams: ['status', 'sortBy', 'descending'],
-  status: 'all',
+  status: 'active',
   sortBy: 'Name',
   filtered: function() {
     var status = this.get('status');
@@ -10,7 +10,6 @@ export default Ember.Controller.extend({
     if(status==='all'){
       return out
     }
-    debugger
     out = this.get('model').filter(ele=>{
       if((status==='active')
         ===!!ele.isActivate){
@@ -18,6 +17,7 @@ export default Ember.Controller.extend({
       }
       return false
     });
+    debugger
     return out;
   }.property('model.@each.isActivate'),
 });

@@ -33,6 +33,12 @@ class StepType {
       case 'build':
         this.type = 'build';
         this.file = '';
+        /*
+        sourceType
+        1.sc
+        2.file
+        */
+        this.targetImage='';
         this.sourceType='sc';
         this.push=false;
         this.username='';

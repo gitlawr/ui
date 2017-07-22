@@ -28,5 +28,8 @@ export default Ember.Controller.extend({
     run: function() {
       this.get('model.pipeline').doAction('run');
     }
-  }
+  },
+  expandFn:function(item) {
+    item.toggleProperty('expanded');
+  },
 });
