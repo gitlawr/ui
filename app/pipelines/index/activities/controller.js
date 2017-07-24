@@ -6,7 +6,7 @@ export default Ember.Controller.extend({
   descending: true,
   modalService: Ember.inject.service('modal'),
   filtered: function() {
-    var status = this.get('status')
+    var status = this.get('status');
     let out = this.get('model')
       .filter(ele => {
 
@@ -14,7 +14,7 @@ export default Ember.Controller.extend({
           return true
         }
         return ele.status === status
-      })
+      });
 
     return out.map(ele => {
       return {
@@ -23,15 +23,15 @@ export default Ember.Controller.extend({
         repository: ele.pipeline.stages[0].steps[0].repository,
         branch: ele.pipeline.stages[0].steps[0].branch,
       }
-    });;
-  }.property('model.@each.status','status'),
+    });
+  }.property('model.@each.status', 'status'),
   actions: {
     runPipelines: function() {
       this.get('modalService').toggleModal('modal-pipeline-run', {
         cb: (pipelines) => {
           console.log(pipelines)
         }
-      })
+      });
     }
   }
 });

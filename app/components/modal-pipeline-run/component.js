@@ -1,18 +1,17 @@
 import Ember from 'ember';
 import NewOrEdit from 'ui/mixins/new-or-edit';
 import ModalBase from 'ui/mixins/modal-base';
-export default Ember.Component.extend(ModalBase,NewOrEdit, {
+export default Ember.Component.extend(ModalBase, NewOrEdit, {
   pipelineList: [],
-  init(){
+  init() {
     this._super(...arguments)
     Ember.RSVP.hash({
-      pipelines: this.get('pipelineStore').findAll('pipeline',null)
-    }).then(({pipelines})=>{
-      this.set('pipelineList',pipelines.content)
+      pipelines: this.get('pipelineStore').findAll('pipeline', null)
+    }).then(({ pipelines }) => {
+      this.set('pipelineList', pipelines.content)
     })
   },
-  headers:[
-    {
+  headers: [{
       name: 'name',
       sort: ['name'],
       searchField: 'name',
@@ -30,23 +29,23 @@ export default Ember.Component.extend(ModalBase,NewOrEdit, {
   }.property('pipelineList.@each.selected'),
   actions: {
     pipelineSelect: function(item) {
-      var index = this.get('pipelineList').findIndex(ele=>ele.id===item.id)
+      var index = this.get('pipelineList').findIndex(ele => ele.id === item.id)
       let selected = this.get('pipelineList')[index].selected;
 
       this.get('pipelineList')[index].set('selected', !selected);
     },
-    save: function(success){
+    save: function(success) {
       this.sendAction('cancel');
-      var selectedPipelines = this.get('pipelineList').map(ele=>{
-        if(ele.selected){
-          return ele.doAction('run')
+      this.get('pipelineList').map(ele => {
+        if (ele.selected) {
+          return ele.doAction('run');
         }
-        return ele
+        return ele;
       })
-      success(true)
+      success(true);
       this.send('cancel');
     },
-    toAddPipelinePage: function(){
+    toAddPipelinePage: function() {
       this.get('router').transitionTo('pipelines.new-pipeline');
       this.send('cancel');
     }

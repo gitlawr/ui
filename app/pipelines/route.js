@@ -1,19 +1,15 @@
 import Ember from 'ember';
 import WS from 'ui/mixins/pipelineWS';
 
-export default Ember.Route.extend(WS,{
+export default Ember.Route.extend(WS, {
   pipeline: Ember.inject.service(),
-  model: function() {
-  },
-  beforeModel:function(){
-    this.set('pipelineStore.baseUrl',this.get('pipeline.pipelinesEndpoint'));
+  model: function() {},
+  beforeModel: function() {
+    this.set('pipelineStore.baseUrl', this.get('pipeline.pipelinesEndpoint'));
   },
   activate() {
-    let app = this.controllerFor('application');
-
     this._super();
-    if ( !this.controllerFor('application').get('isPopup') && this.get('projects.current') )
-    {
+    if (!this.controllerFor('application').get('isPopup') && this.get('projects.current')) {
       this.connectSubscribe();
     }
   },

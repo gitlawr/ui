@@ -24,7 +24,9 @@
         <p>{{inst.branch}} <i class="icon icon-link text-small"></i> {{sub-str inst.commitInfo 0 8}}</p>
       </td>
       <td data-title="{{dt.time}}" class="clip text-muted">
-        {{date-str inst.start_ts}}
+        {{#tooltip-element style="100%;" inlineBlock=true type="tooltip-basic" tooltipTemplate="tooltip-static" model=(date-str inst.start_ts) tagName="span" tooltipFor="tooltip-basic"}}
+          {{date-from-now inst.start_ts}}
+        {{/tooltip-element}}
       </td>
       <td data-title="{{dt.status}}" class="clip text-muted">
         <span class="badge-state">{{inst.status}}</span>

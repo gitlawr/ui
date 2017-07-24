@@ -17,15 +17,22 @@
       </td>
       <td data-title="{{dt.runCount}}" class="clip text-muted">
         {{#if inst.runCount}}
-          {{#link-to "pipelines.activity" inst.lastRunId}} #{{inst.runCount}} {{inst.lastRunStatus}}{{/link-to}}
+          {{#tooltip-element style="100%;" inlineBlock=true type="tooltip-basic" tooltipTemplate="tooltip-static" model=(date-str inst.lastRunTime) tagName="span" tooltipFor="tooltip-basic"}}
+            {{#link-to "pipelines.activity" inst.lastRunId}} 
+              <p class="mt-0 mb-0">#{{inst.runCount}} {{inst.lastRunStatus}}</p>
+              <p class="text-muted text-italic text-small mt-0 mb-0">{{date-from-now inst.lastRunTime}}</p>
+            {{/link-to}}
+          {{/tooltip-element}}
         {{else}}
           N/A
         {{/if}}
       </td>
-      <td data-title="{{dt.webhookToken}}" class="clip">
-        <span >{{inst.webhookToken}}</span>
+      <td data-title="{{dt.nextRunTime}}" class="clip">
+        {{#tooltip-element style="100%;" inlineBlock=true type="tooltip-basic" tooltipTemplate="tooltip-static" model=(date-str inst.nextRunTime) tagName="span" tooltipFor="tooltip-basic"}}
+          {{date-from-now inst.nextRunTime}}
+        {{/tooltip-element}}
       </td>
-      <td data-title="{{dt.isActivate}}">
+      <td class="text-muted" data-title="{{dt.isActivate}}">
         {{#if inst.isActivate}}
           Active
         {{else}}

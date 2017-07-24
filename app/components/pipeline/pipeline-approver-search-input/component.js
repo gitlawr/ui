@@ -11,15 +11,15 @@ export default Ember.Component.extend({
     var model = this.get('model');
     return model.filter(el => {
       var val = this.get('state.inputVal');
-      if(!el.name){
+      if (!el.name) {
         return false
       }
       return el.name.indexOf(val) !== -1;
     })
-  }.property('state.inputVal','model'),
+  }.property('state.inputVal', 'model'),
   actions: {
-    select: function(item, index) {
-      this.sendAction('approverSelect',item);
+    select: function(item) {
+      this.sendAction('approverSelect', item);
     },
     showSelectList: function() {
       this.get('state').set('selecting', true);

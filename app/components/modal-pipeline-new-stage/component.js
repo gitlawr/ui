@@ -6,18 +6,17 @@ export default Ember.Component.extend(ModalBase, NewOrEdit, {
   classNames: ['large-modal', 'alert'],
   modalOpts: Ember.computed.alias('modalService.modalOpts'),
   settings: Ember.inject.service(),
-  model           : null,
-  clone           : null,
-  primaryResource : Ember.computed.alias('originalModel'),
+  model: null,
+  clone: null,
+  primaryResource: Ember.computed.alias('originalModel'),
 
-  init(){
+  init() {
     this._super(...arguments);
     var opts = this.get('modalOpts');
-    if(opts.mode==="edit"){
+    if (opts.mode === "edit") {
       this.set('model', opts.stage);
-      this.set('editing',true)
-    }
-    else{
+      this.set('editing', true)
+    } else {
       this.set('model', {
         id: null,
         name: null,
@@ -31,7 +30,15 @@ export default Ember.Component.extend(ModalBase, NewOrEdit, {
   },
 
   actions: {
-    add:function(success){
+    add: function(success) {
+      success(true);
+      this.get('modalOpts').cb({
+        ...this.get('model'),
+        id: Date.now()
+      });
+      this.send('cancel');
+    },
+    edit: function(success) {
       success(true)
       this.get('modalOpts').cb({
         ...this.get('model'),
@@ -39,15 +46,7 @@ export default Ember.Component.extend(ModalBase, NewOrEdit, {
       })
       this.send('cancel');
     },
-    edit: function(success){
-      success(true)
-      this.get('modalOpts').cb({
-        ...this.get('model'),
-        id: Date.now()
-      })
-      this.send('cancel');
-    },
-    remove: function(){
+    remove: function() {
       this.get('modalOpts').rmCb();
       this.send('cancel');
     }

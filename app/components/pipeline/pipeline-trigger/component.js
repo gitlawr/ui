@@ -30,7 +30,7 @@ export default Ember.Component.extend({
   schduleInputDisabled: false,
   schdulePattern: 'custom',
   pipeline: function(){
-    var pipeline = this.get('model.pipeline')
-    return pipeline
+    var pipeline = this.get('model.pipeline');
+    return pipeline;
   }.property('model'),
 });
