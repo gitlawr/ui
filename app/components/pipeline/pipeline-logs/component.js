@@ -9,11 +9,6 @@ var typeClass = {
   1: 'log-stdout',
   2: 'log-stderr',
 };
-
-var getStepMessage=(activity, step)=>{
-  return activity.activity_stages[step[0]].activity_steps[step[1]].message
-}
-
 export default Ember.Component.extend(ThrottledResize, {
   instance: null,
   alternateLabel: alternateLabel,
@@ -25,9 +20,9 @@ export default Ember.Component.extend(ThrottledResize, {
 
   onlyCombinedLog: Ember.computed.alias('instance.tty'),
   which: 'combined',
-  isCombined: Ember.computed.equal('which','combined'),
-  isStdOut: Ember.computed.equal('which','stdout'),
-  isStdErr: Ember.computed.equal('which','stderr'),
+  isCombined: Ember.computed.equal('which', 'combined'),
+  isStdOut: Ember.computed.equal('which', 'stdout'),
+  isStdErr: Ember.computed.equal('which', 'stderr'),
 
   stdErrVisible: true,
   stdOutVisible: true,
@@ -46,18 +41,18 @@ export default Ember.Component.extend(ThrottledResize, {
     },
 
     scrollToTop: function() {
-      this.$('.log-body').animate({ scrollTop: '0px'});
+      this.$('.log-body').animate({ scrollTop: '0px' });
     },
 
     scrollToBottom: function() {
       var body = this.$('.log-body');
-      body.stop().animate({ scrollTop: (body[0].scrollHeight+1000)+'px'});
+      body.stop().animate({ scrollTop: (body[0].scrollHeight + 1000) + 'px' });
     },
 
     changeShow: function(which) {
-      this.set('which',which);
-      this.set('stdErrVisible', (which === 'combined' || which === 'stderr') );
-      this.set('stdOutVisible', (which === 'combined' || which === 'stdout') );
+      this.set('which', which);
+      this.set('stdErrVisible', (which === 'combined' || which === 'stderr'));
+      this.set('stdOutVisible', (which === 'combined' || which === 'stdout'));
       Ember.run.next(this, function() {
         this.send('scrollToBottom');
       });
@@ -70,54 +65,44 @@ export default Ember.Component.extend(ThrottledResize, {
   },
 
   exec: function() {
-    var instance = this.get('instance');
-    var opt = {
-      follow: true,
-      lines: 500,
-    };
-
     this.connect();
   },
 
-  connect: function(logs) {
+  connect: function() {
 
-    this.set('status','initializing');
+    this.set('status', 'initializing');
     var body = this.$('.log-body')[0];
     var $body = $(body);
     var onmessage = (message) => {
-      this.set('status','connected');
+      this.set('status', 'connected');
 
       var isFollow = ($body.scrollTop() + $body.outerHeight() + 10) >= body.scrollHeight;
 
       //var framingVersion = message.data.substr(0,1); -- Always 0
-      var type = parseInt(message.substr(1,1),10); // 0 = combined, 1 = stdout, 2 = stderr
+      var type = parseInt(message.substr(1, 1), 10); // 0 = combined, 1 = stdout, 2 = stderr
 
       body.innerHTML = '';
       message.trim().split(/\n/).forEach((line) => {
         var match = line.match(/^\[?([^ \]]+)\]?\s?/);
         var dateStr, msg;
-        if ( match )
-        {
+        if (match) {
           msg = line.substr(match[0].length);
           var date = new Date(match[1]);
           dateStr = '<span class="log-date">' + Util.escapeHtml(date.toLocaleDateString()) + ' ' + Util.escapeHtml(date.toLocaleTimeString()) + ' </span>';
-        }
-        else
-        {
+        } else {
           msg = line;
           dateStr = '<span class="log-date">Unknown Date</span>';
         }
 
         body.insertAdjacentHTML('beforeend',
-          '<div class="log-msg '+ typeClass[type]  +'">' +
-            dateStr +
-            AnsiUp.ansi_to_html(Util.escapeHtml(msg)) +
+          '<div class="log-msg ' + typeClass[type] + '">' +
+          dateStr +
+          AnsiUp.ansi_to_html(Util.escapeHtml(msg)) +
           '</div>'
         );
       });
 
-      if ( isFollow )
-      {
+      if (isFollow) {
         Ember.run.next(() => {
           this.send('scrollToBottom');
         });
@@ -127,46 +112,33 @@ export default Ember.Component.extend(ThrottledResize, {
     var instance = this.get('instance');
     var step = instance.step;
     var activity = instance.activity;
-    var pipelineStore = this.get('pipelineStore');
     var params = `?activityId=${activity.id}&stageOrdinal=${step[0]}&stepOrdinal=${step[1]}`;
-    var url = ("ws://"+window.location.host + this.get('pipeline.pipelinesEndpoint')+'/ws/log'+params);
+    var url = ("ws://" + window.location.host + this.get('pipeline.pipelinesEndpoint') + '/ws/log' + params);
     var socket = new WebSocket(url);
     this.set('socket', socket);
     socket.onopen = () => {
-      this.set('status','connected');
+      this.set('status', 'connected');
     };
-    socket.onmessage = (message)=>{
-      this.set('status','connected');
+    socket.onmessage = (message) => {
+      this.set('status', 'connected');
       var msg = JSON.parse(message.data);
-      if(msg.data){
+      if (msg.data) {
         onmessage(msg.data);
       }
     }
-    // setInterval(()=>{
-    //   var activities = pipelineStore.find('activity',null,{url:`${pipelineStore.baseUrl}/activitys/${activity.id}`,forceReload:true})
-    //   activities.then(res =>{
-    //     if(res.status!=='Building'){
-    //       this.disconnect()
-    //       return
-    //     }
-    //     onmessage(getStepMessage(res, step))
-    //   })
-
-    // },1000)
     socket.onclose = () => {
-      if ( this.isDestroyed || this.isDestroying ) {
+      if (this.isDestroyed || this.isDestroying) {
         return;
       }
-      this.set('status','disconnected');
+      this.set('status', 'disconnected');
     };
   },
 
   disconnect: function() {
-    this.set('status','closed');
+    this.set('status', 'closed');
 
     var socket = this.get('socket');
-    if (socket)
-    {
+    if (socket) {
       socket.close();
       this.set('socket', null);
     }

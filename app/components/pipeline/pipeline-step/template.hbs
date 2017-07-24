@@ -7,19 +7,23 @@
 {{/if}}
 
 {{#if (eq model.type 'task')}}
-  <p class="mt-0 mb-0 clip">{{upper-case model.type}}: {{model.image}}</p>
-  <p class="text-small mt-0 mb-0 clip text-italic">{{model.command}}</p>
+  {{#tooltip-element style="100%;" inlineBlock=true type="tooltip-basic" tooltipTemplate="tooltip-static" model=model.image tagName="span" tooltipFor="tooltip-basic"}}
+    <p class="mt-0 mb-0 clip">{{upper-case model.type}}: {{model.image}}</p>
+    <p class="text-small mt-0 mb-0 clip text-italic">{{model.command}}</p>
+  {{/tooltip-element}}
 {{/if}}
 
 {{#if (eq model.type 'build')}}
-  <p class="mt-0 mb-0 clip">{{upper-case model.type}}: {{model.targetImage}}</p>
-  <p class="text-small mt-0 mb-0 clip text-italic">
-    {{#if model.push}}
-      push
-    {{else}}
-      --
-    {{/if}}
-  </p>
+  {{#tooltip-element style="100%;" inlineBlock=true type="tooltip-basic" tooltipTemplate="tooltip-static" model=model.targetImage tagName="span" tooltipFor="tooltip-basic"}}
+    <p class="mt-0 mb-0 clip">{{upper-case model.type}}: {{model.targetImage}}</p>
+    <p class="text-small mt-0 mb-0 clip text-italic">
+      {{#if model.push}}
+        push
+      {{else}}
+        --
+      {{/if}}
+    </p>
+  {{/tooltip-element}}
 {{/if}}
 
 {{#if (eq model.type 'catalog')}}

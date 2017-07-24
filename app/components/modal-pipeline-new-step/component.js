@@ -17,11 +17,11 @@ class StepType {
     switch (type) {
       case 'scm':
         this.type = 'scm';
-        this.sourceType="git";
+        this.sourceType = "git";
         this.repository = '';
         this.branch = '';
-        this.webhook=false;
-        this.token='';
+        this.webhook = false;
+        this.token = '';
         break;
       case 'task':
         this.type = 'task';
@@ -38,13 +38,14 @@ class StepType {
         1.sc
         2.file
         */
-        this.targetImage='';
-        this.sourceType='sc';
-        this.push=false;
-        this.username='';
-        this.password='';
+        this.targetImage = '';
+        this.sourceType = 'sc';
+        this.push = false;
+        this.username = '';
+        this.password = '';
         break;
-      default: break;
+      default:
+        break;
     }
     if (val && typeof val === 'object') {
       for (var item in val) {
@@ -85,7 +86,7 @@ export default Ember.Component.extend(ModalBase, {
 
     var opts = this.get('modalOpts');
     var objectParameter = {};
-    var type = this.get('type')
+    var type = this.get('type');
     if (opts.params) {
       if (opts.params.parameters) {
         for (var i = 0; i < opts.params.parameters.length; i++) {
@@ -112,7 +113,6 @@ export default Ember.Component.extend(ModalBase, {
     var type = this.get('type');
     var models = this.get('editingModels');
     models[type] || models.set(type, new StepType(type));
-    console.log(models)
   }.observes('type'),
 
   editing: function() {

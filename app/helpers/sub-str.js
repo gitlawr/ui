@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-export function subStr(params, hash) {
+export function subStr(params) {
   if(!params[0]||!params[0].substr){
     return 'N/A'
   }

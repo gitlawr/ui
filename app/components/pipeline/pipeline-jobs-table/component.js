@@ -15,10 +15,10 @@ export const headersAll =  [
     label: 'Latest Activity'
   },
   {
-    name: 'webhookToken',
-    sort: ['webhookToken'],
-    searchField: 'webhook',
-    label: 'Webhook Secret'
+    name: 'nextRunTime',
+    sort: ['nextRunTime'],
+    searchField: 'nextRunTime',
+    label: 'Next RunTime'
   },
   {
     name: 'isActivate',
