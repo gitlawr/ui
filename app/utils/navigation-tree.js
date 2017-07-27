@@ -175,6 +175,9 @@ const navTree = [
     ctx: [getProjectId],
     // condition: function() { return this.get('hasProject'); },
     moreCurrentWhen: ['pipelines'],
+    condition: function() {
+      return this.get('hasPipeline'); 
+    },
   }
 
 ];

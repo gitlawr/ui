@@ -12,13 +12,13 @@ export const headersAll =  [
     sort: ['lastRunId'],
     width: '200px',
     searchField: 'activity',
-    label: 'Latest Activity'
+    label: 'Last Activity'
   },
   {
     name: 'nextRunTime',
     sort: ['nextRunTime'],
     searchField: 'nextRunTime',
-    label: 'Next RunTime'
+    label: 'Next Run'
   },
   {
     name: 'isActivate',

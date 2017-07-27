@@ -8,6 +8,7 @@ export default Ember.Service.extend({
   'tab-session': Ember.inject.service('tab-session'),
   prefs: Ember.inject.service(),
   k8sSvc: Ember.inject.service('k8s'),
+  pipelineSvc: Ember.inject.service('pipeline'),
   userStore: Ember.inject.service('user-store'),
   store: Ember.inject.service(),
 
@@ -158,6 +159,8 @@ export default Ember.Service.extend({
     let hash = {
       hasKubernetes: false,
       kubernetesReady: false,
+      hasPipeline: false,
+      pipelineReady: false,
     };
 
     let promises = [];
@@ -172,9 +175,14 @@ export default Ember.Service.extend({
           hash.kubernetesReady = ready;
         }));
       }
+      promises.push(this.get('pipelineSvc').isReady().then(({has,ready}) => {
+        hash.hasPipeline = has;
+        hash.pipelineReady = ready;
+      }));
     }
 
     return Ember.RSVP.all(promises).then(() => {
+      debugger
       this.set('orchestrationState', hash);
       return Ember.RSVP.resolve(hash);
     }).catch((e) => {
