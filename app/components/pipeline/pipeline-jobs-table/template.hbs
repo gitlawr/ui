@@ -28,9 +28,13 @@
         {{/if}}
       </td>
       <td data-title="{{dt.nextRunTime}}" class="clip">
+      {{#if inst.nextRunTime}}
         {{#tooltip-element style="100%;" inlineBlock=true type="tooltip-basic" tooltipTemplate="tooltip-static" model=(date-str inst.nextRunTime) tagName="span" tooltipFor="tooltip-basic"}}
           {{date-from-now inst.nextRunTime}}
         {{/tooltip-element}}
+      {{else}}
+          N/A
+      {{/if}}
       </td>
       <td class="text-muted" data-title="{{dt.isActivate}}">
         {{#if inst.isActivate}}

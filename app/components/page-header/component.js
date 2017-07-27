@@ -32,6 +32,8 @@ export default Ember.Component.extend(HoverDropdown, {
   hasVm                : Ember.computed.alias('project.virtualMachine'),
   hasSwarm             : Ember.computed.alias('projects.orchestrationState.hasSwarm'),
   hasKubernetes        : Ember.computed.alias('projects.orchestrationState.hasKubernetes'),
+  hasPipeline          : Ember.computed.alias('projects.orchestrationState.hasPipeline'),
+  pipelineReady        : Ember.computed.alias('projects.orchestrationState.pipelineReady'),
   hasMesos             : Ember.computed.alias('projects.orchestrationState.hasMesos'),
   swarmReady           : Ember.computed.alias('projects.orchestrationState.swarmReady'),
   mesosReady           : Ember.computed.alias('projects.orchestrationState.mesosReady'),
