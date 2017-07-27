@@ -1109,6 +1109,15 @@ stackPage:
       =1 {# entry}
       other {# entries}
       }
+  scalingGroups:
+    header: Scaling groups
+    detail: 'Containers existing in this scaling group'
+    status: |
+      {count, plural,
+      =0 {No containers}
+      =1 {# container}
+      other {# containers}
+      }
 
 newStack:
   header: Import Compose.yml
@@ -3089,6 +3098,7 @@ newContainer:
     valueLabel: Value
     valuePlaceholder: e.g. bar
   sidekick:
+    header: Upgrade service
     title: Select service launch config to upgrade
     detail: '"{service}" has sidekicks.  Which launch config do you want to upgrade?'
     primary: Primary
