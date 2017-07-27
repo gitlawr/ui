@@ -118,7 +118,7 @@ module.exports = function(environment) {
       pipelinesEndpoint: '/r/projects/%PROJECTID%/pipeline:60080/v1',
       projectEndpoint: '/v2/projects/%PROJECTID%',
       proxyEndpoint: '/v2-beta/proxy',
-      wsEndpoint: '/v1/projects/%PROJECTID%/subscribe' +
+      wsEndpoint: '/v2/projects/%PROJECTID%/subscribe' +
                     '?eventNames=resource.change' +
                     '&resourceType_ne=serviceLog' +
                     '&resourceType_ne=deploymentUnit',
