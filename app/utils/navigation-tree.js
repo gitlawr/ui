@@ -173,7 +173,6 @@ const navTree = [
     localizedLabel: 'nav.pipelines.tab',
     route: 'pipelines.index',
     ctx: [getProjectId],
-    // condition: function() { return this.get('hasProject'); },
     moreCurrentWhen: ['pipelines'],
     condition: function() {
       return this.get('hasPipeline'); 

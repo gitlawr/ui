@@ -182,7 +182,6 @@ export default Ember.Service.extend({
     }
 
     return Ember.RSVP.all(promises).then(() => {
-      debugger
       this.set('orchestrationState', hash);
       return Ember.RSVP.resolve(hash);
     }).catch((e) => {
