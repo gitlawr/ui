@@ -20,11 +20,11 @@ export default Ember.Controller.extend({
         return
       }
       model.pipeline.save().then(()=>{
-        this.transitionToRoute('pipelines.index.pipelines')
+        this.transitionToRoute('pipelines.ready.pipelines')
       })
     },
     cancel: function(){
-      this.transitionToRoute('pipelines.index.pipelines')
+      this.transitionToRoute('pipelines.ready.pipelines')
     }
   }
 });

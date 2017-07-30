@@ -85,8 +85,9 @@ Router.map(function() {
       this.route('waiting');
 
       this.route('pipelines', {resetNamespace: true}, function() {
+        this.route('index', {path: '/'});
         this.route('new-pipeline', {path: '/addPipeline'});
-        this.route('index', {path: '/'},function(){
+        this.route('ready', {path: '/r'},function(){
           this.route('activities',{path:'/'});
           this.route('pipelines',{path:'/pipelines'});
         });

@@ -34,10 +34,10 @@ export default Ember.Service.extend({
     });
   },
   filterSystemStack(stacks) {
-    debugger
     return (stacks||[]).find((stack) => {
       let info = stack.get('externalIdInfo');
       return (info.kind === C.EXTERNAL_ID.KIND_CATALOG || info.kind === C.EXTERNAL_ID.KIND_SYSTEM_CATALOG) &&
+        info.base === C.EXTERNAL_ID.KIND_INFRA &&
         info.group === 'cicd';
     });
   },

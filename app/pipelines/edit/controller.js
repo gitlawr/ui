@@ -8,7 +8,7 @@ export default Ember.Controller.extend({
     save: function(){
       var model = this.get('model.pipeline')
       model.pipeline.update().then(()=>{
-        this.transitionToRoute('pipelines.index.pipelines')
+        this.transitionToRoute('pipelines.ready.pipelines')
       })
     },
     cancel: function(){
