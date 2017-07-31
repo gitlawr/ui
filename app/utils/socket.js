@@ -72,7 +72,6 @@ export default Ember.Object.extend(Ember.Evented, {
   },
 
   disconnect(cb) {
-    debugger
     if ( cb )
     {
       this.get('_disconnectCbs').pushObject(cb);

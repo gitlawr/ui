@@ -6,7 +6,6 @@ export default Ember.Controller.extend({
   
   stages: function() {
     var pipeline = this.get('model.pipeline')
-    debugger
     return pipeline.stages
   }.property('model'),
   errors: null,
