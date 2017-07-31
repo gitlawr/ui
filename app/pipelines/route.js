@@ -10,9 +10,12 @@ export default Ember.Route.extend(WS, PolledModel, {
     return Ember.RSVP.hash({
       ready: pipeline.isReady()
     }).then((hash) => {
-      return Ember.Object.create({
+      return {
         ready: hash.ready,
-      });
+        cancelTimer: ()=>{
+          this.cancelTimer();
+        }
+      };
     })
   },
   beforeModel: function() {
@@ -20,7 +23,13 @@ export default Ember.Route.extend(WS, PolledModel, {
   },
   afterModel: function(model) {
     if (model && model.ready.ready) {
-      this.get('router').transitionTo('pipelines.ready');
+      var router = this.get('router');
+      var targetName = router.router.activeTransition.targetName
+      if(targetName==='pipelines.index'){
+        router.transitionTo('pipelines.ready');
+      }else{
+        router.transitionTo(targetName);
+      }
     }
   },
   activate() {
@@ -34,4 +43,17 @@ export default Ember.Route.extend(WS, PolledModel, {
     this.disconnectSubscribe();
     Ember.run.cancel(this.get('testTimer'));
   },
+
+  actions: {
+    willTransition(transition) {
+      var model = this.controller.get('model')
+      if (model && model.ready.ready) {
+        var targetName = transition.targetName
+        if(targetName==='pipelines.index'){
+          transition.abort();
+        }
+      }
+      return true;
+    }
+  }
 });

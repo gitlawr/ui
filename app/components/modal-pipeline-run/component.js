@@ -46,8 +46,8 @@ export default Ember.Component.extend(ModalBase, NewOrEdit, {
       this.send('cancel');
     },
     toAddPipelinePage: function() {
-      this.get('router').transitionTo('pipelines.new-pipeline');
       this.send('cancel');
+      this.get('router').transitionTo('pipelines.new-pipeline');
     }
   }
 });

@@ -17,7 +17,6 @@ export default Ember.Controller.extend({
       }
       return false
     });
-    debugger
     return out;
   }.property('model.@each.isActivate'),
 });

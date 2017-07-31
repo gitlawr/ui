@@ -1,8 +1,5 @@
 {{top-errors errors=errors}}
 
-{{!-- <h2 class="alert-header">{{t (if editing 'newPipelineStage.header.edit' 'newPipelineStage.header.create')}}</h2>
- --}}
-
 <section class="header clearfix">
   <h2 style="display: inline-block;">{{t (if editing 'newPipelineStage.header.edit' 'newPipelineStage.header.create')}}</h2>
   {{#if editing}}
@@ -19,5 +16,48 @@
   <label>{{t 'newPipelineStage.name'}}{{field-required}}</label>
   {{input class="form-control" value=model.name }}
 </div>
+
+<div class="pt-20"></div>
+<div class="inline-form">
+  <div class="pt-10"></div>
+  <label>{{check-box class="form-control" checked=model.needApprove}}
+    requires approval
+  </label>
+</div>
+
+{{#if model.needApprove}}
+<div class="pt-20"></div>
+<div class="row">
+  <div class="col span-12">
+    <label class="pb-5">Pipelines</label>
+    <div class="pt-10"></div>
+    {{pipeline/pipeline-approver-search-input
+        model=userList
+        approverSelect=(action 'userSelect')
+    }}
+    <div class="pt-10"></div>
+    <section class="instances">
+      {{#sortable-table
+        classNames="grid sortable-table"
+        bulkActions=false
+        paging=true
+        fullRows=true
+        search=false
+        sortBy=sortBy
+        headers=headers
+        body=selectedList
+        fullRows=true
+        as |sortable kind row dt|
+      }}
+        {{#if (eq kind "row")}}
+          {{account-row model=row isLocal=isLocal}}
+        {{else if (eq kind "norows")}}
+          <td colspan="{{if isLocal '6' '5'}}" class="text-center text-muted pt-20 pb-20">{{t 'accountsPage.index.table.noData'}}</td>
+        {{/if}}
+      {{/sortable-table}}
+    </section>
+ </div>
+</div>
+{{/if}}
 
 {{save-cancel editing=editing createLabel="generic.add" save="add" cancel="cancel"}}
