@@ -50,10 +50,11 @@ export default Ember.Route.extend(WS, PolledModel, {
       if (model && model.ready.ready) {
         var targetName = transition.targetName
         if(targetName==='pipelines.index'){
-          transition.abort();
+          transition.targetName = "pipelines.ready";
+          this.replaceWith('pipelines.ready');
         }
       }
-      return true;
+      return false;
     }
   }
 });

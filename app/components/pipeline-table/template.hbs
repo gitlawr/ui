@@ -15,13 +15,13 @@
     <tr class="main-row">
       <td data-title="{{dt.name}}" class="clip">
         <a href="{{href-to "pipelines.activity" inst.id}}">
-          <p class="clip">#{{inst.runSequence}}</p>
-          <p>by {{inst.pipeline.name}}</p>
+          <p class="clip mt-10 mb-5">#{{inst.runSequence}}</p>
+          <p class="mt-5 mb-10">by {{inst.pipeline.name}}</p>
         </a>
       </td>
       <td data-title="{{dt.repository}}" class="clip text-muted">
-        <p>{{inst.repository}}</p>
-        <p>{{inst.branch}} <i class="icon icon-link text-small"></i> {{sub-str inst.commitInfo 0 8}}</p>
+        <p class="mt-10 mb-5">{{inst.repository}}</p>
+        <p class="mt-5 mb-10">{{inst.branch}} <i class="icon icon-link text-small"></i> {{sub-str inst.commitInfo 0 8}}</p>
       </td>
       <td data-title="{{dt.time}}" class="clip text-muted">
         {{#tooltip-element style="100%;" inlineBlock=true type="tooltip-basic" tooltipTemplate="tooltip-static" model=(date-str inst.start_ts) tagName="span" tooltipFor="tooltip-basic"}}
@@ -29,10 +29,18 @@
         {{/tooltip-element}}
       </td>
       <td data-title="{{dt.status}}" class="clip text-muted">
-        <span class="badge-state">{{inst.status}}</span>
+        {{#if (eq inst.status 'Pending') }}
+          <p class="badge-state mt-10 mb-5">Approving Stage</p>
+          <p class="mt-5 mb-10"> 
+            <span><i class="icon icon-circle"></i>Approval</span>
+            <span><i class="icon icon-circle"></i>deny</span>
+          </p>
+        {{else}}
+          <span class="badge-state">{{inst.status}}</span>
+        {{/if}}
       </td>
       <td data-title="{{dt.actions}}" class="actions">
-        {{action-menu model=inst showPrimary=false}}
+        {{action-menu model=inst showPrimary=true}}
       </td>
     </tr>
   {{else if (eq kind "nomatch")}}

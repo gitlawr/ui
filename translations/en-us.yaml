@@ -3583,12 +3583,14 @@ nav:
 ##############################
 action:
   activate: Activate
+  approve: Approve
   cancelUpgrade: Cancel Upgrade
   cancelRollback: Cancel Rollback
   clone: Clone
   console: Open Console
   convertToService: Convert to Service
   deactivate: Deactivate
+  deny: Deny
   edit: Edit
   evacuate: Evacuate
   execute: Execute Shell

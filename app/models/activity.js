@@ -4,23 +4,33 @@ import Resource from 'ember-api-store/models/resource';
 export default Resource.extend({
   type: 'activity',
   router: Ember.inject.service(),
-  // actions:{
-  //   run: function() {
-  //     return this.doAction('rerun')
-  //     .then((res)=>{
-  //       this.get('router').transitionTo('pipelines.activity', res.data.id)
-  //     });
-  //   }
-  // },
-  // availableActions: function() {
-  //   var a = this.get('actions');
+  actions:{
+    // rerun: function() {
+    //   return this.doAction('rerun')
+    //   .then((res)=>{
+    //     this.get('router').transitionTo('pipelines.activity', res.data.id)
+    //   });
+    // },
+    // approve: function(){
+    //   return this.doAction('approve')
+    //           .then((res)=>{
+    //             this.get('router').transitionTo('pipelines.activity', res.data.id)
+    //           });
+    // },
+    // deny: function(){
+    //   return this.doAction('deny');
+    // }
+  },
+  availableActions: function() {
+    var a = this.get('actionLinks');
 
-  //   return [
-  //     { label: 'action.rerun',          icon: 'icon icon-play',   action: 'run',         enabled: true },
-  //     // { divider: true },
-  //     // { label: 'action.upgrade',      icon: 'icon icon-edit',   action: 'update',     enabled: true },
-  //   ];
-  // }.property('actions.{run,update}'),
+    return [
+      // { label: 'action.rerun',          icon: 'icon icon-play',   action: 'run',         enabled: true },
+      // { divider: true },
+      { label: 'action.approve',      icon: 'icon icon-success',   action: 'approve',     enabled: a.approve?true:false },
+      { label: 'action.deny',      icon: 'icon-x-circle',   action: 'deny',     enabled: a.deny?true:false },
+    ];
+  }.property('actions'),
   commit: function(){
     var commitInfo = this.get('commitInfo')
     if(commitInfo){
