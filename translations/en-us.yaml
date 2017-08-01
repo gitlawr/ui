@@ -3702,10 +3702,14 @@ action:
   activate: Activate
   addContainer: Add Container
   addSidekick: Add a Sidekick
+  approve: Approve
+  cancelUpgrade: Cancel Upgrade
+  cancelRollback: Cancel Rollback
   clone: Clone
   console: Open Console
   convertToService: Convert to Service
   deactivate: Deactivate
+  deny: Deny
   edit: Edit
   editService: Edit Service
   evacuate: Evacuate

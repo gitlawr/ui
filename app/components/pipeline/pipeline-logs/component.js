@@ -87,7 +87,8 @@ export default Ember.Component.extend(ThrottledResize, {
         var dateStr, msg;
         if (match) {
           msg = line.substr(match[0].length);
-          var date = new Date(match[1]);
+          var date = new Date(match[1]*1);
+          debugger
           dateStr = '<span class="log-date">' + Util.escapeHtml(date.toLocaleDateString()) + ' ' + Util.escapeHtml(date.toLocaleTimeString()) + ' </span>';
         } else {
           msg = line;

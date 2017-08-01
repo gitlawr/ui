@@ -25,7 +25,7 @@ export const headersAll =  [
   {
     name: 'status',
     sort: ['status'],
-    width: 100,
+    width: 200,
     searchField: 'status',
     translationKey: 'pipelinesPage.table.status',
   },
