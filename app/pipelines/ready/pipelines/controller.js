@@ -5,7 +5,6 @@ export default Ember.Controller.extend({
   sortBy: 'Name',
   filtered: function() {
     var status = this.get('status');
-
     let out = this.get('model')
     if(status==='all'){
       return out

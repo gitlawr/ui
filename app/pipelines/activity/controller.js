@@ -10,12 +10,6 @@ export default Ember.Controller.extend({
   init() {
     this._super(...arguments);
   },
-  repository: function() {
-    return this.get('model').pipeline.stages[0].steps[0].repository
-  }.property('model'),
-  branch: function() {
-    return this.get('model').pipeline.stages[0].steps[0].branch
-  }.property('model'),
   filterdPiplineHistory: function() {
     return [{ activity_stages: this.get('model').activity_stages }];
   }.property('model.activity_stages'),

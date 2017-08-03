@@ -30,8 +30,8 @@
     {{!-- {{#accordion-list as |al expandFn| }} --}}
       {{#each filterdPiplineHistory as |activity|}}
         {{#accordion-list-item
-             title=repository
-             detail=(concat-str branch ' ' (sub-str commitInfo 0 8) ' ' (date-str model.start_ts) )
+             title=model.repository
+             detail=(concat-str model.branch ' ' (sub-str model.commitInfo 0 8) ' ' (date-str model.start_ts) )
              status=model.status
              statusClass=model.status
              expandAll=true

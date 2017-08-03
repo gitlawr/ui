@@ -3600,10 +3600,11 @@ action:
   logs: View Logs
   machineConfig: Machine Config
   pause: Pause Operations
-  remove: Delete
+  remove: Remove
   replay: Replay
   restart: Restart
   retry: Retry
+  rerun: Rerun
   run: Run
   rollback: Rollback
   setDefault: Set as Default

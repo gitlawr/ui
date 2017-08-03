@@ -15,16 +15,7 @@ export default Ember.Controller.extend({
         }
         return ele.status === status
       });
-
-    return out.map(ele => {
-      return {
-        ...ele,
-        name: ele.pipeline.name,
-        repository: ele.pipeline.stages[0].steps[0].repository,
-        branch: ele.pipeline.stages[0].steps[0].branch,
-        availableActions: this.availableActions(ele.actionLinks)
-      }
-    });
+    return out;
   }.property('model.@each.status', 'status'),
   availableActions: function(a) {
     return [
