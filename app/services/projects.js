@@ -8,9 +8,12 @@ export default Ember.Service.extend({
   'tab-session': Ember.inject.service('tab-session'),
   prefs: Ember.inject.service(),
   k8sSvc: Ember.inject.service('k8s'),
+<<<<<<< HEAD
   swarmSvc: Ember.inject.service('swarm'),
   mesosSvc: Ember.inject.service('mesos'),
   pipelineSvc: Ember.inject.service('pipeline'),
+=======
+>>>>>>> master
   userStore: Ember.inject.service('user-store'),
   store: Ember.inject.service(),
 
@@ -156,13 +159,14 @@ export default Ember.Service.extend({
   updateOrchestrationState() {
     let hash = {
       hasKubernetes: false,
-      hasSwarm: false,
-      hasMesos: false,
       kubernetesReady: false,
+<<<<<<< HEAD
       swarmReady: false,
       mesosReady: false,
       hasPipeline: false,
       pipelineReady: false,
+=======
+>>>>>>> master
     };
 
     let promises = [];
@@ -177,6 +181,7 @@ export default Ember.Service.extend({
           hash.kubernetesReady = ready;
         }));
       }
+<<<<<<< HEAD
 
       if ( orch === 'swarm' )
       {
@@ -197,6 +202,8 @@ export default Ember.Service.extend({
         hash.hasPipeline = has;
         hash.pipelineReady = ready;
       }));
+=======
+>>>>>>> master
     }
 
     return Ember.RSVP.all(promises).then(() => {
@@ -220,9 +227,7 @@ export default Ember.Service.extend({
     }
 
     return (
-      (!state.hasKubernetes || state.kubernetesReady) &&
-      (!state.hasSwarm || state.swarmReady) &&
-      (!state.hasMesos || state.mesosReady)
+      (!state.hasKubernetes || state.kubernetesReady)
     );
   }.property('orchestrationState'), // The state object is always completely replaced, so this is ok
 });

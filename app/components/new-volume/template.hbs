@@ -37,7 +37,7 @@
     <div>
       <label class="pb-5 acc-label">{{t 'editVolume.driver.label'}}</label>
       <div class="pull-right text-small">
-        <a role="button" class="btn bg-transparent p-0" {{action "toggleCustomDriver"}}>{{t 'editVolume.driver.custom.label'}}</a>
+        <a role="button" class="btn bg-transparent p-0" {{action "toggleCustomDriver"}}>{{t (if customDriver 'editVolume.driver.standard' 'editVolume.driver.custom.label')}}</a>
       </div>
     </div>
 
@@ -54,7 +54,7 @@
   </div>
 
   <div class="col span-11-of-23 mt-0 mb-0 offset-1-of-23">
-    {{#if (and selectStack (not-eq scope "global"))}}
+    {{#if (and selectStack actuallySave (not-eq scope "global"))}}
       {{form-stack
         stack=stack
         errors=stackErrors
@@ -79,4 +79,4 @@
 </div>
 
 {{top-errors errors=errors}}
-{{save-cancel save="save" cancel="cancel"}}
+{{save-cancel createLabel=(if actuallySave 'saveCancel.create' 'editVolume.define.action') save="save" cancel="cancel"}}
