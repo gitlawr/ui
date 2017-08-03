@@ -13,7 +13,7 @@
 </section>
 
 <section class="pipeline-container">
-  {{pipeline-stages stagesDraggable=false model=model.pipeline.stages}}
+  {{pipeline-stages stagesDraggable=false model=model.pipelineSource.stages}}
 </section>
 
 <div class="mt-40"></div>
@@ -41,7 +41,7 @@
              as | parent |
         }}
           {{pipeline-history-table
-            stageInfo = model.pipeline.stages
+            stageInfo = model.pipelineSource.stages
             body=activity.activity_stages
             activity=model
             sortBy=sortBy
@@ -52,7 +52,7 @@
             showInstanceState=false
             groupByKey=groupBy
             groupByRef="stack"
-        }}
+          }}
         {{/accordion-list-item}}
       {{/each}}
     {{!-- {{/accordion-list}} --}}
