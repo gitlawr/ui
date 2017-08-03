@@ -8,12 +8,9 @@ export default Ember.Service.extend({
   'tab-session': Ember.inject.service('tab-session'),
   prefs: Ember.inject.service(),
   k8sSvc: Ember.inject.service('k8s'),
-<<<<<<< HEAD
-  swarmSvc: Ember.inject.service('swarm'),
-  mesosSvc: Ember.inject.service('mesos'),
+  
   pipelineSvc: Ember.inject.service('pipeline'),
-=======
->>>>>>> master
+
   userStore: Ember.inject.service('user-store'),
   store: Ember.inject.service(),
 
@@ -160,13 +157,10 @@ export default Ember.Service.extend({
     let hash = {
       hasKubernetes: false,
       kubernetesReady: false,
-<<<<<<< HEAD
       swarmReady: false,
       mesosReady: false,
       hasPipeline: false,
       pipelineReady: false,
-=======
->>>>>>> master
     };
 
     let promises = [];
@@ -181,29 +175,10 @@ export default Ember.Service.extend({
           hash.kubernetesReady = ready;
         }));
       }
-<<<<<<< HEAD
-
-      if ( orch === 'swarm' )
-      {
-        hash.hasSwarm = true;
-        promises.push(this.get('swarmSvc').isReady().then((ready) => {
-          hash.swarmReady = ready;
-        }));
-      }
-
-      if ( orch === 'mesos' )
-      {
-        hash.hasMesos = true;
-        promises.push(this.get('mesosSvc').isReady().then((ready) => {
-          hash.mesosReady = ready;
-        }));
-      }
       promises.push(this.get('pipelineSvc').isReady().then(({has,ready}) => {
         hash.hasPipeline = has;
         hash.pipelineReady = ready;
       }));
-=======
->>>>>>> master
     }
 
     return Ember.RSVP.all(promises).then(() => {
