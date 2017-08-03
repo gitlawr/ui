@@ -6,7 +6,6 @@ export default Ember.Route.extend({
       refreshModel: true
     },
   },
-  pipeline: Ember.inject.service(),
   model: function() {
     var pipelineStore = this.get('pipelineStore');
     var model = pipelineStore.findAll('activity', null, { forceReload: true });

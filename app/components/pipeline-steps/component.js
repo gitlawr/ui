@@ -40,7 +40,6 @@ export default Ember.Component.extend({
     },
     dragEnd: function(){
       var crt = this.crt
-      debugger
       crt&&crt.remove()
       if(this.dragDom){
         this.dragDom.style.filter="";
@@ -48,15 +47,16 @@ export default Ember.Component.extend({
       }
     },
     addStep: function() {
+      var cb = (step) => {
+          this.get('model').pushObject(step);
+        };
       this.get('modalService').toggleModal('modal-pipeline-new-step', {
         type: 'add',
         stageInfo: this.get('stageInfo'),
         stageIndex: this.get('stageIndex'),
         stepMode: this.get('stepMode'),
         editMode: this.get('editMode'),
-        cb: (step) => {
-          this.get('model').pushObject(step);
-        }
+        cb: cb
       });
     },
     editStep: function(index) {

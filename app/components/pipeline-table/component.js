@@ -41,9 +41,9 @@ export default Ember.Component.extend({
   headers: function() {
     return headersAll;
   }.property(),
-
-  filtered: function() {
-    let out = this.get('body')||[];
-    return out;
-  }.property('body'),
+  actions:{
+    sendAction(inst,actionName){
+      return inst.send(actionName)
+    }
+  }
 });

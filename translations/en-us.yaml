@@ -3724,6 +3724,7 @@ action:
   replay: Replay
   restart: Restart
   retry: Retry
+  rerun: Rerun
   run: Run
   rollback: Rollback
   setDefault: Set as Login Environment

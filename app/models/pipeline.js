@@ -3,6 +3,7 @@ import Resource from 'ember-api-store/models/resource';
 
 export default Resource.extend({
   type: 'pipeline',
+  pipelineStore: Ember.inject.service('pipeline-store'),
   router: Ember.inject.service(),
   actions: {
     run: function() {
@@ -22,7 +23,10 @@ export default Resource.extend({
       this.get('router').transitionTo('pipelines.pipeline', this.get('id'))
     },
     remove: function() {
-      return this.doAction('remove');
+      return this.doAction('remove').then(()=>{
+        var store = this.get('pipelineStore');
+        store._remove('pipeline',this);
+      });
     },
     activate: function() {
       return this.doAction('activate');

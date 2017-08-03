@@ -32,11 +32,12 @@ export default Ember.Component.extend({
       this.dragDom && (this.dragDom.style.filter = "")
     },
     addStage: function() {
+      var cb = (stage) => {
+        this.get('model').pushObject(stage);
+      };
       this.get('modalService').toggleModal('modal-pipeline-new-stage', {
         mode: 'new',
-        cb: (stage) => {
-          this.get('model').pushObject(stage);
-        }
+        cb: cb
       })
     },
     editStage: function(index) {

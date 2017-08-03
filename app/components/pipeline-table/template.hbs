@@ -1,7 +1,7 @@
 {{#sortable-table
   tableClassNames="double-rows"
   bulkActions=false
-  body=filtered
+  body=body
   sortBy=sortBy
   stickyHeader=stickyHeader
   fullRows=true
@@ -30,17 +30,27 @@
       </td>
       <td data-title="{{dt.status}}" class="clip text-muted">
         {{#if (eq inst.status 'Pending') }}
-          <p class="badge-state mt-10 mb-5">Approving Stage</p>
-          <p class="mt-5 mb-10"> 
-            <span><i class="icon icon-circle"></i>Approval</span>
-            <span><i class="icon icon-circle"></i>deny</span>
-          </p>
+          <p class="badge-state mt-10 mb-5">Waiting for Approving</p> 
+          <p class="badge-state mt-5 mb-10">{{inst.pendingStage}}.{{inst.pendingStageName}}</p>
         {{else}}
           <span class="badge-state">{{inst.status}}</span>
         {{/if}}
       </td>
       <td data-title="{{dt.actions}}" class="actions">
-        {{action-menu model=inst showPrimary=true}}
+        {{#if (eq inst.status 'Pending') }}
+          <p class="mt-10 mb-5">
+            {{#tooltip-element style="100%;" inlineBlock=true type="tooltip-basic" tooltipTemplate="tooltip-static" model='Approve' tagName="span" tooltipFor="tooltip-basic"}}
+              <a href="javascript:void(0);" {{action "sendAction" inst "approve"}} style="color: green"><i class="icon icon-success"></i></a>
+            {{/tooltip-element}}
+          </p>
+          <p class="mt-5 mb-10">
+            {{#tooltip-element style="100%;" inlineBlock=true type="tooltip-basic" tooltipTemplate="tooltip-static" model='Deny' tagName="span" tooltipFor="tooltip-basic"}}
+                <a href="javascript:void(0);" {{action "sendAction" inst "deny"}} style="color: red"><i class="icon icon-x-circle"></i></a>
+            {{/tooltip-element}}
+          </p>
+        {{else}}
+          {{action-menu model=inst showPrimary=true}}
+        {{/if}}
       </td>
     </tr>
   {{else if (eq kind "nomatch")}}
