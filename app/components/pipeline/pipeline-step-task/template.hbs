@@ -2,7 +2,11 @@
   <div class="inline-form">
     <label>{{t 'newPipelineStep.jobType.image'}}{{field-required}}</label>
     <div class="pt-10"></div>
-    {{input class="form-control" value=selectedModel.image }}
+    {{input-suggest
+      value=selectedModel.image
+      choices=pipeline.images
+      placeholder="hello-world:latest"
+    }}
   </div>
 
   <div class="pt-20"></div>

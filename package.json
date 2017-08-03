@@ -78,6 +78,7 @@
   "dependencies": {
     "body-parser": "^1.16.0",
     "mysql": "^2.13.0",
+    "prettycron": "^0.10.0",
     "request": "^2.79.0",
     "sendgrid": "^4.7.1",
     "stripe": "^4.15.0"

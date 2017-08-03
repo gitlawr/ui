@@ -4639,6 +4639,10 @@ labeled-stream-splicer@^2.0.0:
     isarray "~0.0.1"
     stream-splicer "^2.0.0"
 
+later@^1.1.6:
+  version "1.2.0"
+  resolved "http://registry.npm.taobao.org/later/download/later-1.2.0.tgz#f2cf6c4dd7956dd2f520adf0329836e9876bad0f"
+
 lazy-cache@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/lazy-cache/-/lazy-cache-1.0.4.tgz#a1d78fc3a50474cb80845d3b3b6e1da49a446e8e"
@@ -5251,7 +5255,7 @@ moment-timezone@^0.3.0:
   dependencies:
     moment ">= 2.6.0"
 
-"moment@>= 2.6.0":
+"moment@>= 2.6.0", moment@^2.8.4:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
@@ -5756,6 +5760,13 @@ prelude-ls@~1.1.2:
 preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
+
+prettycron@^0.10.0:
+  version "0.10.0"
+  resolved "http://registry.npm.taobao.org/prettycron/download/prettycron-0.10.0.tgz#10af0dfa20bbd9f6596d7fb5bb8b8546cac527bb"
+  dependencies:
+    later "^1.1.6"
+    moment "^2.8.4"
 
 printf@^0.2.3:
   version "0.2.5"

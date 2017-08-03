@@ -5,9 +5,19 @@ let ENUMS_STATUSCLASS = {
   'Success': 'bg-success',
   'Pending': 'bg-warning',
   'Building': 'bg-info',
-  'Deny': 'bg-error',
-  'Waiting': ''
+  'Denied': 'bg-error',
+  'Waiting': 'bg-info',
+  'Fail': 'bg-error'
 };
+
+const STATUS_LABEL_ENUMS = {
+  'Waiting': 'running',
+  'Building': 'running',
+  'Success': 'success',
+  'Fail': 'fail',
+  'Denied': 'denid'
+}
+
 export default Resource.extend({
   type: 'activity',
   router: Ember.inject.service(),
@@ -57,10 +67,27 @@ export default Resource.extend({
       return
     }
     var activity_stages = this.get('activity_stages');
-    return activity_stages[pendingStage].name;
+    var stage = activity_stages[pendingStage];
+    if(stage.approvers){
+      var userStore = this.get('userStore');
+      var approversPromises = stage.approvers.map(ele=>{
+        return userStore.find('account',ele.id)
+      })
+      Ember.RSVP.all(approversPromises)
+        .then((array)=>{
+          debugger
+          this.set('approversName',array.map(ele=>ele.name))
+        })
+    }
+    return stage.name;
   }.property('pendingStage'),
+  approversName: [],
   statusClass: function() {
     var status = this.get('status');
     return ENUMS_STATUSCLASS[status];
+  }.property('status'),
+  statusLabel: function () {
+    var status = this.get('status');
+    return STATUS_LABEL_ENUMS[status];
   }.property('status')
 });

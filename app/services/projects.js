@@ -9,9 +9,13 @@ export default Ember.Service.extend({
   prefs: Ember.inject.service(),
   k8sSvc: Ember.inject.service('k8s'),
 <<<<<<< HEAD
+<<<<<<< HEAD
   pipelineSvc: Ember.inject.service('pipeline'),
 =======
   
+=======
+
+>>>>>>> Bug fix
   pipelineSvc: Ember.inject.service('pipeline'),
 
 >>>>>>> Sync with backend
@@ -162,6 +166,7 @@ export default Ember.Service.extend({
 
   orchestrationState: null,
   updateOrchestrationState() {
+    debugger
     let hash = {
       hasKubernetes: false,
       kubernetesReady: false,

@@ -16,7 +16,7 @@
       <td data-title="{{dt.name}}" class="clip">
         <a href="{{href-to "pipelines.activity" inst.id}}">
           <p class="clip mt-10 mb-5">#{{inst.runSequence}}</p>
-          <p class="mt-5 mb-10">by {{inst.pipeline.name}}</p>
+          <p class="mt-5 mb-10">by {{inst.pipelineSource.name}}</p>
         </a>
       </td>
       <td data-title="{{dt.repository}}" class="clip text-muted">
@@ -30,10 +30,12 @@
       </td>
       <td data-title="{{dt.status}}" class="clip text-muted">
         {{#if (eq inst.status 'Pending') }}
-          <p class="badge-state mt-10 mb-5 {{inst.statusClass}}">Waiting for Approving</p> 
-          <p class="badge-state mt-5 mb-10 {{inst.statusClass}}">{{inst.pendingStage}}.{{inst.pendingStageName}}</p>
+        <div class="badge-state {{inst.statusClass}} pt-0" style="padding-bottom: 0">
+          <p class="badge-state mt-10 mb-5 pt-5 pd-5">Waiting for Approving</p>
+          <p class="badge-state mt-5 mb-10 pt-5 pd-5">Stage {{index-add inst.pendingStage}} {{inst.pendingStageName}}</p>
+        </div>
         {{else}}
-          <span class="badge-state {{inst.statusClass}}">{{inst.status}}</span>
+          <span class="badge-state {{inst.statusClass}}">{{inst.statusLabel}}</span>
         {{/if}}
       </td>
       <td data-title="{{dt.actions}}" class="actions">

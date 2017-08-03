@@ -18,7 +18,7 @@
       <td data-title="{{dt.runCount}}" class="clip text-muted">
         {{#if inst.runCount}}
           {{#tooltip-element style="100%;" inlineBlock=true type="tooltip-basic" tooltipTemplate="tooltip-static" model=(date-str inst.lastRunTime) tagName="span" tooltipFor="tooltip-basic"}}
-            {{#link-to "pipelines.activity" inst.lastRunId}} 
+            {{#link-to "pipelines.activity" inst.lastRunId}}
               <p class="mt-0 mb-0">#{{inst.runCount}} {{inst.lastRunStatus}}</p>
               <p class="text-muted text-italic text-small mt-0 mb-0">{{date-from-now inst.lastRunTime}}</p>
             {{/link-to}}
@@ -37,11 +37,13 @@
       {{/if}}
       </td>
       <td class="text-muted" data-title="{{dt.isActivate}}">
-        {{#if inst.isActivate}}
-          Active
-        {{else}}
-          Inactive
-        {{/if}}
+        <span class="badge-state {{inst.statusClass}}">
+          {{#if inst.isActivate}}
+            Active
+          {{else}}
+            Inactive
+          {{/if}}
+        </span>
       </td>
       <td data-title="{{dt.actions}}" class="actions">
         {{action-menu model=inst showPrimary=true}}

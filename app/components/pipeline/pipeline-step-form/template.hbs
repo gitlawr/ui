@@ -94,7 +94,13 @@
   <div class="inline-form">
     <label>TargetImage{{field-required}}</label>
     <div class="pt-10"></div>
-    {{input class="form-control" value=selectedModel.targetImage placeholder="hello-world:latest"}}
+    {{!-- {{input class="form-control" value= placeholder="hello-world:latest"}}
+    {{pipeline.images}} --}}
+    {{input-suggest
+      value=selectedModel.targetImage
+      choices=pipeline.images
+      placeholder="hello-world:latest"
+    }}
   </div>
 
   <div class="pt-20"></div>
@@ -115,20 +121,21 @@
     <div class="inline-form">
       <label>Password</label>
       <div class="pt-10"></div>
-      {{input class="form-control" value=selectedModel.password placeholder="private registry password"}}
+      {{input type="password" class="form-control" value=selectedModel.password placeholder="private registry password"}}
     </div>
   {{/if}}
 {{/if}}
 
 {{#if (eq type 'task')}}
   {{pipeline/pipeline-step-task
+    pipeline=pipeline
     selectedModel=selectedModel
   }}
 {{/if}}
 
-{{!-- 
+{{!--
 {{#if (eq type 'catalog')}}
-  
+
 {{/if}}
 
 {{#if (eq type 'deploy')}}

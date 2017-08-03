@@ -1,22 +1,22 @@
 <section class="pipeline-stages">
   <div class="stages-line"></div>
   {{#if stagesDraggable}}
-    {{#sortable-objects 
-    useSwap=true 
-    sortableObjectList=model 
-    enableSort=true 
-    sortingScope="sortingGroup" 
+    {{#sortable-objects
+    useSwap=true
+    sortableObjectList=model
+    enableSort=true
+    sortingScope="sortingGroup"
     class="chrome-shim"
     }}
       {{#each model as |item index|}}
-        {{#draggable-object 
+        {{#draggable-object
         id=(concat-str 'stage_' index character="")
-        isDraggable=(if (eq index 0) false true) 
-        dragHandle='.js-dragHandle' 
-        class="stage-wrap" 
-        content=item 
-        overrideClass='sortObject' 
-        isSortable=(if (eq index 0) false true) 
+        isDraggable=(if (eq index 0) false true)
+        dragHandle='.js-dragHandle'
+        class="stage-wrap"
+        content=item
+        overrideClass='sortObject'
+        isSortable=(if (eq index 0) false true)
         sortingScope="sortingGroup"
         dragStartAction="dragStart"
         dragStartHook=(action 'startHook')
@@ -31,14 +31,15 @@
                 <a href="javascript:void(0);">{{index-add index}}. {{item.name}}</a>
               </div>
             {{/if}}
-              
-            {{pipeline-steps 
-              stageIndex=(index-add index) 
-              stageInfo=item.name 
-              model=item.steps 
-              stageId=item.name 
-              stepsDraggble=true 
-              editable=editable 
+
+            {{pipeline-steps
+              pipeline=pipeline
+              stageIndex=(index-add index)
+              stageInfo=item.name
+              model=item.steps
+              stageId=item.name
+              stepsDraggble=true
+              editable=editable
               stagesDraggable=(if (eq index 0) false stagesDraggable)
               stepMode=(if (eq index 0) 'scm' '')
               editMode=editMode
@@ -60,21 +61,22 @@
         </div>
       </div>
     {{/sortable-objects}}
-    
+
   {{else}}
     {{#each model as |item index|}}
     <div class="stage-wrap">
       <div class="stage-name text-muted clip">
         {{index-add index}}. {{item.name}}
       </div>
-      {{pipeline-steps 
-        stageIndex=(index-add index) 
-        stageInfo=item.name 
-        model=item.steps 
-        stageId=item.name 
-        stpesDraggable=true 
-        stagesDraggable=stagesDraggable 
-        editable=editable 
+      {{pipeline-steps
+        pipeline=pipeline
+        stageIndex=(index-add index)
+        stageInfo=item.name
+        model=item.steps
+        stageId=item.name
+        stpesDraggable=true
+        stagesDraggable=stagesDraggable
+        editable=editable
         stepMode=(if (eq index 0) 'scm' '')
         editMode=editMode
         }}
@@ -82,4 +84,3 @@
     {{/each}}
   {{/if}}
 </section>
-
