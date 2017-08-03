@@ -39,11 +39,11 @@ export default Resource.extend({
     return 
   }.property('commitInfo'),
   repository: function(){
-    return this.get('pipeline.stages')[0].steps[0].repository
-  }.property('pipeline.stages'),
+    return this.get('pipelineSource.stages')[0].steps[0].repository
+  }.property('pipelineSource.stages'),
   branch: function(){
-    return this.get('pipeline.stages')[0].steps[0].branch
-  }.property('pipeline.stages'),
+    return this.get('pipelineSource.stages')[0].steps[0].branch
+  }.property('pipelineSource.stages'),
   pendingStageName: function(){
     var pendingStage = this.get('pendingStage');
     if(!pendingStage){
