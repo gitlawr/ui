@@ -1,6 +1,10 @@
 import Ember from 'ember'
 import Resource from 'ember-api-store/models/resource';
 
+let ENUMS_STATUSCLASS = {
+  'true': 'bg-success',
+  'false': 'bg-info',
+};
 export default Resource.extend({
   type: 'pipeline',
   pipelineStore: Ember.inject.service('pipeline-store'),
@@ -53,8 +57,24 @@ export default Resource.extend({
   validationErrors() {
     var errors = []
     if (!this.get('name')) {
-      errors.push('"Pipeline Name" is required')
+      errors.push('"Pipeline Name" is required');
+    }
+    var allStageNotEmpty = true
+    var stages = this.get('stages');
+    for(var i=0; i<stages.length;i++){
+      var item = stages[i]
+      if(!item.steps||item.steps.length===0){
+        allStageNotEmpty = false
+        break;
+      }
+    }
+    if(!allStageNotEmpty){
+      errors.push('Stage must contain at least one Step');
     }
     return errors;
-  }
+  },
+  statusClass: function() {
+    var status = this.get('isActive')+'';
+    return ENUMS_STATUSCLASS[status];
+  }.property('isActive')
 });

@@ -30,10 +30,10 @@
       </td>
       <td data-title="{{dt.status}}" class="clip text-muted">
         {{#if (eq inst.status 'Pending') }}
-          <p class="badge-state mt-10 mb-5">Waiting for Approving</p> 
-          <p class="badge-state mt-5 mb-10">{{inst.pendingStage}}.{{inst.pendingStageName}}</p>
+          <p class="badge-state mt-10 mb-5 {{inst.statusClass}}">Waiting for Approving</p> 
+          <p class="badge-state mt-5 mb-10 {{inst.statusClass}}">{{inst.pendingStage}}.{{inst.pendingStageName}}</p>
         {{else}}
-          <span class="badge-state">{{inst.status}}</span>
+          <span class="badge-state {{inst.statusClass}}">{{inst.status}}</span>
         {{/if}}
       </td>
       <td data-title="{{dt.actions}}" class="actions">
