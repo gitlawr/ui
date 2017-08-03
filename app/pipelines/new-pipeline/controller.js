@@ -9,6 +9,7 @@ export default Ember.Controller.extend({
     }])
     return pipeline.stages
   }.property('model'),
+  model: null,
   errors: null,
   actions: {
     save: function(success){

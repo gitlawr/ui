@@ -7,6 +7,7 @@ export default Ember.Component.extend({
   dragDom: null,
   stageInfo: null,
   stageIndex: null,
+  pipeline: null,
   sortingScope: function() {
     return this.get('stageId')
   }.property('stageId'),
@@ -25,7 +26,7 @@ export default Ember.Component.extend({
     dragStart: function(content,e) {
       var dom = e.target
       var crt = dom.cloneNode(true);
-      crt.style.position = "fixed"; 
+      crt.style.position = "fixed";
       crt.style.top = "-100%"; crt.style.right = "-100%";
       crt.style.backgroundColor=crt.style.color
       dom.appendChild(crt);
@@ -48,10 +49,12 @@ export default Ember.Component.extend({
     },
     addStep: function() {
       var cb = (step) => {
-          this.get('model').pushObject(step);
+          var model = this.get('model');
+          this.set('model',model.concat(step));
         };
       this.get('modalService').toggleModal('modal-pipeline-new-step', {
         type: 'add',
+        pipeline: this.get('pipeline'),
         stageInfo: this.get('stageInfo'),
         stageIndex: this.get('stageIndex'),
         stepMode: this.get('stepMode'),
@@ -62,6 +65,7 @@ export default Ember.Component.extend({
     editStep: function(index) {
       this.get('modalService').toggleModal('modal-pipeline-new-step', {
         type: 'edit',
+        pipeline: this.get('pipeline'),
         params: this.get('model')[index],
         stageInfo: this.get('stageInfo'),
         stageIndex: this.get('stageIndex'),

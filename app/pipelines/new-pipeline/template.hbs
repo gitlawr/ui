@@ -8,9 +8,10 @@
 </section>
 
 <section class="pipeline-container">
-  {{pipeline-stages 
-    stagesDraggable=true 
-    model=stages 
+  {{pipeline-stages
+    pipeline=model
+    stagesDraggable=true
+    model=stages
     editable=true
     editMode="new"
   }}

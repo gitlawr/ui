@@ -73,8 +73,28 @@ export default Resource.extend({
     }
     return errors;
   },
+  images: function() {
+    var images = [];
+    var stages = this.get('stages');
+    for (var i = 0; i < stages.length; i++) {
+      var item = stages[i].steps;
+      for(var j=0; j< item.length;j++){
+        var itemJ = item[j];
+        if(itemJ.type==="task"){
+          var exist = images.findIndex(ele=>ele===itemJ.image);
+          (exist===-1)&&images.push(itemJ.image);
+        }
+        if(itemJ.type==="build"){
+          var exist = images.findIndex(ele=>ele===itemJ.targetImage);
+          (exist===-1)&&images.push(itemJ.targetImage);
+        }
+      }
+    }
+    return images;
+  }.property('stages.@each.{steps.@each}'),
   statusClass: function() {
     var status = this.get('isActive')+'';
     return ENUMS_STATUSCLASS[status];
-  }.property('isActive')
+  }.property('isActive'),
+
 });
