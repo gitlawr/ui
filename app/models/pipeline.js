@@ -1,10 +1,11 @@
 import Ember from 'ember'
 import Resource from 'ember-api-store/models/resource';
 
-let ENUMS_STATUSCLASS = {
+const ENUMS_STATUSCLASS = {
   'true': 'bg-success',
   'false': 'bg-info',
 };
+
 export default Resource.extend({
   type: 'pipeline',
   pipelineStore: Ember.inject.service('pipeline-store'),

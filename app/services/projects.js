@@ -8,7 +8,7 @@ export default Ember.Service.extend({
   'tab-session': Ember.inject.service('tab-session'),
   prefs: Ember.inject.service(),
   k8sSvc: Ember.inject.service('k8s'),
-  
+
   pipelineSvc: Ember.inject.service('pipeline'),
 
   userStore: Ember.inject.service('user-store'),
@@ -154,6 +154,7 @@ export default Ember.Service.extend({
 
   orchestrationState: null,
   updateOrchestrationState() {
+    debugger
     let hash = {
       hasKubernetes: false,
       kubernetesReady: false,

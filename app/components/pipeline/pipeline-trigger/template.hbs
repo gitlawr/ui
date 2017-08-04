@@ -19,6 +19,9 @@
     </label>
     <div class="pt-10"></div>
     {{input class="form-control" disabled=schduleInputDisabled value=pipeline.triggerSpec}}
+    {{#if pipeline.triggerSpec}}
+      <p class="text-success mt-5 mb-0">{{pretty-cron pipeline.triggerSpec 'toString'}}</p>
+    {{/if}}
   </div>
 
   <div class="pt-20"></div>

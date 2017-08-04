@@ -1,3 +1,24 @@
+<section>
+  {{#each waitingForApproval as |approval|}}
+    <div class="pipeline-approval-tip">
+      <div class="approval-head">
+        <span class="head-content">Waiting Approval</span>
+      </div>
+      <div class="approval-content">
+        <span class="content-text">
+            User need to approve Stage <span class="text-info">{{approval.pendingStageName}}</span> of <a href="{{href-to "pipelines.activity" approval.id}}"> #{{approval.runSequence}} by {{approval.pipelineSource.name}}</a>
+        </span>
+        {{#if approval.actionLinks.approve}}
+          <div class="approval-actions" style="padding-bottom: 0">
+              <a class="mr-10 text-error" href="javascript:void(0);" {{action "sendAction" approval "deny"}} style="color: red"><i class="icon icon-x-circle"></i>Deny</a>
+              <a class="text-success" href="javascript:void(0);" {{action "sendAction" approval "approve"}} ><i class="icon icon-success"></i>Approve</a>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  {{/each}}
+</section>
+
 <section class="header has-tabs clearfix">
   <ul class="tab-nav">
     <li>{{#link-to "pipelines.ready.activities" (query-params status="all")}}All{{/link-to}}</li>
@@ -12,7 +33,6 @@
     </button>
   </div>
 </section>
-
 
 <section class="instances">
   {{pipeline-table

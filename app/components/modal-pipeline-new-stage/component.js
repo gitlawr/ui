@@ -15,7 +15,8 @@ export default Ember.Component.extend(ModalBase, NewOrEdit, {
   sortBy: 'name',
   userList: [],
   selectedList: function() {
-    return this.get('userList').filter(ele => !!ele.selected)
+    var selectedList = this.get('userList').filter(ele => !!ele.selected);
+    return selectedList;
   }.property('userList.@each.selected'),
   headers: Ember.computed('isLocal', function() {
     let out = [
@@ -63,7 +64,8 @@ export default Ember.Component.extend(ModalBase, NewOrEdit, {
     var opts = this.get('modalOpts');
     if (opts.mode === "edit") {
       this.set('model', opts.stage);
-      this.set('editing', true)
+      this.set('editing', true);
+      var approvers = opts.stage.approvers;
     } else {
       this.set('model', {
         id: null,
@@ -72,6 +74,7 @@ export default Ember.Component.extend(ModalBase, NewOrEdit, {
         steps: []
       })
     }
+
     this.get('userStore')
       .find('account', null, {filter: {'kind_ne': ['service','agent']}, forceReload: true})
         .then((user)=>{
@@ -79,6 +82,17 @@ export default Ember.Component.extend(ModalBase, NewOrEdit, {
             var kind = (row.kind||'').toLowerCase();
             return showKinds.indexOf(kind) !== -1;
           });
+          if(approvers&&approvers.length){
+            userList = userList.map(ele=>{
+              if(approvers.indexOf(ele.id)!==-1){
+                return {
+                  ...ele,
+                  selected: true
+                }
+              }
+              return ele
+            })
+          }
           this.set('userList',userList);
         });
   },
@@ -93,7 +107,6 @@ export default Ember.Component.extend(ModalBase, NewOrEdit, {
   actions: {
     add: function(success) {
       success(true);
-      debugger
       this.get('modalOpts').cb({
         ...this.get('model'),
         id: Date.now(),

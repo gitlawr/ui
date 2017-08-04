@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   crt: null,
   dragDom: null,
   model: null,
+  pipeline: null,
   modalService: Ember.inject.service('modal'),
   actions: {
     dragStart: function(content, e) {
