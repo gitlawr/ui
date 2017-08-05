@@ -21,6 +21,7 @@ const STATUS_LABEL_ENUMS = {
 export default Resource.extend({
   type: 'activity',
   router: Ember.inject.service(),
+  userStore: Ember.inject.service('user-store'),
   actions: {
     rerun: function() {
       return this.doAction('rerun')
@@ -68,15 +69,18 @@ export default Resource.extend({
     }
     var activity_stages = this.get('activity_stages');
     var stage = activity_stages[pendingStage];
-    if(stage.approvers){
+    var pipelineSource = this.get('pipelineSource');
+    var pipelineStage = pipelineSource.stages[pendingStage];
+    if(pipelineStage.approvers){
       var userStore = this.get('userStore');
-      var approversPromises = stage.approvers.map(ele=>{
-        return userStore.find('account',ele.id)
+      var approversPromises = pipelineStage.approvers.map(ele=>{
+        return userStore.find('account',ele)
       })
       Ember.RSVP.all(approversPromises)
         .then((array)=>{
-          debugger
-          this.set('approversName',array.map(ele=>ele.name))
+          var names = [];
+          names = array.map(ele=>ele.name)
+          this.set('approversName',names);
         })
     }
     return stage.name;
