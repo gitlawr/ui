@@ -83,15 +83,12 @@ export default Ember.Component.extend(ModalBase, NewOrEdit, {
             return showKinds.indexOf(kind) !== -1;
           });
           if(approvers&&approvers.length){
-            userList = userList.map(ele=>{
-              if(approvers.indexOf(ele.id)!==-1){
-                return {
-                  ...ele,
-                  selected: true
-                }
+            for (var i = 0; i < userList.length; i++) {
+              var item = userList[i];
+              if(approvers.indexOf(item.id)!==-1){
+                item.set('selected',true)
               }
-              return ele
-            })
+            }
           }
           this.set('userList',userList);
         });

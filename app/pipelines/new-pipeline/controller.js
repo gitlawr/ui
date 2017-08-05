@@ -8,7 +8,7 @@ export default Ember.Controller.extend({
       steps: []
     }])
     return pipeline.stages
-  }.property('model'),
+  }.property('model.pipeline'),
   model: null,
   errors: null,
   actions: {
