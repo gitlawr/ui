@@ -11,6 +11,7 @@ export default Ember.Component.extend({
   sortingScope: function() {
     return this.get('stageId')
   }.property('stageId'),
+  // sortingScope: 'sortingPipelineSteps',
   didInsertElement(){
     var stepMode = this.get('stepMode')
     var editMode= this.get('editMode')
