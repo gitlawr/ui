@@ -5,16 +5,16 @@
     {{#if stepsDraggble}}
       {{#sortable-objects
         class=(if stagesDraggable 'draggable' '')
-        sortableObjectList=model 
-        enableSort=true 
+        sortableObjectList=model
+        enableSort=true
         sortingScope=sortingScope}}
         {{#each model as |item index|}}
-          {{#draggable-object 
-            isDraggable=(if stagesDraggable true false) 
-            class="step-content" 
-            content=item 
+          {{#draggable-object
+            isDraggable=(if stagesDraggable true false)
+            class="step-content"
+            content=item
             overrideClass='sortObject' 
-            isSortable=true 
+            isSortable=true
             sortingScope=sortingScope
             dragStartAction="dragStart"
             dragStartHook=(action 'startHook')
