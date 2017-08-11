@@ -7,10 +7,10 @@ header {
 
 .header {
   border-bottom: solid 2px $border;
-  margin: 0 0 15px 0;
+  margin: 0 0 16.5px 0;
 
   h1 {
-    margin: 0;
+    margin: 5px 0 0 0;
     display: inline-block;
     vertical-align: middle;
     font-size: 21px;
@@ -47,7 +47,7 @@ header {
     flex: 1 1;
 
     label, span, div {
-      vertical-align: baseline;
+      vertical-align: bottom;
     }
 
     &:last-child {

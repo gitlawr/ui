@@ -70,28 +70,16 @@ var Stack = Resource.extend(StateCounts, {
   }),
 
   actions: {
-    cancelUpgrade: function() {
-      return this.doAction('cancelupgrade');
-    },
-
-    cancelRollback: function() {
-      return this.doAction('cancelrollback');
-    },
-
-    finishUpgrade: function() {
-      return this.doAction('finishupgrade');
-    },
-
-    rollback: function() {
-      return this.doAction('rollback');
-    },
-
     edit: function() {
       this.get('modalService').toggleModal('modal-edit-stack', this);
     },
 
     exportConfig: function() {
       download(this.linkFor('composeConfig'));
+    },
+
+    addContainer: function() {
+      this.get('application').transitionToRoute('containers.run', {queryParams: {stackId: this.get('id')}});
     },
 
     viewCode: function() {
@@ -122,12 +110,13 @@ var Stack = Resource.extend(StateCounts, {
 
 
     var out = [
+      { label: 'action.addContainer',   icon: 'icon icon-container',      action: 'addContainer',     enabled: true },
+      { divider: true },
       { label: 'action.edit',           icon: 'icon icon-edit',           action: 'edit',             enabled: !!a.update },
       { label: 'action.viewConfig',     icon: 'icon icon-files',          action: 'viewCode',         enabled: !!a.exportconfig },
       { label: 'action.exportConfig',   icon: 'icon icon-download',       action: 'exportConfig',     enabled: !!a.exportconfig },
 //      { label: 'action.viewGraph',      icon: 'icon icon-share',          action: 'viewGraph',        enabled: true },
       { divider: true },
-      { label: 'action.rollback',       icon: 'icon icon-history',        action: 'rollback',         enabled: !!a.rollback },
       { label: 'action.remove',         icon: 'icon icon-trash',          action: 'promptDelete',     enabled: !!a.remove,                altAction: 'delete'},
       { divider: true },
       { label: 'action.viewInApi',      icon: 'icon icon-external-link',  action: 'goToApi',          enabled: true },
@@ -167,7 +156,14 @@ var Stack = Resource.extend(StateCounts, {
     return (this.get('name')||'').toLowerCase() === 'default';
   }.property('name'),
 
-  isEmpty: Ember.computed.equal('instances.length',0),
+  isEmpty: Ember.computed('instances.length', 'services.length', function() {
+
+    if (Ember.isEmpty(this.get('instances')) && Ember.isEmpty(this.get('services'))) {
+      return true;
+    }
+
+    return false;
+  }),
 
   isFromCatalog: function() {
     let kind = this.get('externalIdInfo.kind');

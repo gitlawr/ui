@@ -4,8 +4,9 @@ import C from 'ui/utils/constants';
 import Util from 'ui/utils/util';
 import { denormalizeId, denormalizeIdArray } from 'ember-api-store/utils/denormalize';
 import StateCounts from 'ui/mixins/state-counts';
+import EndpointPorts from 'ui/mixins/endpoint-ports';
 
-var Service = Resource.extend(StateCounts, {
+var Service = Resource.extend(StateCounts, EndpointPorts, {
   type: 'service',
   intl: Ember.inject.service(),
   growl: Ember.inject.service(),
@@ -55,7 +56,7 @@ var Service = Resource.extend(StateCounts, {
       return this.doAction('garbagecollect');
     },
 
-    promptStop: function() {
+    promptStop() {
       this.get('modalService').toggleModal('modal-confirm-deactivate', {
         originalModel: this,
         action: 'deactivate'
@@ -114,6 +115,13 @@ var Service = Resource.extend(StateCounts, {
       }});
     },
 
+    addSidekick() {
+      this.get('application').transitionToRoute('containers.run', {queryParams: {
+        serviceId: this.get('id'),
+        addSidekick: true,
+      }});
+    },
+
     shell() {
       this.get('modalService').toggleModal('modal-shell', {
         model: this.get('containerForShell'),
@@ -121,7 +129,7 @@ var Service = Resource.extend(StateCounts, {
       });
     },
 
-    popoutShell: function() {
+    popoutShell() {
       let proj = this.get('projects.current.id');
       let id = this.get('containerForShell.id');
       Ember.run.later(() => {
@@ -149,20 +157,20 @@ var Service = Resource.extend(StateCounts, {
   availableActions: function() {
     var a = this.get('actionLinks');
 
-    var canUpgrade = !!a.upgrade && this.get('canUpgrade');
-    var isK8s = this.get('isK8s');
     var isReal = this.get('isReal');
+    var isK8s = this.get('isK8s');
     var canHaveContainers = this.get('canHaveContainers');
     var containerForShell = this.get('containerForShell');
     var isDriver = ['networkdriverservice','storagedriverservice'].includes(this.get('lcType'));
     var canCleanup = !!a.garbagecollect && this.get('canCleanup');
 
     var choices = [
-      { label: 'action.upgradeOrEdit',  icon: 'icon icon-arrow-circle-up',  action: 'upgrade',        enabled: canUpgrade },
+      { label: 'action.upgradeOrEdit',  icon: 'icon icon-arrow-circle-up',  action: 'upgrade',        enabled: isReal },
       { label: 'action.edit',           icon: 'icon icon-pencil',           action: 'editDns',        enabled: !isReal },
       { label: 'action.rollback',       icon: 'icon icon-history',          action: 'rollback',       enabled: !!a.rollback && isReal && !!this.get('previousRevisionId') },
       { label: 'action.garbageCollect', icon: 'icon icon-garbage',          action: 'garbageCollect', enabled: canCleanup},
       { label: 'action.clone',          icon: 'icon icon-copy',             action: 'clone',          enabled: !isK8s && !isDriver },
+//      { label: 'action.addSidekick',    icon: 'icon icon-plus-circle',      action: 'addSidekick',    enabled: this.get('canHaveSidekicks') },
       { divider: true },
       { label: 'action.execute',        icon: 'icon icon-terminal',         action: 'shell',          enabled: !!containerForShell, altAction:'popoutShell'},
 //      { label: 'action.logs',           icon: 'icon icon-file',             action: 'logs',           enabled: !!a.logs, altAction: 'popoutLogs' },
@@ -179,15 +187,13 @@ var Service = Resource.extend(StateCounts, {
 
     return choices;
   }.property('actionLinks.{activate,deactivate,pause,restart,update,remove,rollback,garbagecollect}','previousRevisionId',
-    'lcType','isK8s','canHaveContainers','canUpgrade','containerForShell'
+    'lcType','isK8s','canHaveContainers','canHaveSidekicks','containerForShell'
   ),
 
   serviceLinks: null, // Used for clone
   reservedKeys: ['serviceLinks'],
 
-  displayImage: function() {
-    return (this.get('launchConfig.imageUuid')||'').replace(/^docker:/,'');
-  }.property('launchConfig.imageUuid'),
+  image: Ember.computed.alias('launchConfig.image'),
 
   displayStack: function() {
     var stack = this.get('stack');
@@ -301,6 +307,10 @@ var Service = Resource.extend(StateCounts, {
     ].includes(type);
   }.property('lcType','isSelector'),
 
+  canHaveSidekicks: function() {
+    return ['service','scalinggroup'].includes(this.get('lcType'));
+  }.property('lcType'),
+
   hasPorts: Ember.computed.alias('isReal'),
   hasImage: Ember.computed.alias('isReal'),
   hasLabels: Ember.computed.alias('isReal'),
@@ -367,67 +377,6 @@ var Service = Resource.extend(StateCounts, {
   activeIcon: function() {
     return activeIcon(this);
   }.property('lcType'),
-
-  endpointsMap: function() {
-    var out = {};
-    (this.get('publicEndpoints')||[]).forEach((endpoint) => {
-      if ( !endpoint.port )
-      {
-        // Skip nulls
-        return;
-      }
-
-      if ( out[endpoint.port] )
-      {
-        out[endpoint.port].push(endpoint.ipAddress);
-      }
-      else
-      {
-        out[endpoint.port] = [endpoint.ipAddress];
-      }
-    });
-
-    return out;
-  }.property('publicEndpoints.@each.{ipAddress,port}'),
-
-  endpointsByPort: function() {
-    var out = [];
-    var map = this.get('endpointsMap');
-    Object.keys(map).forEach((key) => {
-      out.push({
-        port: parseInt(key,10),
-        ipAddresses: map[key]
-      });
-    });
-
-    return out;
-  }.property('endpointsMap'),
-
-  endpointPorts: Ember.computed.mapBy('endpointsByPort','port'),
-
-  displayPorts: function() {
-    let parts = [];
-
-    this.get('endpointsByPort').forEach((obj) => {
-      var url = Util.constructUrl(false, obj.ipAddresses[0], obj.port);
-      parts.push('<span>' +
-        '<a href="'+ url +'" target="_blank" rel="nofollow noopener">' +
-          obj.port +
-        '</a> ' +
-      '</span>');
-    });
-
-    let pub = parts.join(" / ");
-
-    if ( pub )
-    {
-      return pub.htmlSafe();
-    }
-    else
-    {
-      return '';
-    }
-  }.property('endpointsByPort.@each.{port,ipAddresses}', 'intl.locale'),
 
   memoryReservationBlurb: Ember.computed('launchConfig.memoryReservation', function() {
     if ( this.get('launchConfig.memoryReservation') ) {

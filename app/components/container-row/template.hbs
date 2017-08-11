@@ -15,14 +15,14 @@
     <a href="{{href-to detailRoute model.id}}">{{model.displayName}}</a>
     {{#if model.showTransitioningMessage}}
       <div class="clip text-small {{model.stateColor}}" >{{model.transitioningMessage}}</div>
+    {{else if model.displayEndpoints}}
+      <div class="clip text-small">
+        {{model.displayEndpoints}}
+      </div>
     {{/if}}
   </td>
-  {{#if showEndpoints}}
-    <td data-title="{{dt.endpoints}}">
-    </td>
-  {{/if}}
   <td data-title="{{dt.image}}" class="clip top-half">
-     <small>{{model.displayImage}}</small>
+     <small>{{model.image}}</small>
      <p data-title="{{t 'generic.details'}}" class="text-small text-muted m-0 clip">
       {{#if model.displayIp}}
         {{#copy-inline clipboardText=model.displayIp}}{{format-ip model.displayIp}}{{/copy-inline}} /

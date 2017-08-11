@@ -1,8 +1,4 @@
 <section>
-  <div class="box mb-20">
-    {{t 'projectList.index.subtext' appName=settings.appName htmlSafe=true}}
-  </div>
-
   {{#unless projects.current}}
     <div class="banner bg-danger">
       <div class="banner-icon"><i class="icon icon-alert"></i></div>
@@ -13,7 +9,7 @@
 
 <section>
   {{#sortable-table
-    classNames="grid fixed mb-0 sortable-table"
+    tableClassNames="bordered"
     bulkActions=false
     paging=true
     search=true
@@ -33,3 +29,7 @@
     {{/if}}
   {{/sortable-table}}
 </section>
+
+<div class="box mt-20 pt-0 pb-0">
+  {{t 'projectList.index.subtext' appName=settings.appName htmlSafe=true}}
+</div>

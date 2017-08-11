@@ -102,13 +102,15 @@ TABLE {
   > THEAD > TR > TH,
   > TBODY > TR > TD {
     padding: 0;
-    height: $group-row-height;
     transition: ease-in-out all 200ms;
     word-wrap: break-word;
 
     &:last-child {
     height: 0;
     }
+  }
+  > TBODY > TR > TD {
+    height: $group-row-height;
   }
 
   > TBODY > TR.auto-height > TD,
@@ -232,6 +234,15 @@ TABLE {
     > TR.total > TD {
       background: $table-bg-accent;
       height: $group-row-height;
+    }
+
+    > TR.group-row-error {
+      border-top: 0 !important;
+
+      > TD {
+        padding: 0 10px;
+        height: auto;
+      }
     }
 
     > TR.no-bottom > TD {

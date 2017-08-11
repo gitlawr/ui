@@ -25,14 +25,29 @@ export default Ember.Route.extend({
       lcIndex = parseInt(lcIndex,10);
     }
 
+    let defaultStack = null;
+    if ( params.stackId ) {
+      defaultStack = store.getById('stack', params.stackId); 
+    }
+
+    if ( !defaultStack ) {
+      defaultStack = store.getById('stack', this.get(`prefs.${C.PREFS.LAST_STACK}`));
+    }
+
+    let stackId = null;
+    if ( defaultStack ) {
+      stackId = defaultStack.get('id');
+    }
+
     let emptyService = store.createRecord({
       type: 'scalingGroup', // @TODO switch back to service
-      stackId: params.stackId,
+      stackId: stackId,
       scale: 1,
       startOnCreate: true,
     });
 
     let emptyLc = store.createRecord(JSON.parse(EMPTY_LC));
+    emptyLc.stackId = stackId;
 
     var dependencies = {};
     if ( params.serviceId )
@@ -52,7 +67,17 @@ export default Ember.Route.extend({
           return Ember.RVP.reject('Service not found');
         }
 
-        if ( lcIndex === null ) {
+        let clone = service.clone();
+
+        if ( params.addSidekick ) {
+          return Ember.Object.create({
+            service: clone,
+            launchConfig: emptyLc,
+            isService: true,
+            mode: 'sidekick',
+            isUpgrade: false,
+          });
+        } else if ( lcIndex === null ) {
           // If there are sidekicks, you need to pick one & come back
           if ( service.secondaryLaunchConfigs && service.secondaryLaunchConfigs.length ) {
             return Ember.Object.create({
@@ -65,7 +90,6 @@ export default Ember.Route.extend({
           }
         }
 
-        let clone = service.clone();
         let lc;
         if ( lcIndex === -1 ) {
           // Primary service
@@ -124,7 +148,13 @@ export default Ember.Route.extend({
           });
         }
       } else {
-        let mode = this.get(`prefs.${C.PREFS.SCALE_MODE}`);
+        let mode;
+        if ( params.addSidekick ) {
+          mode = 'sidekick';
+        } else {
+          mode = this.get(`prefs.${C.PREFS.LAST_SCALE_MODE}`);
+        }
+
         let isService = (mode && mode !== 'container');
         let isGlobal = (mode === 'global');
         if ( isGlobal ) {

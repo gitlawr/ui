@@ -4,8 +4,9 @@ import Util from 'ui/utils/util';
 import { denormalizeId, denormalizeIdArray } from 'ember-api-store/utils/denormalize';
 import Instance from 'ui/models/instance';
 import { formatSi } from 'ui/utils/util';
+import EndpointPorts from 'ui/mixins/endpoint-ports';
 
-var Container = Instance.extend({
+var Container = Instance.extend(EndpointPorts, {
   // Common to all instances
   requestedHostId            : null,
   primaryIpAddress           : null,
@@ -14,7 +15,7 @@ var Container = Instance.extend({
   modalService: Ember.inject.service('modal'),
   // Container-specific
   type                       : 'container',
-  imageUuid                  : null,
+  image                      : null,
   registryCredentialId       : null,
   command                    : null,
   commandArgs                : null,
@@ -35,8 +36,6 @@ var Container = Instance.extend({
   service: Ember.computed('primaryService','referencedService', function() {
     return this.get('referencedService') || this.get('primaryService');
   }),
-
-  stack: denormalizeId('stackId'),
 
   actions: {
     restart: function() {
@@ -111,7 +110,7 @@ var Container = Instance.extend({
     var canConvert = !!a.converttoservice && !isSystem && !isService && !isK8s;
 
     var choices = [
-      { label: 'action.upgradeOrEdit',    icon: 'icon icon-edit',         action: 'edit',             enabled: !!a.update && !isK8s },
+      { label: 'action.upgradeOrEdit',    icon: 'icon icon-edit',         action: 'edit',             enabled: !!a.upgrade && !isK8s },
       { label: 'action.convertToService', icon: 'icon icon-service',      action: 'convertToService', enabled: canConvert},
       { label: 'action.clone',            icon: 'icon icon-copy',         action: 'clone',            enabled: !isSystem && !isService && !isK8s},
       { divider: true },
@@ -129,7 +128,7 @@ var Container = Instance.extend({
     ];
 
     return choices;
-  }.property('actionLinks.{restart,start,stop,restore,execute,logs,update,converttoservice}','canDelete','isSystem'),
+  }.property('actionLinks.{restart,start,stop,restore,execute,logs,upgrade,converttoservice}','canDelete','isSystem'),
 
 
   memoryReservationBlurb: Ember.computed('memoryReservation', function() {
@@ -201,14 +200,13 @@ var Container = Instance.extend({
   }.property('state'),
 
   isSystem: function() {
-    var labelKeys = Object.keys(this.get('labels')||{});
-    var isSystem = !!this.get('system') || labelKeys.indexOf(C.LABEL.SYSTEM_TYPE) >= 0;
-    return isSystem;
+    if ( this.get('system') ) {
+      return true;
+    } else {
+      let labels = this.get('labels')||{};
+      return !!labels[C.LABEL.SYSTEM_TYPE];
+    }
   }.property('system','labels'),
-
-  displayImage: function() {
-    return (this.get('imageUuid')||'').replace(/^docker:/,'');
-  }.property('imageUuid'),
 
   displayExternalId: function() {
     var id = this.get('externalId');
