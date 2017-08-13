@@ -114,16 +114,10 @@ module.exports = function(environment) {
       kubectlEndpoint: '/r/projects/%PROJECTID%/kubectld:8091/v1-kubectl',
       kubernetesDashboard: '/r/projects/%PROJECTID%/kubernetes-dashboard:9090/#',
       kubernetesWorkload: '/r/projects/%PROJECTID%/kubernetes-dashboard:9090/api/v1/workload?itemsPerPage=1',
-<<<<<<< HEAD
-      mesosEndpoint: '/r/projects/%PROJECTID%/mesos-master:5050',
-      swarmDashboard: '/r/projects/%PROJECTID%/portainer/',
-=======
-
->>>>>>> Sync with backend
       pipelinesEndpoint: '/r/projects/%PROJECTID%/pipeline-server:60080/v1',
-      projectEndpoint: '/v2/projects/%PROJECTID%',
-      proxyEndpoint: '/v2-beta/proxy',
-      wsEndpoint: '/v2/projects/%PROJECTID%/subscribe' +
+      projectEndpoint: '/v3/projects/%PROJECTID%',
+      proxyEndpoint: '/v3/proxy',
+      wsEndpoint: '/v3/projects/%PROJECTID%/subscribe' +
                     '?eventNames=resource.change' +
                     '&resourceType_ne=serviceLog' +
                     '&resourceType_ne=deploymentUnit',

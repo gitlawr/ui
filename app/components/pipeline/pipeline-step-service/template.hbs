@@ -1,0 +1,42 @@
+<div class="pt-20"></div>
+<div class="inline-form">
+  <label>Name{{field-required}}</label>
+  <div class="pt-10"></div>
+  {{input
+    value=selectedModel.name
+    placeholder="mysql"
+  }}
+</div>
+
+<div class="pt-20"></div>
+<div class="inline-form">
+  <label>{{t 'newPipelineStep.jobType.image'}}{{field-required}}</label>
+  <div class="pt-10"></div>
+  {{input-suggest
+    value=selectedModel.image
+    choices=pipeline.images
+    placeholder="hello-world:latest"
+  }}
+</div>
+
+<div class="pt-20"></div>
+<div class="inline-form">
+  <label>{{t 'newPipelineStep.jobType.task.command'}}</label>
+  {{textarea-autogrow
+    value=selectedModel.command
+    classNames="form-control"
+    placeholder='newPipelineStep.jobType.task.commandLabel'
+    minHeight=0
+    maxHeight=200
+  }}
+</div>
+
+<div class="pt-30"></div>
+{{form-key-value
+  initialMap=selectedModel.parameters
+  changed=(action (mut selectedModel.parameters))
+  allowEmptyValue=false
+  editing=true
+  normalHeader=(t 'newPipeline.build.variable')
+  addActionLabel="newPipeline.build.add"
+}}

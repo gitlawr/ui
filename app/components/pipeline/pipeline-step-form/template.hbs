@@ -2,24 +2,12 @@
   <label>{{t 'newPipelineStep.jobType.label'}}</label>
   <div class="pt-10"></div>
   <div>
-  {{#if (eq modalOpts.stepMode "scm")}}
-    <label class="mr-30">{{radio-button selection=type value="scm"}}
-        SCM
-    </label>
-  {{else}}
-    <label class="mr-30">{{radio-button selection=type value="task"}}
-        {{t 'newPipelineStep.jobType.task.label'}}
-    </label>
-    <label class="mr-30">{{radio-button selection=type value="build"}}
-        Build
-    </label>
-    {{!-- <label class="mr-30">{{radio-button selection=type value="catalog"}}
-        {{t 'newPipelineStep.jobType.catalog.label'}}
-    </label>
-    <label class="mr-30">{{radio-button selection=type value="deploy"}}
-        {{t 'newPipelineStep.jobType.deploy.label'}}
-    </label> --}}
-    {{/if}}
+  {{new-select
+    content=stepsTypeChoices
+    optionLabelPath="id"
+    optionValuePath="id"
+    value=type
+  }}
   </div>
 </div>
 
@@ -133,6 +121,12 @@
   }}
 {{/if}}
 
+{{#if (eq type 'service')}}
+  {{pipeline/pipeline-step-service
+    pipeline=pipeline
+    selectedModel=selectedModel
+  }}
+{{/if}}
 {{!--
 {{#if (eq type 'catalog')}}
 

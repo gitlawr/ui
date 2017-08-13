@@ -1,11 +1,34 @@
 import Ember from 'ember';
 
+const stepOneChoice = [{
+  id: 'scm',
+}];
+
+const stepsChoices = [{
+    id: 'task',
+  },{
+    id: 'build',
+  },{
+    id: 'service'
+  },{
+    id: 'upgradeStack'
+  },{
+    id: 'upgradeService'
+}];
+
 export default Ember.Component.extend({
   selectedModel: null,
+  stepsTypeChoices: null,
   init(){
     this._super(...arguments);
     var selectedModel = this.get('model')[this.get('type')];
     this.set('selectedModel',selectedModel);
+    var stepMode = this.get('modalOpts.stepMode');
+    if(stepMode === 'scm'){
+      this.set('stepsTypeChoices', stepOneChoice);
+    }else{
+      this.set('stepsTypeChoices', stepsChoices);
+    }
   },
   whenTypeChange: function(){
     var type = this.get('type');
