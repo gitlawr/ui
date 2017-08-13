@@ -584,11 +584,11 @@ newPipeline:
     variable: Build Variables
     add: Add Another
   git:
-    repo: 
+    repo:
       label: Repository
       placeholder: e.g. https://github.com/mycompany/mypipeline.git
     branch: Branch
-  image: 
+  image:
     label: Target image
     placeholder: builded
   builder:
@@ -604,7 +604,7 @@ pipelineDetail:
   addStep: Add Step
 
 newPipelineStage:
-  header: 
+  header:
     create: Add a Stage
     edit: Edit Stage
   name: Name
@@ -613,10 +613,10 @@ newPipelineStep:
   header:
     create: Add a step to stage
     edit: Edit step
-  jobType: 
+  jobType:
     label: Step Type
     image: Image
-    task: 
+    task:
       label: Task
       command: Command
       commandLabel: 'sh'
@@ -626,7 +626,7 @@ newPipelineStep:
       label: Deploy
       name: Name
       count: Count
-      
+
 # If you change translations here also change the translation in app/utils/constants.js under the FALLBACK_TRANSLATIONS key
 # those are present in case we have an error in the app and can not load the translations file
 # the error page will at least make a little sense
@@ -3576,14 +3576,11 @@ nav:
 ##############################
 action:
   activate: Activate
-<<<<<<< HEAD
-  approve: Approve
-  cancelUpgrade: Cancel Upgrade
-  cancelRollback: Cancel Rollback
-=======
   addContainer: Add Container
   addSidekick: Add a Sidekick
->>>>>>> master
+  approve: Approve  
+  cancelUpgrade: Cancel Upgrade
+  cancelRollback: Cancel Rollback
   clone: Clone
   console: Open Console
   convertToService: Convert to Service

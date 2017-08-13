@@ -44,6 +44,13 @@ class StepType {
         this.username = '';
         this.password = '';
         break;
+      case 'service':
+        this.type = 'task';
+        this.image = '';
+        this.command = '';
+        this.name = '';
+        this.parameters = {};
+        break;
       default:
         break;
     }
