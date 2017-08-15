@@ -1,32 +1,61 @@
+
 <div class="pt-20"></div>
-  <div class="inline-form">
-    <label>{{t 'newPipelineStep.jobType.image'}}{{field-required}}</label>
-    <div class="pt-10"></div>
-    {{input-suggest
-      value=selectedModel.image
-      choices=pipeline.images
-      placeholder="hello-world:latest"
-    }}
-  </div>
-
-  <div class="pt-20"></div>
-  <div class="inline-form">
-    <label>{{t 'newPipelineStep.jobType.task.command'}}</label>
-    {{textarea-autogrow
-      value=selectedModel.command
-      classNames="form-control"
-      placeholder='newPipelineStep.jobType.task.commandLabel'
-      minHeight=0
-      maxHeight=200
-    }}
-  </div>
-
-  <div class="pt-30"></div>
-  {{form-key-value
-    initialMap=selectedModel.parameters
-    changed=(action (mut selectedModel.parameters))
-    allowEmptyValue=false
-    editing=true
-    normalHeader=(t 'newPipeline.build.variable')
-    addActionLabel="newPipeline.build.add"
+<div class="inline-form">
+  <div class="pt-10"></div>
+  <label>{{check-box class="form-control" checked=selectedModel.isService}}
+    As a Service
+  </label>
+</div>
+{{#if selectedModel.isService}}
+<div class="pt-20"></div>
+<div class="inline-form">
+  <label>Name{{field-required}}</label>
+  <div class="pt-10"></div>
+  {{input
+    value=selectedModel.alias
+    placeholder="mysql"
   }}
+</div>
+{{/if}}
+<div class="pt-20"></div>
+<div class="inline-form">
+  <label>{{t 'newPipelineStep.jobType.image'}}{{field-required}}</label>
+  <div class="pt-10"></div>
+  {{input-suggest
+    value=selectedModel.image
+    choices=pipeline.images
+    placeholder="hello-world:latest"
+  }}
+</div>
+
+<div class="pt-20"></div>
+<div class="inline-form">
+  <label>EntryPoint</label>
+  <div class="pt-10"></div>
+  {{input
+    value=selectedModel.entrypoint
+    placeholder="bash"
+  }}
+</div>
+
+<div class="pt-20"></div>
+<div class="inline-form">
+  <label>{{t 'newPipelineStep.jobType.task.command'}}</label>
+  {{textarea-autogrow
+    value=selectedModel.command
+    classNames="form-control"
+    placeholder='newPipelineStep.jobType.task.commandLabel'
+    minHeight=0
+    maxHeight=200
+  }}
+</div>
+
+<div class="pt-30"></div>
+{{form-key-value
+  initialMap=selectedModel.parameters
+  changed=(action (mut selectedModel.parameters))
+  allowEmptyValue=false
+  editing=true
+  normalHeader=(t 'newPipeline.build.variable')
+  addActionLabel="newPipeline.build.add"
+}}

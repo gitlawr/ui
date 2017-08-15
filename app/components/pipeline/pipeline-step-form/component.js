@@ -9,12 +9,11 @@ const stepsChoices = [{
   },{
     id: 'build',
   },{
-    id: 'service'
+    id: 'upgradeService'
   },{
     id: 'upgradeStack'
-  },{
-    id: 'upgradeService'
-}];
+  }
+];
 
 export default Ember.Component.extend({
   selectedModel: null,

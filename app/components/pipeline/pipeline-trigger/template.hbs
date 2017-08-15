@@ -2,8 +2,8 @@
 {{#accordion-list-item
   title='Schedule'
   detail='Schedule to trigger pipeline'
-  status=''
-  statusClass='text-muted'
+  status=(pretty-cron pipeline.triggerSpec 'toString')
+  statusClass='bg-success clip pull-right inline'
   expandAll=null
   expand=(action expandFn)
 }}

@@ -1,17 +1,18 @@
 import Ember from 'ember';
 import {timezones} from 'ui/utils/timezones';
 export default Ember.Component.extend({
-   countries: [
-    { name: 'United States' },
-    { name: 'Spain', },
-    { name: 'Portugal' },
-    { name: 'Russia' },
-    { name: 'Latvia' },
-    { name: 'Brazil' },
-    { name: 'United Kingdom' },
-  ],
   timezones: timezones,
   selected: '',
+  init(){
+    this._super();
+    var triggerTimezone = this.get('pipeline.triggerTimezone');
+    if(triggerTimezone){
+      var selected = timezones.filter(ele=> ele.utc[0]=== triggerTimezone);
+      if(selected){
+        this.set('selected',selected)
+      }
+    }
+  },
   selectedObeserves: function(){
     var selected = this.get('selected');
     this.set('pipeline.triggerTimezone',selected.utc[0]);

@@ -154,7 +154,6 @@ export default Ember.Service.extend({
 
   orchestrationState: null,
   updateOrchestrationState() {
-    debugger
     let hash = {
       hasKubernetes: false,
       kubernetesReady: false,
