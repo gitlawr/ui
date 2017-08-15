@@ -127,6 +127,13 @@
     selectedModel=selectedModel
   }}
 {{/if}}
+
+{{#if (eq type 'upgradeStack')}}
+  {{pipeline/pipeline-step-stack
+    pipeline=pipeline
+    selectedModel=selectedModel
+  }}
+{{/if}}
 {{!--
 {{#if (eq type 'catalog')}}
 
