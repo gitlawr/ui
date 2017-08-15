@@ -115,9 +115,9 @@ module.exports = function(environment) {
       kubernetesDashboard: '/r/projects/%PROJECTID%/kubernetes-dashboard:9090/#',
       kubernetesWorkload: '/r/projects/%PROJECTID%/kubernetes-dashboard:9090/api/v1/workload?itemsPerPage=1',
       pipelinesEndpoint: '/r/projects/%PROJECTID%/pipeline-server:60080/v1',
-      projectEndpoint: '/v3/projects/%PROJECTID%',
+      projectEndpoint: '/v2-beta/projects/%PROJECTID%',
       proxyEndpoint: '/v3/proxy',
-      wsEndpoint: '/v3/projects/%PROJECTID%/subscribe' +
+      wsEndpoint: '/v2-beta/projects/%PROJECTID%/subscribe' +
                     '?eventNames=resource.change' +
                     '&resourceType_ne=serviceLog' +
                     '&resourceType_ne=deploymentUnit',
