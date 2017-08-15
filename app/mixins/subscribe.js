@@ -195,7 +195,6 @@ export default Ember.Mixin.create({
   stackChanged: function(change) {
     let stack = change.data.resource;
     let info = stack.get('externalIdInfo');
-    debugger
     if ( info && info.name && ORCHESTRATION_STACKS.includes(info.name) ) {
       debugger
       Ember.run.once(this, function() {

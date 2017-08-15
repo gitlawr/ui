@@ -20,7 +20,6 @@ export default Ember.Component.extend(NewOrEdit, {
       this.done();
     },
     approverSelect: function(index) {
-      debugger
       let selected = this.get('userList')[index].selected;
       this.get('userList')[index].set('selected', !selected);
     }

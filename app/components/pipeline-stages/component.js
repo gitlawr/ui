@@ -28,7 +28,6 @@ export default Ember.Component.extend({
     },
     dragEnd: function() {
       var crt = this.crt
-      debugger
       crt && crt.remove()
       this.dragDom && (this.dragDom.style.filter = "")
     },

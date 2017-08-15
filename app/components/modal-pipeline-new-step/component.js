@@ -16,6 +16,9 @@ class StepType {
   constructor(type, val) {
     switch (type) {
       case 'scm':
+        this.isService = false;
+        this.alias = '';
+        this.entrypoint = '';
         this.type = 'scm';
         this.sourceType = "git";
         this.repository = '';
@@ -44,12 +47,13 @@ class StepType {
         this.username = '';
         this.password = '';
         break;
-      case 'service':
-        this.type = 'task';
-        this.image = '';
-        this.command = '';
-        this.name = '';
-        this.parameters = {};
+      case 'upgradeService':
+        this.type = 'upgradeService';
+        this.tag = '';
+        this.serviceSelector = {};
+        this.batchSize = 1;
+        this.interval = 2;
+        this.startFirst = false;
         break;
       default:
         break;
@@ -75,6 +79,9 @@ var validationErrors = (module) => {
     case 'task':
       if (module.image.trim() === '') {
         errors.push('"Image" is required!');
+      }
+      if (module.isService && module.alias.trim() === '') {
+        errors.push('"Name" is required!');
       }
     default:
       break;
