@@ -1,0 +1,25 @@
+<div>
+  <p class="checkbox pt-10">
+    <label class="acc-label pb-5">{{input type="checkbox" checked=otherEnv}} Target other environment (default target this environment) </label>
+  </p>
+  {{#if otherEnv}}
+    <div class="pt-20"></div>
+    <div class="inline-form">
+      <label>EndPoint</label>
+      <div class="pt-10"></div>
+      {{input class="form-control" value=model.endpoint placeholder="http://myranhcer/v*/project/***"}}
+    </div>
+    <div class="pt-20"></div>
+    <div class="inline-form">
+      <label>Access Key</label>
+      <div class="pt-10"></div>
+      {{input class="form-control" value=model.accesskey placeholder="*****"}}
+    </div>
+    <div class="pt-20"></div>
+    <div class="inline-form">
+      <label>Secret Key</label>
+      <div class="pt-10"></div>
+      {{input class="form-control" type="password" value=model.secretkey placeholder="*****"}}
+    </div>
+  {{/if}}
+</div>

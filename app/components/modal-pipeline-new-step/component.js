@@ -54,7 +54,19 @@ class StepType {
         this.batchSize = 1;
         this.interval = 2;
         this.startFirst = false;
+        this.deployEnv = 'local';
+        this.endpoint= '';
+        this.accesskey='';
+        this.secretkey='';
         break;
+      case 'upgradeStack':
+        this.type = 'upgradeStack';
+        this.repository = '';
+        this.branch = 'master';
+        this.app = '';
+        this.config = '';
+        this.dockerCompose='';
+        this.rancherCompose='';
       default:
         break;
     }

@@ -1,0 +1,232 @@
+{{!-- {{#if showHeader}}
+  <section class="header clearfix">
+    {{#if editing}}
+      <h1>{{t 'newCatalog.upgrade'}} <span style="font-weight: normal">{{stackResource.name}}</span></h1>
+    {{else}}
+      <h1>{{#link-to parentRoute}}{{t 'newCatalog.catalog'}}{{/link-to}}</h1>
+    {{/if}}
+  </section>
+{{/if}}
+
+<section class="{{sectionClass}} row">
+  <div class="col span-3">
+    {{#if templateResource.links.icon}}
+      <img src={{templateResource.links.icon}} alt={{templateResource.name}} class="mr-20" style="height:75px;max-width: 100%;">
+    {{/if}}
+
+    <div>
+      <small><strong>{{t 'newCatalog.catalog'}}</strong> <span class="text-capitalize">{{templateResource.catalogId}}</span></small>
+    </div>
+    <div>-4
+      <small><strong>{{t 'newCatalog.category'}}</strong> {{join-array templateResource.categoryArray}}</small>
+    </div>
+    {{#if (eq templateResource.certifiedType 'rancher')}}
+      <small><strong>{{t 'newCatalog.support'}} </strong>{{t 'newCatalog.official'}}</small>
+    {{else}}
+      <small><strong>{{t 'newCatalog.support'}} </strong>{{t 'newCatalog.maintainedBy'}}</small>
+    {{/if}}
+    {{#if templateResource.maintainer}}
+      <div>
+        <small><strong>{{t 'newCatalog.maintainer'}}</strong> {{templateResource.maintainer}}</small>
+      </div>
+    {{/if}}
+    {{#if templateResource.license}}
+      <div>
+        <small><strong>{{t 'newCatalog.license'}}</strong> {{templateResource.license}}</small>
+      </div>
+    {{/if}}
+    {{#if templateResource.links.project}}
+      <small class="force-wrap"><strong>{{t 'newCatalog.url'}}</strong> <a href="{{templateResource.cleanProjectUrl}}" target="_blank">{{templateResource.cleanProjectUrl}}</a></small>
+    {{/if}}
+  </div>
+  {{#if readmeContent}}
+    <div class="col span-9" style="overflow-y: auto; max-height: 500px;">
+      {{common-mark markdown=readmeContent}}
+    </div>
+  {{else}}
+    <h2 class="mb-10">
+      {{t (if editing titleUpgrade titleAdd) name=templateResource.name}}
+    </h2>
+    <p>{{templateResource.description}}</p>
+  {{/if}}
+</section>
+
+<section class="{{sectionClass}}">
+  <h4>{{t 'newCatalog.templateVersion'}}</h4>
+  <div class="row">
+    <div class="col span-6">
+      {{new-select
+        classNames="form-control"
+        content=sortedVersions
+        prompt="newCatalog.version.prompt"
+        localizedPrompt=true
+        optionLabelPath="version"
+        optionValuePath="link"
+        value=selectedTemplateUrl
+        disabled=getTemplate.isRunning
+      }}
+      <p class="text-info">{{t (if editing selectVersionUpgrade selectVersionAdd)}}</p>
+    </div>
+  </div>
+</section>
+
+{{#if (and showName selectedTemplateModel)}}
+  <section class="{{sectionClass}}">
+    <h4>{{t 'newCatalog.newStack'}}</h4>
+
+    {{form-name-description
+      model=stackResource
+      nameRequired=true
+    }}
+
+  </section>
+{{/if}}
+
+<section class="{{sectionClass}}">
+  {{#if getTemplate.isRunning}}
+    <div class="text-center">
+      <i class="icon icon-spinner icon-spin" style="font-size:36px;"></i>
+    </div>
+  {{/if}}
+
+  {{#if selectedTemplateModel}}
+    <form {{action "submitTemplate" on="submit"}} class="{{if getTemplate.isRunning 'hide'}}">
+      <h4>{{t 'newCatalog.config'}}</h4>
+     <div class="container-flex">
+        {{#each selectedTemplateModel.questions as |question|}}
+          <div class="flex-item-half">
+            <div class="col span-12 mr-15">
+              <label class="pb-10">{{question.label}}{{#if question.required}}{{field-required}}{{/if}}</label>
+
+              {{#if question.supported}}
+                {{component question.inputComponent field=question value=question.answer}}
+              {{else}}
+                {{input type="text" value=question.answer class="form-control"}}
+                <p>{{t 'newCatalog.unknownType'}} {{question.type}}</p>
+              {{/if}}
+
+              <p class="help-block">{{question.description}}</p>
+            </div>
+          </div>
+        {{else}}
+          <span class="text-muted">{{t 'newCatalog.noConfig'}}</span>
+        {{/each}}
+      </div>
+
+      {{#if (and (not editing) (eq templateBase ""))}}
+        <div class="row mt-20">
+          <div class="col span-12">
+            <label class="checkbox small">{{input type="checkbox" checked=stackResource.startOnCreate}} {{t 'newCatalog.startService'}}</label>
+          </div>
+        </div>
+      {{/if}}
+    </form>
+  {{/if}}
+</section>
+
+{{#if (and selectedTemplateModel (not getTemplate.isRunning))}}
+  {{#if showPreview}}
+    <section>
+      <div class="over-hr"><span {{action "togglePreview"}}>{{t 'newCatalog.preview'}} <i class="icon {{if previewOpen 'icon-chevron-up' 'icon-chevron-down'}}"></i></span></div>
+
+      {{#if previewOpen}}
+        <div class="tabs">
+        <ul class="tab-header" role="tablist">
+          {{#each selectedTemplateModel.filesAsArray as |file|}}
+            <li role="tab" class="{{if (eq previewTab file.name) 'active'}}" {{action "selectPreviewTab" file.name}}><a href="#">{{file.name}} {{copy-to-clipboard clipboardText=file.body size="small"}}</a></li>
+          {{/each}}
+          <li role="tab" class="{{if (eq previewTab 'answers') 'active'}}" {{action "selectPreviewTab" "answers"}}><a href="#">{{t 'newCatalog.txt'}} {{copy-to-clipboard clipboardText=answersString size="small"}}</a></li>
+        </ul>
+
+        <div class="tab-content" role="tabpanel">
+          {{#each selectedTemplateModel.filesAsArray as |file|}}
+            {{code-block code=file.body language="yaml" hide=(not-eq previewTab file.name)}}
+          {{/each}}
+          {{code-block code=answersString language="bash" hide=(not-eq  previewTab 'answers')}}
+        </div>
+        </div>
+      {{/if}}
+    </section>
+  {{/if}}
+
+  {{#if errors.length}}
+    <section>
+      <div class="row">
+        <div class="col span-12">
+          {{top-errors errors=errors}}
+        </div>
+      </div>
+    </section>
+  {{/if}}
+
+  <div class="footer-actions">
+    {{save-cancel createLabel=(if editing saveUpgrade saveNew) save="save" cancel="cancel"}}
+  </div>
+{{else}}
+  <div class="footer-actions">
+    <button {{action "cancel"}} class="btn bg-transparent">{{t 'saveCancel.cancel'}}</button>
+  </div>
+{{/if}}
+ --}}
+<section class="box mb-20">
+<h4>Edit your CI template</h4>
+<div class="row">
+  <div class="col span-6">
+    {{new-select
+      classNames="form-control"
+      content=sortedVersions
+      prompt="newCatalog.version.prompt"
+      localizedPrompt=true
+      optionLabelPath="version"
+      optionValuePath="link"
+      value=selectedTemplateUrl
+      disabled=getTemplate.isRunning
+    }}
+    <p class="text-info">Select a version as the template to upgrade</p>
+  </div>
+</div>
+<div class="pt-10"></div>
+<h4>Edit your Template Using CI parameters</h4>
+<div class="tabs">
+  <ul class="tab-header" role="tablist">
+    {{#each selectedTemplateModel.filesAsArray as |file|}}
+      <li role="tab" class="{{if (eq previewTab file.name) 'active'}}" {{action "selectPreviewTab" file.name}}><a href="#">base/{{file.name}} {{copy-to-clipboard clipboardText=file.body size="small"}}</a></li>
+    {{/each}}
+    {{!-- <li role="tab" class="{{if (eq previewTab 'answers') 'active'}}" {{action "selectPreviewTab" "answers"}}><a href="#">{{t 'newCatalog.txt'}} {{copy-to-clipboard clipboardText=answersString size="small"}}</a></li> --}}
+    
+  </ul>
+
+  <div class="tab-content" role="tabpanel">
+    {{#each selectedTemplateModel.filesAsArray as |file|}}
+      {{code-block code=file.body language="yaml" hide=(not-eq previewTab file.name)}}
+    {{/each}}
+    {{!-- {{code-block code=answersString language="bash" hide=(not-eq  previewTab 'answers')}} --}}
+  </div>
+</div>
+
+</section>
+
+<section class="box mb-20">
+<div class="pt-10"></div>
+<h2>
+  <div class="checkbox pt-10">
+    <label class="acc-label pb-5">{{input type="checkbox" checked=deploy}} Upgrade to the latest version</label>
+  </div>
+</h2>
+<p class="text-muted mt-0 mb-0">If there is no app deployed in the target environment, this option will help you deploy the latest version on it.</p>
+{{#if deploy}}
+  <div class="pt-10"></div>
+  <div class="tabs">
+    <ul class="tab-header" role="tablist">
+      <li role="tab" class="{{if (eq previewTab 'answers') 'active'}}" {{action "selectPreviewTab" "answers"}}><a href="#">{{t 'newCatalog.txt'}} {{copy-to-clipboard clipboardText=answersString size="small"}}</a></li>
+    </ul>
+    <div class="tab-content" role="tabpanel">
+      {{code-block code=answersString language="bash" hide=(not-eq  previewTab 'answers')}}
+    </div>
+  </div>
+
+  {{pipeline/pipeline-step-env-setting
+    model = selectedModel
+  }}
+{{/if}}
+</section>
