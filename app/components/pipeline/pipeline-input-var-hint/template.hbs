@@ -1,0 +1,7 @@
+<div style={{positionStyle}} class={{hiddenClass}} >
+  <ul class="dropdown-menu" style="position: static;display:inline-block">
+    {{#each hintAry as |hint|}}
+    <li {{action "clickHint" hint}}> <a href="#">{{hint}}</a> </li>
+    {{/each}}
+  </ul>
+</div>
