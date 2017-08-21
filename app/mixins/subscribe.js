@@ -201,7 +201,6 @@ export default Ember.Mixin.create({
     let stack = change.data.resource;
     let info = stack.get('externalIdInfo');
     if ( info && info.name && ORCHESTRATION_STACKS.includes(info.name) ) {
-      debugger
       Ember.run.once(this, function() {
         this.get('projects.current').reload().then(() => {
           this.get('projects').updateOrchestrationState();
