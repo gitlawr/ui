@@ -6,7 +6,20 @@ export default Ember.Component.extend({
   dragDom: null,
   model: null,
   pipeline: null,
+  envvars: null,
+  envvarsLoading: true,
   modalService: Ember.inject.service('modal'),
+  init(){
+    this._super(...arguments);
+    var pipelineStore = this.get('pipelineStore');
+    pipelineStore.find('envvars',null,{
+      url: `${pipelineStore.baseUrl}/envvars`,
+      forceReload: true
+    }).then((res)=>{
+      this.set('envvarsLoading',false);
+      this.set('envvars',JSON.parse(res).map(ele=>('${'+ele+'}')));
+    });
+  },
   actions: {
     dragStart: function(content, e) {
       var dom = e.target
