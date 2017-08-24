@@ -66,6 +66,7 @@
     "forever-agent": "^0.6.1",
     "glob": "^7.1.1",
     "http-proxy": "^1.11.1",
+    "ivy-codemirror": "^2.1.0",
     "liquid-fire": "^0.27.1",
     "loader.js": "^4.2.3",
     "postcss-scss": "^0.4.0",

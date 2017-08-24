@@ -59,7 +59,7 @@ class StepType {
         this.accesskey='';
         this.secretkey='';
         break;
-      case 'upgradeStack':
+      case 'upgradeCatalog':
         this.type = 'upgradeStack';
         this.repository = '';
         this.branch = 'master';
@@ -67,6 +67,15 @@ class StepType {
         this.config = '';
         this.dockerCompose='';
         this.rancherCompose='';
+      case 'upgradeStack':
+        this.type= 'upgradeCatalog';
+        this.stackName = '';
+        this.dockerCompose='';
+        this.rancherCompose='';
+        this.deployEnv = 'local';
+        this.endpoint= '';
+        this.accesskey='';
+        this.secretkey='';
       default:
         break;
     }

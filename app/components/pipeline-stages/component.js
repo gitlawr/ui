@@ -72,7 +72,7 @@ export default Ember.Component.extend({
               return false;
             }
             return true;
-          })
+          });
           this.set('model', newStage);
         }
       })

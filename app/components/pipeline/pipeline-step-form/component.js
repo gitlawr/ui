@@ -13,6 +13,9 @@ const stepsChoices = [{
   },{
     id: 'upgradeStack'
   }
+  ,{
+    id: 'upgradeCatalog'
+  }
 ];
 
 export default Ember.Component.extend({

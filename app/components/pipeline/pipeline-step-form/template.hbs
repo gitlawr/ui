@@ -70,9 +70,10 @@
   </div>
   {{#if (eq selectedModel.sourceType 'file')}}
     <div class="pt-20"></div>
-    {{input-text-file
+    {{pipeline/pipeline-input-code-file
       name="Dockerfile"
       canChangeName=false
+      mode="dockerfile"
       value=selectedModel.file
       placeholder="newStack.dockerCompose.placeholder"
     }}
@@ -134,24 +135,10 @@
     selectedModel=selectedModel
   }}
 {{/if}}
-{{!--
-{{#if (eq type 'catalog')}}
 
-{{/if}}
-
-{{#if (eq type 'deploy')}}
-<div class="pt-20"></div>
-<div class="noHeader">
-  {{container/new-edit
-    editing=false
-    isService=true
-    isUpgrade=upgrade
-    primaryResource=model.service
-    primaryService=model.service
-    service=model.service
-    launchConfig=launchConfig
-    allHosts=model.allHosts
-    configName=configName
+{{#if (eq type 'upgradeCatalog')}}
+  {{pipeline/pipeline-step-catalog
+    pipeline=pipeline
+    selectedModel=selectedModel
   }}
-</div>
-{{/if}} --}}
+{{/if}}

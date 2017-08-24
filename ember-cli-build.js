@@ -62,6 +62,12 @@ module.exports = function(defaults) {
       enabled: true,
       extensions: ['js']
     },
+
+    codemirror: {
+      modes: ['yaml','dockerfile','shell'],
+      themes: ['monokai'],
+      addons: ['hint/show-hint.js','hint/anyword-hint.js'],
+    }
   });
 
   // Use `app.import` to add additional libraries to the generated
@@ -96,7 +102,6 @@ module.exports = function(defaults) {
   app.import('bower_components/ember-shortcuts/ember-shortcuts.js');
   app.import('bower_components/jsondiffpatch/public/build/jsondiffpatch.js');
   app.import('bower_components/jsondiffpatch/public/build/jsondiffpatch-formatters.js');
-//  app.import('node_modules/prettycron/prettycron.js');
 
   app.import('vendor/icons/style.css');
   app.import('vendor/icons/fonts/rancher-icons.svg',   { destDir: 'assets/fonts/'});

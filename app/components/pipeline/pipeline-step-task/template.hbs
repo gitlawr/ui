@@ -41,14 +41,12 @@
 
 <div class="pt-20"></div>
 <div class="inline-form">
-  <label>{{t 'newPipelineStep.jobType.task.command'}}</label>
-  {{textarea-autogrow
+  <label>{{t 'newPipelineStep.jobType.task.command'}}(shell)</label>
+  {{!-- {{pipeline/pipeline-codemirror
     value=selectedModel.command
-    classNames="form-control"
-    placeholder='newPipelineStep.jobType.task.commandLabel'
-    minHeight=0
-    maxHeight=200
-  }}
+    valueUpdated=(action (mut selectedModel.command))
+    options=(hash autofocus=true theme="monokai" lineNumbers=true mode="shell" addon="hint/anyword-hint.js")
+    }} --}}
 </div>
 
 <div class="pt-30"></div>

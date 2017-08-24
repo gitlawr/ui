@@ -13,187 +13,24 @@ export default Ember.Component.extend({
   catalogId: null,
   templates: null,
   selectedTemplate: null,
-  previewTab: '',
-  selectedTemplateVersions: function(){
-    var versions = [];
-    var template = this.get('selectedTemplate');
-    if(!template){
-      return versions
-    }
-    var links = template.versionLinks;
-    versions = Object.keys(links).filter((key) => {
-        // Filter out empty values for rancher/rancher#5494
-        return !!links[key];
-      }).map((key) => {
-        return {version: key, sortVersion: key, link: links[key]};
-      });
-    return versions;
-  }.property('selectedTemplate'),
-  selectedVersion: null,
-  templatesObserver: function() {
-    var catalogId = this.get('catalogId');
-    if(!catalogId){
-      return
-    }
-    var params = {
-      catalogId: this.get('catalogId'),
-      category: "all",
-      plusInfra: true,
-      templateBase: ""
-    }
-    this.get('catalog').fetchTemplates(params).then((res) => {
-      this.set('selectedTemplate', null);
-      this.set('templates', res.catalog);
-      debugger
-      return res;
-    });
-  }.observes('catalogId'),
+  previewTab: 'dockerCompose',
+
   ary: null,
   global: null,
   editCatalog: false,
   toRemove: null,
   old: null,
 
-  kindChoices: [
-    { translationKey: 'catalogSettings.more.kind.native', value: 'native' },
-    { translationKey: 'catalogSettings.more.kind.helm', value: 'helm' },
-  ],
-
   init() {
     this._super(...arguments);
     this.set('toRemove', []);
 
-    this.get('projects').updateOrchestrationState().then(() => {
-      return Ember.RSVP.hash({
-        catalogs: this.get('catalog').fetchCatalogs({
-          headers: {
-            [C.HEADER.PROJECT_ID]: this.get('projects.current.id')
-          },
-        }),
-      });
-    }).then((hash) => {
-      this.set('catalogs', hash.catalogs);
-      let old = this.get('catalogs').filterBy('environmentId', this.get('project.id')).map((x) => {
-        let y = x.clone();
-        y.uiId = Util.randomStr();
-        return y;
-      });
-      this.set('old', old);
-      this.setProperties({
-        ary: old.map((x) => x.clone()),
-      });
-    });
   },
 
   actions: {
-    editCatalog() {
-      this.set('editCatalog', true);
+    selectPreviewTab: function(tab) {
+      this.set('previewTab', tab);
     },
-    cancel() {
-      this.set('editCatalog', false);
-    },
-    add() {
-      debugger
-      let obj = Ember.Object.create({
-        name: '',
-        branch: C.CATALOG.DEFAULT_BRANCH,
-        url: '',
-        kind: 'native',
-        isNew: true,
-      });
-
-      this.get('ary').pushObject(obj);
-
-      Ember.run.next(() => {
-        if (this.isDestroyed || this.isDestroying) {
-          return;
-        }
-
-        this.$('INPUT.name').last()[0].focus();
-      });
-    },
-
-    remove(obj) {
-      this.get('ary').removeObject(obj);
-      if (!obj.get('isNew')) {
-        this.get('toRemove').addObject(obj);
-      }
-    },
-
-    save(cb) {
-      if (this.validate()) {
-        this.set('errors', []);
-        let remove = this.get('toRemove');
-        let cur = this.get('ary');
-
-        let changes = [];
-
-        // Remove
-        remove.forEach((cat) => {
-          changes.push(this.removeCatalogs(cat));
-        });
-
-        // Add/update
-        cur.forEach((cat) => {
-          cat.set('name', (cat.get('name') || '').trim());
-          cat.set('url', (cat.get('url') || '').trim());
-          cat.set('branch', (cat.get('branch') || '').trim() || C.CATALOG.DEFAULT_BRANCH);
-
-          if (cat.uiId) {
-            // Update maybe
-            let orig = this.get('old').findBy('uiId', cat.uiId);
-            if (orig) {
-              if (JSON.stringify(orig) === JSON.stringify(cat)) {
-                // Do nothing, nothing changed
-              } else {
-                // Update
-                changes.push(cat.save());
-              }
-            } else {
-              // This shouldn't happen, but add anyway
-              changes.push(this.addCatalogs(cat));
-            }
-          } else {
-            // Add
-            changes.push(this.addCatalogs(cat));
-          }
-        });
-        Ember.RSVP.allSettled(changes).then((settled) => {
-          let errors = settled.filterBy('state', 'rejected');
-          if (errors.length) {
-            let errOut = [];
-            errors.forEach((err) => {
-              errOut.push(JSON.parse(err.reason.message).message);
-            });
-            this.set('errors', errOut.uniq());
-            cb(false);
-
-          } else {
-            return new Ember.RSVP.Promise((resolve) => { setTimeout(resolve, 1); }).then(() => {
-
-              return this.get('catalog').refresh().finally(() => {
-
-                Ember.run.later(() => {
-                  // @TODO ugh...
-                  this.send('cancel');
-                }, 500);
-
-              });
-
-            });
-          }
-
-        }).catch((err) => {
-          this.set('errors', err);
-          cb(false);
-        });
-
-      } else {
-
-        cb(false);
-
-      }
-    }
   },
 
   validate() {
@@ -233,27 +70,5 @@ export default Ember.Component.extend({
     }
 
     return true;
-  },
-
-  addCatalogs(catalogs) {
-    return this.get('store').request({
-      url: `${this.get('app.catalogEndpoint')}/catalogs`,
-      method: 'POST',
-      headers: {
-        [C.HEADER.PROJECT_ID]: this.get('project.id')
-      },
-      body: JSON.stringify(catalogs)
-    });
-  },
-
-  removeCatalogs(catalogs) {
-    return this.get('store').request({
-      url: `${this.get('app.catalogEndpoint')}/catalogs/${catalogs.name}`,
-      method: 'DELETE',
-      headers: {
-        [C.HEADER.PROJECT_ID]: this.get('project.id')
-      },
-      body: JSON.stringify(catalogs)
-    });
   },
 });

@@ -73,7 +73,6 @@ export default Ember.Component.extend({
       }
       if (matched) {
         var offset = $el.offset();
-        debugger
         this.set('matchedArry',matchedArry);
         var cursorCoordinates = this.getCursorCoordinates(cursorValue);
         var oT = this.$(window).scrollTop();
@@ -102,7 +101,10 @@ export default Ember.Component.extend({
       var cursorPosition = this.get('cursorPosition');
       var value = $(triggerInputEle).val();
       if(matchedIndex !==-1 && triggerInputEle){
-        $(triggerInputEle).val(value.slice(0,matchedIndex).concat(val).concat(value.slice(cursorPosition,value.length)));
+        var newVal = value.slice(0,matchedIndex).concat(val).concat(value.slice(cursorPosition,value.length));
+        $(triggerInputEle).val(newVal);
+        $(triggerInputEle).trigger('change',newVal);
+        $(triggerInputEle).trigger('input',newVal);
       }
     }
   },
