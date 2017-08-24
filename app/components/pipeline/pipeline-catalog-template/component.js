@@ -67,7 +67,6 @@ export default Ember.Component.extend(NewOrEdit, {
     this.set('selectedTemplateModel', null);
 
     Ember.run.scheduleOnce('afterRender', () => {
-    	debugger
       if ( this.get('selectedTemplateUrl') ) {
         this.templateChanged();
       } else {
@@ -87,7 +86,6 @@ export default Ember.Component.extend(NewOrEdit, {
     this.set('readmeContent', '');
     if ( model && model.hasLink('readme') ) {
       model.followLink('readme').then((response) => {
-      	debugger
         this.set('readmeContent', response);
       });
     }
