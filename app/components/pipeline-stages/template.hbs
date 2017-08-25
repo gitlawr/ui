@@ -3,12 +3,12 @@
   {{#if stagesDraggable}}
     {{#sortable-objects
     useSwap=true
-    sortableObjectList=model
+    sortableObjectList=pipeline.stages
     enableSort=true
     sortingScope="sortingGroup"
     class="chrome-shim"
     }}
-      {{#each model as |item index|}}
+      {{#each pipeline.stages as |item index|}}
         {{#draggable-object
         id=(concat-str 'stage_' index character="")
         isDraggable=(if (eq index 0) false true)
@@ -63,7 +63,7 @@
     {{/sortable-objects}}
 
   {{else}}
-    {{#each model as |item index|}}
+    {{#each pipeline.stages as |item index|}}
     <div class="stage-wrap">
       <div class="stage-name text-muted clip">
         {{index-add index}}. {{item.name}}

@@ -4,7 +4,7 @@
   <div class="pt-10"></div>
   {{input
     class="js-var-hint"
-    value=selectedModel.alias
+    value=selectedModel.stackName
     placeholder="stack name"
   }}
 </div>
@@ -20,21 +20,23 @@
   </ul>
 
   <div role="tabpanel">
-    <div class="{{if (not-eq previewTab 'dockerCompose') 'hide'}}">
+  {{#if (eq previewTab 'dockerCompose')}}
+    <div>
       {{ivy-codemirror 
         value=selectedModel.dockerCompose 
         valueUpdated=(action (mut selectedModel.dockerCompose))
         options=(hash autofocus=true lineNumbers=true mode="yaml" tabSize="2")
       }}
     </div> 
-      
-    <div class="{{if (not-eq previewTab 'rancherCompose') 'hide'}}">
+  {{else}}
+    <div>
       {{ivy-codemirror 
         value=selectedModel.rancherCompose 
         valueUpdated=(action (mut selectedModel.rancherCompose))
         options=(hash autofocus=true lineNumbers=true mode="yaml" theme="monokai" tabSize="2")
         }}
     </div>
+  {{/if}}
   </div>
 </div>
 

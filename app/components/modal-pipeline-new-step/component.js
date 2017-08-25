@@ -60,7 +60,7 @@ class StepType {
         this.secretkey='';
         break;
       case 'upgradeCatalog':
-        this.type = 'upgradeStack';
+        this.type = 'upgradeCatalog';
         this.repository = '';
         this.branch = 'master';
         this.app = '';
@@ -68,7 +68,7 @@ class StepType {
         this.dockerCompose='';
         this.rancherCompose='';
       case 'upgradeStack':
-        this.type= 'upgradeCatalog';
+        this.type= 'upgradeStack';
         this.stackName = '';
         this.dockerCompose='';
         this.rancherCompose='';
@@ -187,8 +187,9 @@ export default Ember.Component.extend(ModalBase, {
     },
     cancel: function() {
       var type = this.get('type');
+      var repo = this.get('modalOpts.params.repository');
       this.get('modalService').toggleModal();
-      if (type === "scm" && !this.get('modalOpts.params.repository')) {
+      if (type === "scm" && !repo) {
         this.get('router').transitionTo('pipelines.ready.pipelines');
       }
     }

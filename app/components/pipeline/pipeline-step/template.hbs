@@ -35,9 +35,13 @@
   {{/tooltip-element}}
 {{/if}}
 
-{{#if (eq model.type 'catalog')}}
-  <p class="mt-0 mb-0 clip">{{upper-case model.type}} {{model.name}}</p>
-  <p class="text-small mt-0 mb-0 clip text-italic">{{model.environment}}</p>
+{{#if (eq model.type 'upgradeStack')}}
+  {{#tooltip-element style="100%;" inlineBlock=true type="tooltip-basic" tooltipTemplate="tooltip-static" model=stackSubtitle tagName="span" tooltipFor="tooltip-basic"}}
+    <p class="mt-0 mb-0 clip">{{upper-case model.type}}</p>
+    <p class="text-small mt-0 mb-0 clip text-italic">
+      {{stackSubtitle}}
+    </p>
+  {{/tooltip-element}}
 {{/if}}
 
 {{#if (eq model.type 'deploy')}}

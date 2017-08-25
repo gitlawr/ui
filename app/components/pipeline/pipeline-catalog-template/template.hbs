@@ -26,13 +26,15 @@
 
   <div class="tab-content" role="tabpanel">
     {{#each selectedTemplateModel.filesAsArray as |file|}}
-      <div class="{{if (not-eq previewTab file.name) 'hide'}}">
-        {{ivy-codemirror 
-          value=file.body
-          valueUpdated=(action (mut file.body))
-          options=(hash autofocus=true lineNumbers=true mode="yaml" theme="monokai")
-          }}
-      </div>
+      {{#if (eq previewTab file.name)}}
+        <div class="">
+          {{ivy-codemirror 
+            value=file.body
+            valueUpdated=(action (mut file.body))
+            options=(hash autofocus=true lineNumbers=true mode="yaml" theme="monokai")
+            }}
+        </div>
+      {{/if}}
     {{/each}}
   </div>
 </div>
