@@ -42,11 +42,11 @@
 <div class="pt-20"></div>
 <div class="inline-form">
   <label>{{t 'newPipelineStep.jobType.task.command'}}(shell)</label>
-  {{!-- {{pipeline/pipeline-codemirror
+  {{ivy-codemirror
     value=selectedModel.command
     valueUpdated=(action (mut selectedModel.command))
     options=(hash autofocus=true theme="monokai" lineNumbers=true mode="shell" addon="hint/anyword-hint.js")
-    }} --}}
+    }}
 </div>
 
 <div class="pt-30"></div>
