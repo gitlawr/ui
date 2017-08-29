@@ -64,7 +64,7 @@ export default Ember.Component.extend({
             }
             return ele;
           })
-          this.set('model', newStage);
+          this.set('pipeline.stages', newStage);
         },
         rmCb: () => {
           var newStage = this.get('model').filter((ele, i) => {
@@ -73,7 +73,7 @@ export default Ember.Component.extend({
             }
             return true;
           });
-          this.set('model', newStage);
+          this.set('pipeline.stages', newStage);
         }
       })
     }

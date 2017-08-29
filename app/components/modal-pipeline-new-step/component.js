@@ -187,8 +187,9 @@ export default Ember.Component.extend(ModalBase, {
     },
     cancel: function() {
       var type = this.get('type');
+      var repo = this.get('modalOpts.params.repository');
       this.get('modalService').toggleModal();
-      if (type === "scm" && !this.get('modalOpts.params.repository')) {
+      if (type === "scm" && !repo) {
         this.get('router').transitionTo('pipelines.ready.pipelines');
       }
     }
