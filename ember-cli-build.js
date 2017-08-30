@@ -64,7 +64,7 @@ module.exports = function(defaults) {
     },
 
     codemirror: {
-      modes: ['yaml','dockerfile','shell'],
+      modes: ['yaml', 'dockerfile', 'shell', 'markdown'],
       themes: ['monokai'],
       addons: ['hint/show-hint.js','hint/anyword-hint.js'],
     }

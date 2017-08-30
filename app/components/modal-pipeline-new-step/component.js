@@ -61,12 +61,29 @@ class StepType {
         break;
       case 'upgradeCatalog':
         this.type = 'upgradeCatalog';
-        this.repository = '';
-        this.branch = 'master';
-        this.app = '';
-        this.config = '';
-        this.dockerCompose='';
-        this.rancherCompose='';
+        this.repository='';
+        this.branch='';
+        this.username = '';
+        this.password = '';
+        this.externalId = '';
+        this.filesAry = [{
+          name: 'README.md',
+          body: ''
+        },{
+          name: 'docker-compose.yml',
+          body: ''
+        },{
+          name: 'rancher-compose.yml',
+          body: ''
+        }];
+        this.deploy= false;
+        this.deployEnv = 'local';
+        this.stackName='';
+        this.answerString='';
+        this.endpoint= '';
+        this.accesskey='';
+        this.secretkey='';
+        break;
       case 'upgradeStack':
         this.type= 'upgradeStack';
         this.stackName = '';
@@ -76,6 +93,7 @@ class StepType {
         this.endpoint= '';
         this.accesskey='';
         this.secretkey='';
+        break;
       default:
         break;
     }

@@ -72,7 +72,7 @@ export default Ember.Component.extend(NewOrEdit, {
       } else {
         var def = this.get('templateResource.defaultVersion');
         var links = this.get('versionLinks');
-        if (links[def]) {
+        if (links&&links[def]) {
           this.set('selectedTemplateUrl', links[def]);
         } else {
           this.set('selectedTemplateUrl', null);
@@ -173,6 +173,7 @@ export default Ember.Component.extend(NewOrEdit, {
       });
 
       this.set('selectedTemplateModel', selectedTemplateModel);
+      this.set('selectedModel.filesAry',this.get('selectedTemplateModel.filesAsArray'))
       this.set('previewTab', Object.keys(selectedTemplateModel.get('files')||[])[0]);
     } else {
       this.set('selectedTemplateModel', null);
@@ -198,14 +199,16 @@ export default Ember.Component.extend(NewOrEdit, {
   answersArray: Ember.computed.alias('selectedTemplateModel.questions'),
 
   answersString: function() {
-    return (this.get('answersArray')||[]).map((obj) => {
+    var str = (this.get('answersArray')||[]).map((obj) => {
       if (obj.answer === null || obj.answer === undefined) {
         return obj.variable + '=';
       } else {
         return obj.variable + '=' + ShellQuote.quote([obj.answer]);
       }
     }).join("\n");
-  }.property('answersArray.@each.{variable,answer}'),
+    this.set('selectedModel.answerString',str);
+    return str;
+  }.observes('answersArray.@each.{variable,answer}'),
 
   validate() {
     var errors = [];
@@ -231,6 +234,8 @@ export default Ember.Component.extend(NewOrEdit, {
   },
 
   newExternalId: function() {
+    var templateId = this.get('selectedTemplateModel.id');
+    this.set('selectedModel.externalId', templateId);
     return C.EXTERNAL_ID.KIND_CATALOG + C.EXTERNAL_ID.KIND_SEPARATOR + this.get('selectedTemplateModel.id');
   }.property('selectedTemplateModel.id'),
 
