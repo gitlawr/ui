@@ -10,6 +10,17 @@ export default Ember.Component.extend({
     return this.get('projects.current');
   }.property('projects'),
   catalogs: null,
+  selectedCatalog: function(){
+    var ary = this.get('ary');
+    if(!ary){
+      return null;
+    }
+    var catalogId = this.get('catalogId');
+    var selectedCatalog = ary.find(ele=>ele.id===catalogId);
+    this.set('selectedModel.repository',selectedCatalog.url);
+    this.set('selectedModel.branch',selectedCatalog.branch);
+    return selectedCatalog;
+  }.property('catalogId'),
   catalogId: null,
   templates: null,
   selectedTemplate: null,

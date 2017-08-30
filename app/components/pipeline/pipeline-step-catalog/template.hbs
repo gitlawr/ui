@@ -94,6 +94,28 @@
 
 <div class="pt-20"></div>
 <section class="box mb-20">
+  <h2>Git Authentication</h2>
+  <p class="text-muted">Please Provide the Authentication of Repository <span class="text-info">{{selectedCatalog.url}}</span></p>
+  <hr>
+  <div class="pt-20"></div>
+  <div class="inline-form">
+    <label>Username</label>
+    <div class="pt-10"></div>
+    {{input class="form-control" value=selectedModel.username placeholder="Username"}}
+  </div>
+
+  <div class="pt-20"></div>
+  <div class="inline-form">
+    <label>Password</label>
+    <div class="pt-10"></div>
+    {{input class="form-control" type="password" value=selectedModel.password placeholder="Password"}}
+  </div>
+
+</section>
+
+<div class="pt-20"></div>
+
+<section class="box mb-20">
   <h2>Select App</h2>
   <p class="text-muted">select the app you want to upgrade</p>
   <hr>
@@ -114,6 +136,7 @@
 
 <div class="pt-20"></div>
 {{pipeline/pipeline-catalog-template
+  selectedModel=selectedModel
   templateResource=selectedTemplate
   versionLinks=selectedTemplate.versionLinks
   versionsArray=selectedTemplateVersions
