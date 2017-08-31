@@ -53,7 +53,6 @@ export default Ember.Component.extend({
       templateBase: ""
     };
     this.get('catalog').fetchTemplates(params).then((res) => {
-      debugger
       this.set('selectedTemplate', res.catalog[0]);
       this.set('templates', res.catalog);
       var initCatalogTemplateId = this.get('selectedModel.externalId');
