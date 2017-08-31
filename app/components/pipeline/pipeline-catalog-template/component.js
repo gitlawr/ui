@@ -12,7 +12,7 @@ export default Ember.Component.extend(NewOrEdit, {
   catalog: Ember.inject.service(),
   projects: Ember.inject.service(),
   settings: Ember.inject.service(),
-
+  selectTemplateFromOldVersion: false,
   allTemplates: null,
   templateResource: null,
   // stackResource: null,
@@ -30,7 +30,7 @@ export default Ember.Component.extend(NewOrEdit, {
   saveNew: 'newCatalog.saveNew',
   sectionClass: 'box mb-20',
   showDefaultVersionOption: false,
-
+  previewTabCI: '',
   classNames: ['launch-catalog'],
 
   // primaryResource: Ember.computed.alias('stackResource'),
@@ -44,7 +44,38 @@ export default Ember.Component.extend(NewOrEdit, {
   selectedTemplateModel: null,
   readmeContent: '',
   deploy: false,
+  init(){
+    this._super(...arguments);
+    var initCatalogTemplateId = this.get('selectedModel.id');
+    if(initCatalogTemplateId){
+      var catalogInfo = initCatalogTemplateId.split(':');
+    }
+    this.set('previewTabCI',this.get('selectedModel.filesAry')[0].name);
+  },
   actions: {
+    setTemplate(){
+      var files = this.get('selectedModel.filesAry');
+      var templateFiles = this.get('selectedTemplateModel.filesAsArray');
+      for (var i = 0; i < templateFiles.length; i++) {
+        var item = templateFiles[i];
+        var matchedFile = files.find(ele=>{
+          if(item.name.split('.')[0]===ele.name.split('.')[0]){
+            return true
+          }
+          return false
+        })
+        debugger
+        if(matchedFile){
+          Ember.set(matchedFile,'name', item.name);
+          Ember.set(matchedFile,'body', item.body);
+        }
+      }
+      this.set('selectedModel.filesAry',files);
+      this.set('selectTemplateFromOldVersion',false);
+    },
+    setState: function(state, val){
+      this.set(state,val);
+    },
     cancel: function() {
       this.sendAction('cancel');
     },
@@ -56,7 +87,9 @@ export default Ember.Component.extend(NewOrEdit, {
     selectPreviewTab: function(tab) {
       this.set('previewTab', tab);
     },
-
+    selectPreviewTabCI: function(tab) {
+      this.set('previewTabCI', tab);
+    },
     changeTemplate: function(tpl) {
       this.get('application').transitionToRoute('catalog-tab.launch', tpl.id);
     },
@@ -171,9 +204,7 @@ export default Ember.Component.extend(NewOrEdit, {
         }
         return response;
       });
-
       this.set('selectedTemplateModel', selectedTemplateModel);
-      this.set('selectedModel.filesAry',this.get('selectedTemplateModel.filesAsArray'))
       this.set('previewTab', Object.keys(selectedTemplateModel.get('files')||[])[0]);
     } else {
       this.set('selectedTemplateModel', null);
@@ -184,8 +215,12 @@ export default Ember.Component.extend(NewOrEdit, {
   }),
 
   templateChanged: function() {
-    this.get('getTemplate').perform();
-  }.observes('selectedTemplateUrl','templateResource.defaultVersion'),
+    var selectTemplateFromOldVersion = this.get('selectTemplateFromOldVersion');
+    if(selectTemplateFromOldVersion){
+      this.get('getTemplate').perform();
+    }
+    
+  }.observes('selectedTemplateUrl','templateResource.defaultVersion','selectTemplateFromOldVersion'),
 
   answers: function() {
     var out = {};

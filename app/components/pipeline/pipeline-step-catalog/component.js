@@ -51,10 +51,21 @@ export default Ember.Component.extend({
       category: "all",
       plusInfra: true,
       templateBase: ""
-    }
+    };
     this.get('catalog').fetchTemplates(params).then((res) => {
+      
       this.set('selectedTemplate', null);
+     
+      
       this.set('templates', res.catalog);
+      var initCatalogTemplateId = this.get('selectedModel.externalId');
+      if(initCatalogTemplateId){
+        var catalogInfo = initCatalogTemplateId.split(':');
+        var templateFolderPath = catalogInfo[1].split('*');
+        var templateFolderName = templateFolderPath[templateFolderPath.length-1];
+        var selectedTemplate = res.catalog.find(ele=>ele.folderName===templateFolderName);
+        this.set('selectedTemplate',selectedTemplate);
+      }
       return res;
     });
   }.observes('catalogId'),
@@ -92,6 +103,11 @@ export default Ember.Component.extend({
       this.setProperties({
         ary: old.map((x) => x.clone()),
       });
+      var initCatalogTemplateId = this.get('selectedModel.externalId');
+      if(initCatalogTemplateId){
+        var catalogInfo = initCatalogTemplateId.split(':');
+        this.set('catalogId',catalogInfo[0]);
+      }
     });
   },
 
