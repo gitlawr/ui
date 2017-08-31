@@ -46,7 +46,6 @@ export default Ember.Component.extend(NewOrEdit, {
   deploy: false,
   init(){
     this._super(...arguments);
-    debugger
     var files = this.get('selectedModel.filesAry');
     if(files){
       this.set('previewTabCI',files[0].name);
@@ -270,8 +269,7 @@ export default Ember.Component.extend(NewOrEdit, {
   newExternalId: function() {
     var templateId = this.get('selectedTemplateModel.id');
     this.set('selectedModel.externalId', templateId);
-    return C.EXTERNAL_ID.KIND_CATALOG + C.EXTERNAL_ID.KIND_SEPARATOR + this.get('selectedTemplateModel.id');
-  }.property('selectedTemplateModel.id'),
+  }.observes('selectedTemplateModel.id'),
 
   willSave() {
     this.set('errors', null);
