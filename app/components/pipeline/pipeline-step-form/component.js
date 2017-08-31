@@ -19,12 +19,14 @@ const stepsChoices = [{
 ];
 
 export default Ember.Component.extend({
-  selectedModel: null,
+  selectedModel: function(){
+    return this.get('model')[this.get('type')]
+  }.property('model','type'),
   stepsTypeChoices: null,
+  type: null,
+  model: null,
   init(){
     this._super(...arguments);
-    var selectedModel = this.get('model')[this.get('type')];
-    this.set('selectedModel',selectedModel);
     var stepMode = this.get('modalOpts.stepMode');
     if(stepMode === 'scm'){
       this.set('stepsTypeChoices', stepOneChoice);
@@ -32,15 +34,15 @@ export default Ember.Component.extend({
       this.set('stepsTypeChoices', stepsChoices);
     }
   },
-  whenTypeChange: function(){
-    var type = this.get('type');
-    var selectedModel = this.get('selectedModel');
-    this.get('model').set(selectedModel.type, selectedModel);
-    // Arrange it to next lifecycle.
-    setTimeout(()=>{
-      this.set('selectedModel', this.get('model')[type]);
-    },0)
-  }.observes('type'),
+  // whenTypeChange: function(){
+  //   var type = this.get('type');
+  //   var selectedModel = this.get('selectedModel');
+  //   this.get('model').set(selectedModel.type, selectedModel);
+  //   // Arrange it to next lifecycle.
+  //   // setTimeout(()=>{
+  //     // this.set('selectedModel', this.get('model')[type]);
+  //   // },0)
+  // }.observes('type'),
   actions: {
     changeSCMType: function(type){
       this.set('selectedModel.sourceType',type);

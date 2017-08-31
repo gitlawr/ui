@@ -53,10 +53,8 @@ export default Ember.Component.extend({
       templateBase: ""
     };
     this.get('catalog').fetchTemplates(params).then((res) => {
-      
-      this.set('selectedTemplate', null);
-     
-      
+      debugger
+      this.set('selectedTemplate', res.catalog[0]);
       this.set('templates', res.catalog);
       var initCatalogTemplateId = this.get('selectedModel.externalId');
       if(initCatalogTemplateId){
@@ -64,7 +62,7 @@ export default Ember.Component.extend({
         var templateFolderPath = catalogInfo[1].split('*');
         var templateFolderName = templateFolderPath[templateFolderPath.length-1];
         var selectedTemplate = res.catalog.find(ele=>ele.folderName===templateFolderName);
-        this.set('selectedTemplate',selectedTemplate);
+        selectedTemplate&&this.set('selectedTemplate',selectedTemplate);
       }
       return res;
     });
