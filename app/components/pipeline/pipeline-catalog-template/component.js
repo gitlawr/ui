@@ -46,11 +46,11 @@ export default Ember.Component.extend(NewOrEdit, {
   deploy: false,
   init(){
     this._super(...arguments);
-    var initCatalogTemplateId = this.get('selectedModel.id');
-    if(initCatalogTemplateId){
-      var catalogInfo = initCatalogTemplateId.split(':');
+    debugger
+    var files = this.get('selectedModel.filesAry');
+    if(files){
+      this.set('previewTabCI',files[0].name);
     }
-    this.set('previewTabCI',this.get('selectedModel.filesAry')[0].name);
   },
   actions: {
     setTemplate(){
@@ -64,7 +64,6 @@ export default Ember.Component.extend(NewOrEdit, {
           }
           return false
         })
-        debugger
         if(matchedFile){
           Ember.set(matchedFile,'name', item.name);
           Ember.set(matchedFile,'body', item.body);
