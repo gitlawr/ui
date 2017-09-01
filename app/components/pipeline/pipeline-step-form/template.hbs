@@ -77,11 +77,18 @@
       value=selectedModel.file
       placeholder="newStack.dockerCompose.placeholder"
     }}
+  {{else}}
+    <div class="pt-20"></div>
+    <div class="inline-form">
+      <label>Dockerfile Path(relative to workspace){{field-required}}</label>
+      <div class="pt-10"></div>
+      {{input class="form-control" value=selectedModel.dockerfilePath placeholder="Personal access token"}}
+    </div>
   {{/if}}
 
   <div class="pt-20"></div>
   <div class="inline-form">
-    <label>TargetImage{{field-required}}</label>
+    <label>Target Image{{field-required}}</label>
     <div class="pt-10"></div>
     {{!-- {{input class="form-control" value= placeholder="hello-world:latest"}}
     {{pipeline.images}} --}}

@@ -29,25 +29,47 @@
   }}
 </div>
 
-<div class="pt-20"></div>
-<div class="inline-form">
-  <label>EntryPoint</label>
-  <div class="pt-10"></div>
-  {{input
-    value=selectedModel.entrypoint
-    placeholder="bash"
-  }}
-</div>
+<section class="header has-tabs clearfix">
+  <ul class="tab-nav">
+    <li {{action "changeTaskModel" true}}>
+      <a href="javascript:void(0);" class="{{if (eq selectedModel.isShell true) 'active'}} ember-view">Shell Script</a>
+    </li>
+    <li {{action "changeTaskModel" false}}>
+      <a href="javascript:void(0);" class="{{if (eq selectedModel.isShell false) 'active'}} ember-view">Custom Entrypoint</a>
+    </li>
+  </ul>
+</section>
 
-<div class="pt-20"></div>
-<div class="inline-form">
-  <label>{{t 'newPipelineStep.jobType.task.command'}}(shell)</label>
-  {{ivy-codemirror
-    value=selectedModel.command
-    valueUpdated=(action (mut selectedModel.command))
-    options=(hash autofocus=true theme="monokai" lineNumbers=true mode="shell" addon="hint/anyword-hint.js")
+{{#if selectedModel.isShell}}
+  <div class="inline-form">
+    <label>{{t 'newPipelineStep.jobType.task.command'}}(shell)</label>
+    <div class="pt-10"></div>
+    {{ivy-codemirror
+      value=selectedModel.command
+      valueUpdated=(action (mut selectedModel.command))
+      options=(hash autofocus=true theme="monokai" lineNumbers=true mode="shell" addon="hint/anyword-hint.js")
+      }}
+  </div>
+{{else}}
+  <div class="inline-form">
+    <label>EntryPoint</label>
+    <div class="pt-10"></div>
+    {{input
+      value=selectedModel.entrypoint
+      placeholder="If you want use the default entrypoint, just leave me empty"
     }}
-</div>
+  </div>
+  <div class="pt-20"></div>
+  <div class="inline-form">
+    <label>Args</label>
+    <div class="pt-10"></div>
+    {{input
+      value=selectedModel.args
+      placeholder="Arguments of entrypoint"
+    }}
+  </div>
+{{/if}}
+
 
 <div class="pt-30"></div>
 {{form-key-value

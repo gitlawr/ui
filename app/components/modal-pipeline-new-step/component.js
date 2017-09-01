@@ -16,9 +16,7 @@ class StepType {
   constructor(type, val) {
     switch (type) {
       case 'scm':
-        this.isService = false;
-        this.alias = '';
-        this.entrypoint = '';
+        
         this.type = 'scm';
         this.sourceType = "git";
         this.repository = '';
@@ -29,8 +27,13 @@ class StepType {
       case 'task':
         this.type = 'task';
         this.image = '';
+        this.isService = false;
+        this.alias = '';
+        this.entrypoint = '';
+        this.args = '';
+        this.isShell = true;
+
         this.command = '';
-        this.name = '';
         this.parameters = {};
         break;
       case 'build':
@@ -41,6 +44,7 @@ class StepType {
         1.sc
         2.file
         */
+        this.dockerfilePath='./';
         this.targetImage = '';
         this.sourceType = 'sc';
         this.push = false;
