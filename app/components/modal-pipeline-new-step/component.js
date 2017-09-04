@@ -30,9 +30,7 @@ class StepType {
         this.isService = false;
         this.alias = '';
         this.entrypoint = '';
-        this.args = '';
         this.isShell = true;
-
         this.command = '';
         this.parameters = {};
         break;

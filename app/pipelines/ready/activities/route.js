@@ -8,7 +8,7 @@ export default Ember.Route.extend({
   },
   model: function() {
     var pipelineStore = this.get('pipelineStore');
-    var model = pipelineStore.findAll('activity', null, { forceReload: true });
+    var model = pipelineStore.findAll('activity');
     return model
   }
 });

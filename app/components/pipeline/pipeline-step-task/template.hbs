@@ -61,10 +61,10 @@
   </div>
   <div class="pt-20"></div>
   <div class="inline-form">
-    <label>Args</label>
+    <label>Command</label>
     <div class="pt-10"></div>
     {{input
-      value=selectedModel.args
+      value=selectedModel.command
       placeholder="Arguments of entrypoint"
     }}
   </div>
@@ -77,6 +77,10 @@
   changed=(action (mut selectedModel.parameters))
   allowEmptyValue=false
   editing=true
-  normalHeader=(t 'newPipeline.build.variable')
-  addActionLabel="newPipeline.build.add"
+  normalHeader=(t 'newContainer.environment.label')
+  addActionLabel="newContainer.environment.addAction"
+  keyLabel="newContainer.environment.keyLabel"
+  keyPlaceholder="newContainer.environment.keyPlaceholder"
+  valueLabel="newContainer.environment.valueLabel"
+  valuePlaceholder="newContainer.environment.valuePlaceholder"
 }}

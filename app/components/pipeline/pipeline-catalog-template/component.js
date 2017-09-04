@@ -106,12 +106,20 @@ export default Ember.Component.extend(NewOrEdit, {
         if (links&&links[def]) {
           this.set('selectedTemplateUrl', links[def]);
         } else {
-          this.set('selectedTemplateUrl', null);
+          this.set('selectedTemplateUrl', links[0]);
         }
       }
     });
   },
-
+  updateSelectedtemplateUrl: function(){
+    var def = this.get('templateResource.defaultVersion');
+    var links = this.get('versionLinks');
+    if (links&&links[def]) {
+      this.set('selectedTemplateUrl', links[def]);
+    } else {
+      this.set('selectedTemplateUrl', links[0]);
+    }
+  }.observes('versionLinks'),
   updateReadme: function() {
     let model = this.get('selectedTemplateModel');
     this.set('readmeContent', '');

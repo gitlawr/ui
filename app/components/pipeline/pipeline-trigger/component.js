@@ -6,8 +6,12 @@ export default Ember.Component.extend({
   init(){
     this._super();
     var triggerTimezone = this.get('pipeline.triggerTimezone');
+    var t = new Date();
+    var timeZone = - t.getTimezoneOffset()/60;
+    selected = timezones.find(ele => ele.offset === timeZone );
+    this.set('selected',selected)
     if(triggerTimezone){
-      var selected = timezones.filter(ele=> ele.utc[0]=== triggerTimezone);
+      var selected = timezones.find(ele=> ele.utc[0]=== triggerTimezone);
       if(selected){
         this.set('selected',selected)
       }
