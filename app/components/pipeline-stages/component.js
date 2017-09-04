@@ -55,10 +55,10 @@ export default Ember.Component.extend({
     },
     editStage: function(index) {
       this.get('modalService').toggleModal('modal-pipeline-new-stage', {
-        stage: this.get('model')[index],
+        stage: this.get('pipeline.stages')[index],
         mode: 'edit',
         cb: (stage) => {
-          var newStage = this.get('model').map((ele, i) => {
+          var newStage = this.get('pipeline.stages').map((ele, i) => {
             if (i === index) {
               return stage;
             }
@@ -67,7 +67,7 @@ export default Ember.Component.extend({
           this.set('pipeline.stages', newStage);
         },
         rmCb: () => {
-          var newStage = this.get('model').filter((ele, i) => {
+          var newStage = this.get('pipeline.stages').filter((ele, i) => {
             if (i === index) {
               return false;
             }

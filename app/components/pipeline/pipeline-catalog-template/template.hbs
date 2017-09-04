@@ -16,7 +16,7 @@
               value=file.body
               valueUpdated=(action (mut file.body))
               options=(hash autofocus=true lineNumbers=true 
-              mode=(pipeline-file-extension file.name) theme="monokai" readOnly=true)
+              mode=(pipeline-file-extension file.name) readOnly=true)
               }}
           </div>
         {{/if}}
@@ -56,7 +56,7 @@
       </button> 
     {{else}}
       <button class="btn bg-primary" {{action "setState" "selectTemplateFromOldVersion" true }}>
-        Select From old version
+        Select Template From Old Version
       </button>
     {{/if}}
   </div>

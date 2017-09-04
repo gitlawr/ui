@@ -19,7 +19,7 @@ export default Ember.Controller.extend({
 
   actions: {
     run: function() {
-      this.get('model.pipeline').doAction('run');
+      this.get('model').doAction('rerun');
     }
   },
   expandFn: function(item) {
