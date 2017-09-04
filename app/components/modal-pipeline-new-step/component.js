@@ -16,7 +16,6 @@ class StepType {
   constructor(type, val) {
     switch (type) {
       case 'scm':
-        
         this.type = 'scm';
         this.sourceType = "git";
         this.repository = '';
@@ -31,6 +30,7 @@ class StepType {
         this.alias = '';
         this.entrypoint = '';
         this.isShell = true;
+        this.args='';
         this.command = '';
         this.parameters = {};
         break;
