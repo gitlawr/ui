@@ -10,6 +10,7 @@ export default Ember.Component.extend({
     return this.get('projects.current');
   }.property('projects'),
   catalogs: null,
+  loadingCatalog: false,
   selectedCatalog: function(){
     var ary = this.get('ary');
     if(!ary){
@@ -55,6 +56,7 @@ export default Ember.Component.extend({
     this.get('catalog').fetchTemplates(params).then((res) => {
       this.set('selectedTemplate', res.catalog[0]);
       this.set('templates', res.catalog);
+
       var initCatalogTemplateId = this.get('selectedModel.externalId');
       if(initCatalogTemplateId){
         var catalogInfo = initCatalogTemplateId.split(':');
@@ -63,6 +65,8 @@ export default Ember.Component.extend({
         var selectedTemplate = res.catalog.find(ele=>ele.folderName===templateFolderName);
         selectedTemplate&&this.set('selectedTemplate',selectedTemplate);
       }
+      selectedTemplate = this.get('selectedTemplate');
+      this.set('selectedModel.externalId',selectedTemplate.defaultTemplateVersionId);
       return res;
     });
   }.observes('catalogId'),

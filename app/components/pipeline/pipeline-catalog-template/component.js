@@ -106,7 +106,7 @@ export default Ember.Component.extend(NewOrEdit, {
         if (links&&links[def]) {
           this.set('selectedTemplateUrl', links[def]);
         } else {
-          this.set('selectedTemplateUrl', links[0]);
+          links&&this.set('selectedTemplateUrl', links[Object.keys(links)[0]]);
         }
       }
     });
@@ -117,7 +117,7 @@ export default Ember.Component.extend(NewOrEdit, {
     if (links&&links[def]) {
       this.set('selectedTemplateUrl', links[def]);
     } else {
-      this.set('selectedTemplateUrl', links[0]);
+      links&&this.set('selectedTemplateUrl', links[Object.keys(links)[0]]);
     }
   }.observes('versionLinks'),
   updateReadme: function() {

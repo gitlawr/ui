@@ -1,14 +1,32 @@
 {{#each filtered as |stage stageIndex| }}
+  {{#if (eq stage.status "Pending")}}
+  <div class="pipeline-approval-tip">
+      <div class="approval-head">
+        <span class="head-content">Waiting Approval</span>
+      </div>
+      <div class="approval-content">
+        <span class="content-text">
+            User({{activity.approversName}}) need to approve Stage <span class="text-info">{{activity.pendingStageName}}</span>
+        </span>
+        {{#if activity.actionLinks.approve}}
+          <div class="approval-actions" style="padding-bottom: 0">
+              <a class="mr-10 text-error" href="javascript:void(0);" {{action "sendAction" activity "deny"}} style="color: red"><i class="icon icon-thumbs-down"></i>&nbsp;Deny</a>
+              <a class="text-success" href="javascript:void(0);" {{action "sendAction" activity "approve"}} ><i class="icon icon-thumbs-up"></i>&nbsp;Approve</a>
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  {{/if}}
   {{#accordion-list-item-pipeline
-           title=stage.name
-           status=stage.status
-           date=(date-str stage.start_ts)
-           duration=stage.duration
-           statusClass=stage.status
-           expandAll=true
-           expand=(action expandFn)
-           componentName='container-table'
-           as | parent |
+    title=stage.name
+    status=stage.status
+    date=(date-str stage.start_ts)
+    duration=stage.duration
+    statusClass=stage.status
+    expandAll=true
+    expand=(action expandFn)
+    componentName='container-table'
+    as | parent |
       }}
       {{#each stage.activity_steps as |step stepIndex|}}
         <div class="accordion-header header-pipeline item" class={{step.status}} {{action 'showLogs' stageIndex stepIndex}}>
@@ -24,7 +42,7 @@
           <div class="badge-state">
             <p class="mt-0 mb-0"><i class="icon icon-history"></i>
               {{#if (eq step.status 'Building')}}
-                &nbsp;{{date-diff step.start_ts dateNow 's'}}&nbsp;seconds
+                &nbsp;{{date-diff dateNow step.start_ts 'ms'}}&nbsp;seconds
               {{else}}
                 &nbsp;{{date-duration step.duration}}&nbsp;seconds
               {{/if}}
