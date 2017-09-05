@@ -8,7 +8,6 @@ export default Ember.Component.extend({
   sortBy: 'name',
   body: null,
   filtered: function(){
-    console.log(this.get('body'));
     return this.get('body')
   }.property('body'),
   expandFn:function(item) {
@@ -36,6 +35,9 @@ export default Ember.Component.extend({
           activity: this.get('activity'),
           step: [stageIndex,stepIndex]
         });
-    }
+    },
+    sendAction: function (model, action) {
+      return model.send(action)
+    },
   },
 });

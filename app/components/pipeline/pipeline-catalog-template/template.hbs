@@ -60,7 +60,7 @@
       </button>
     {{/if}}
   </div>
-  {{#if selectTemplateFromOldVersion}}
+  <div class="{{if (not-eq selectTemplateFromOldVersion true) 'hide'}}">
     <hr>
     <div class="row">
       <div class="col span-6">
@@ -77,7 +77,7 @@
         <p class="text-info">Select a version as the template to upgrade</p>
       </div>
     </div>
-  {{/if}}
+  </div>
 </div>
 
 </section>
