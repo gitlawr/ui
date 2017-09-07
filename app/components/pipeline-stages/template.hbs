@@ -33,6 +33,7 @@
             {{/if}}
 
             {{pipeline-steps
+              review=review
               pipeline=pipeline
               stageIndex=(index-add index)
               stageInfo=item.name
@@ -65,10 +66,11 @@
   {{else}}
     {{#each pipeline.stages as |item index|}}
     <div class="stage-wrap">
-      <div class="stage-name text-muted clip">
+      <div class="stage-name text-muted clip" {{action 'editStage' index}}>
         {{index-add index}}. {{item.name}}
       </div>
       {{pipeline-steps
+        review=review
         pipeline=pipeline
         stageIndex=(index-add index)
         stageInfo=item.name

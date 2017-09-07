@@ -9,6 +9,7 @@ export default Ember.Component.extend({
   envvars: null,
   envvarsLoading: true,
   modalService: Ember.inject.service('modal'),
+  review: false,
   init(){
     this._super(...arguments);
     var pipelineStore = this.get('pipelineStore');
@@ -54,9 +55,10 @@ export default Ember.Component.extend({
       })
     },
     editStage: function(index) {
+      var review = this.get('review');
       this.get('modalService').toggleModal('modal-pipeline-new-stage', {
         stage: this.get('pipeline.stages')[index],
-        mode: 'edit',
+        mode: review?'review':'edit',
         cb: (stage) => {
           var newStage = this.get('pipeline.stages').map((ele, i) => {
             if (i === index) {

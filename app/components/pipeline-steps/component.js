@@ -8,6 +8,13 @@ export default Ember.Component.extend({
   stageInfo: null,
   stageIndex: null,
   pipeline: null,
+  dotClass: function(){
+    var stage = this.get('pipeline').stages[this.get('stageIndex')-1];
+    if(stage&&stage.needApprove){
+      return 'need-approve';
+    }
+    return ''
+  }.property('pipeline'),
   sortingScope: function() {
     return this.get('stageId')
   }.property('stageId'),
@@ -64,8 +71,9 @@ export default Ember.Component.extend({
       });
     },
     editStep: function(index) {
+      var review = this.get('review');
       this.get('modalService').toggleModal('modal-pipeline-new-step', {
-        type: 'edit',
+        type: review?'review':'edit',
         pipeline: this.get('pipeline'),
         params: this.get('model')[index],
         stageInfo: this.get('stageInfo'),

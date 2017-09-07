@@ -2,7 +2,7 @@
 <div class="pt-20"></div>
 <div class="inline-form">
   <div class="pt-10"></div>
-  <label>{{check-box class="form-control" checked=selectedModel.isService}}
+  <label>{{check-box class="form-control" checked=selectedModel.isService disabled=(if (eq modalOpts.type 'review') true false)}}
     As a Service
   </label>
 </div>
@@ -15,6 +15,7 @@
     class="js-var-hint"
     value=selectedModel.alias
     placeholder="mysql"
+    disabled=(if (eq modalOpts.type 'review') true false)
   }}
 </div>
 {{/if}}
@@ -22,20 +23,29 @@
 <div class="inline-form">
   <label>{{t 'newPipelineStep.jobType.image'}}{{field-required}}</label>
   <div class="pt-10"></div>
-  {{input-suggest
-    value=selectedModel.image
-    choices=pipeline.images
-    placeholder="hello-world:latest"
-  }}
+  {{#if (eq modalOpts.type 'review')}}
+    {{input
+      value=selectedModel.image
+      disabled=(if (eq modalOpts.type 'review') true false)
+    }}
+  {{else}}
+    {{input-suggest
+      value=selectedModel.image
+      choices=pipeline.images
+      placeholder="hello-world:latest"
+      disabled=(if (eq modalOpts.type 'review') true false)
+    }}
+  {{/if}}
+  
 </div>
 
 <section class="header has-tabs clearfix">
   <ul class="tab-nav">
     <li {{action "changeTaskModel" true}}>
-      <a href="javascript:void(0);" class="{{if (eq selectedModel.isShell true) 'active'}} ember-view">Shell Script</a>
+      <a href="javascript:void(0);" class="{{if (eq selectedModel.isShell true) 'active' (if (eq modalOpts.type 'review') 'hide')}} ember-view">Shell Script</a>
     </li>
     <li {{action "changeTaskModel" false}}>
-      <a href="javascript:void(0);" class="{{if (eq selectedModel.isShell false) 'active'}} ember-view">Custom Entrypoint</a>
+      <a href="javascript:void(0);" class="{{if (eq selectedModel.isShell false) 'active' (if (eq modalOpts.type 'review') 'hide')}} ember-view">Custom Entrypoint</a>
     </li>
   </ul>
 </section>
@@ -47,7 +57,7 @@
     {{ivy-codemirror
       value=selectedModel.command
       valueUpdated=(action (mut selectedModel.command))
-      options=(hash autofocus=true theme="monokai" lineNumbers=true mode="shell" addon="hint/anyword-hint.js")
+      options=(hash autofocus=true theme="monokai" lineNumbers=true mode="shell" addon="hint/anyword-hint.js" readOnly=(if (eq modalOpts.type 'review') true false))
       }}
   </div>
 {{else}}
@@ -57,6 +67,7 @@
     {{input
       value=selectedModel.entrypoint
       placeholder="If you want use the default entrypoint, just leave me empty"
+      disabled=(if (eq modalOpts.type 'review') true false)
     }}
   </div>
   <div class="pt-20"></div>
@@ -66,21 +77,33 @@
     {{input
       value=selectedModel.args
       placeholder="Arguments of entrypoint"
+      disabled=(if (eq modalOpts.type 'review') true false)
     }}
   </div>
 {{/if}}
 
 
 <div class="pt-30"></div>
-{{form-key-value
-  initialMap=selectedModel.parameters
-  changed=(action (mut selectedModel.parameters))
-  allowEmptyValue=false
-  editing=true
-  normalHeader=(t 'newContainer.environment.label')
-  addActionLabel="newContainer.environment.addAction"
-  keyLabel="newContainer.environment.keyLabel"
-  keyPlaceholder="newContainer.environment.keyPlaceholder"
-  valueLabel="newContainer.environment.valueLabel"
-  valuePlaceholder="newContainer.environment.valuePlaceholder"
-}}
+{{#if (eq modalOpts.type 'review')}}
+  {{#if parmStr}}
+  <div class="inline-form">
+    <label>{{t 'newContainer.environment.label'}}</label>
+    <div class="pt-10"></div>
+    {{parmStr}}
+  </div>
+  {{/if}}
+{{else}}
+  {{form-key-value
+    initialMap=selectedModel.parameters
+    changed=(action (mut selectedModel.parameters))
+    allowEmptyValue=false
+    editing=true
+    normalHeader=(t 'newContainer.environment.label')
+    addActionLabel="newContainer.environment.addAction"
+    keyLabel="newContainer.environment.keyLabel"
+    keyPlaceholder="newContainer.environment.keyPlaceholder"
+    valueLabel="newContainer.environment.valueLabel"
+    valuePlaceholder="newContainer.environment.valuePlaceholder"
+    disabled=(if (eq modalOpts.type 'review') true false)
+  }}
+{{/if}}
