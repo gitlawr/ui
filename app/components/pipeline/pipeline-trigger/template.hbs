@@ -39,7 +39,11 @@
       {{timezone.text}}
     {{/power-select}}
   </div>
-
+  
+  <div class="pt-20"></div>
+  <label>{{check-box class="form-control" checked=pipeline.triggerOnUpdate}}
+    Run when there is new commit
+  </label>
 {{/accordion-list-item}}
 
 <div class="box">
