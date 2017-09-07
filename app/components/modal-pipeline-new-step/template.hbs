@@ -2,9 +2,13 @@
 
 <section class="header clearfix">
   <div class="modal-pipeline-head">
-    <h2>{{t (if editing 'newPipelineStep.header.edit' 'newPipelineStep.header.create')}}</h2>
-    <br>
-    <p class="text-muted">{{modalOpts.stageIndex}}. {{modalOpts.stageInfo}}</p>
+    {{#if (eq modalOpts.type 'review')}}
+      <h2>{{modalOpts.stageIndex}}. {{modalOpts.stageInfo}}</h2>
+    {{else}}
+      <h2>{{t (if editing 'newPipelineStep.header.edit' 'newPipelineStep.header.create')}}</h2>
+      <br>
+      <p class="text-muted">{{modalOpts.stageIndex}}. {{modalOpts.stageInfo}}</p>
+    {{/if}}
   </div>
   {{#if editing}}
     {{#if (eq type 'scm')}}
@@ -24,4 +28,10 @@
     editing=editing
     modalOpts=modalOpts
 }}
-{{save-cancel editing=editing createLabel="generic.add" save="add" cancel="cancel"}}
+{{#if (eq modalOpts.type 'review')}}
+  <div style="text-align: center" class="mt-20 text-center">
+    <button {{action "cancel"}} class="btn bg-transparent">{{t "generic.cancel"}}</button>
+  </div>
+{{else}}
+  {{save-cancel editing=editing createLabel="generic.add" save="add" cancel="cancel"}}
+{{/if}}

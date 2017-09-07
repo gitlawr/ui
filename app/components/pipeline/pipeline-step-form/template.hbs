@@ -7,6 +7,7 @@
     optionLabelPath="id"
     optionValuePath="id"
     value=type
+    disabled=(if (eq modalOpts.type 'review') true false)
   }}
   </div>
 </div>
@@ -15,10 +16,10 @@
   <section class="header has-tabs clearfix">
     <ul class="tab-nav">
       <li {{action "changeSCMType" 'git'}}>
-        <a href="javascript:void(0);" class="{{if (eq selectedModel.sourceType 'git') 'active'}} ember-view">Git</a>
+        <a href="javascript:void(0);" class="{{if (eq selectedModel.sourceType 'git') 'active' (if (eq modalOpts.type 'review') 'hide')}} ember-view">Git</a>
       </li>
       <li {{action "changeSCMType" 'github'}}>
-        <a href="javascript:void(0);" class="{{if (eq selectedModel.sourceType 'github') 'active'}} ember-view">Github</a>
+        <a href="javascript:void(0);" class="{{if (eq selectedModel.sourceType 'github') 'active' (if (eq modalOpts.type 'review') 'hide')}} ember-view">Github</a>
       </li>
     </ul>
   </section>
@@ -26,21 +27,21 @@
   <div class="inline-form">
     <label>Repository{{field-required}}</label>
     <div class="pt-10"></div>
-    {{input class="form-control" value=selectedModel.repository placeholder="https://github.com/rancher/ui.git"}}
+      {{input class="form-control" value=selectedModel.repository placeholder="https://github.com/rancher/ui.git" disabled=(if (eq modalOpts.type 'review') true false)}}
   </div>
 
   <div class="pt-20"></div>
   <div class="inline-form">
     <label>Branch</label>
     <div class="pt-10"></div>
-    {{input class="form-control" value=selectedModel.branch placeholder="master"}}
+    {{input class="form-control" value=selectedModel.branch placeholder="master" disabled=(if (eq modalOpts.type 'review') true false)}}
   </div>
 
   {{#if (eq selectedModel.sourceType 'github')}}
     <div class="pt-20"></div>
     <div class="inline-form">
       <div class="pt-10"></div>
-      <label>{{check-box class="form-control" checked=selectedModel.webhook}}
+      <label>{{check-box class="form-control" checked=selectedModel.webhook disabled=(if (eq modalOpts.type 'review') true false) }}
         Webhook
       </label>
     </div>
@@ -49,7 +50,7 @@
       <div class="inline-form">
         <label>Token{{field-required}}</label>
         <div class="pt-10"></div>
-        {{input class="form-control" value=selectedModel.token placeholder="Personal access token"}}
+        {{input class="form-control" value=selectedModel.token placeholder="Personal access token" disabled=(if (eq modalOpts.type 'review') true false)}}
       </div>
     {{/if}}
   {{/if}}
@@ -61,28 +62,36 @@
   <div class="inline-form">
     <label>Source of Dockerfile</label>
     <div class="pt-10"></div>
-    <label class="mr-30">{{radio-button selection=selectedModel.sourceType value="sc"}}
+    <label class="mr-30">{{radio-button selection=selectedModel.sourceType value="sc" disabled=(if (eq modalOpts.type 'review') true false)}}
         Read from source code
     </label>
-    <label class="mr-30">{{radio-button selection=selectedModel.sourceType value="file"}}
+    <label class="mr-30">{{radio-button selection=selectedModel.sourceType value="file" disabled=(if (eq modalOpts.type 'review') true false)}}
         Read from a file
     </label>
   </div>
   {{#if (eq selectedModel.sourceType 'file')}}
     <div class="pt-20"></div>
-    {{pipeline/pipeline-input-code-file
-      name="Dockerfile"
-      canChangeName=false
-      mode="dockerfile"
-      value=selectedModel.file
-      placeholder="newStack.dockerCompose.placeholder"
-    }}
+    {{#if (eq modalOpts.type 'review')}}
+      {{ivy-codemirror
+        value=selectedModel.file
+        valueUpdated=(action (mut selectedModel.file))
+        options=(hash autofocus=true theme="monokai" lineNumbers=true mode="dockerfile" addon="hint/anyword-hint.js" readOnly=(if (eq modalOpts.type 'review') true false))
+      }}
+    {{else}}
+      {{pipeline/pipeline-input-code-file
+        name="Dockerfile"
+        canChangeName=false
+        mode="dockerfile"
+        value=selectedModel.file
+        placeholder="newStack.dockerCompose.placeholder"
+      }}
+    {{/if}}
   {{else}}
     <div class="pt-20"></div>
     <div class="inline-form">
       <label>Dockerfile Path(relative to workspace){{field-required}}</label>
       <div class="pt-10"></div>
-      {{input class="form-control" value=selectedModel.dockerfilePath placeholder="Personal access token"}}
+      {{input class="form-control" value=selectedModel.dockerfilePath placeholder="Personal access token" disabled=(if (eq modalOpts.type 'review') true false)}}
     </div>
   {{/if}}
 
@@ -90,19 +99,21 @@
   <div class="inline-form">
     <label>Target Image{{field-required}}</label>
     <div class="pt-10"></div>
-    {{!-- {{input class="form-control" value= placeholder="hello-world:latest"}}
-    {{pipeline.images}} --}}
-    {{input-suggest
-      value=selectedModel.targetImage
-      choices=pipeline.images
-      placeholder="hello-world:latest"
-    }}
+    {{#if (eq modalOpts.type 'review')}}
+      {{input class="form-control" value=pipeline.images placeholder="hello-world:latest" disabled=(if (eq modalOpts.type 'review') true false)}}
+    {{else}}
+      {{input-suggest
+        value=selectedModel.targetImage
+        choices=pipeline.images
+        placeholder="hello-world:latest"
+      }}
+    {{/if}}
   </div>
 
   <div class="pt-20"></div>
   <div class="inline-form">
     <div class="pt-10"></div>
-    <label>{{check-box class="form-control" checked=selectedModel.push}}
+    <label>{{check-box class="form-control" checked=selectedModel.push disabled=(if (eq modalOpts.type 'review') true false)}}
       Push
     </label>
   </div>
@@ -111,13 +122,13 @@
     <div class="inline-form">
       <label>Username</label>
       <div class="pt-10"></div>
-      {{input class="form-control" value=selectedModel.username placeholder="private registry username"}}
+      {{input class="form-control" value=selectedModel.username placeholder="private registry username" disabled=(if (eq modalOpts.type 'review') true false)}}
     </div>
     <div class="pt-20"></div>
     <div class="inline-form">
       <label>Password</label>
       <div class="pt-10"></div>
-      {{input type="password" class="form-control" value=selectedModel.password placeholder="private registry password"}}
+      {{input type="password" class="form-control" value=selectedModel.password placeholder="private registry password" disabled=(if (eq modalOpts.type 'review') true false)}}
     </div>
   {{/if}}
 {{/if}}
@@ -126,6 +137,7 @@
   {{pipeline/pipeline-step-task
     pipeline=pipeline
     selectedModel=selectedModel
+    modalOpts=modalOpts
   }}
 {{/if}}
 
@@ -133,6 +145,7 @@
   {{pipeline/pipeline-step-service
     pipeline=pipeline
     selectedModel=selectedModel
+    modalOpts=modalOpts
   }}
 {{/if}}
 
@@ -140,6 +153,7 @@
   {{pipeline/pipeline-step-stack
     pipeline=pipeline
     selectedModel=selectedModel
+    modalOpts=modalOpts
   }}
 {{/if}}
 
@@ -148,5 +162,6 @@
     pipeline=pipeline
     selectedModel=selectedModel
     editing=editing
+    modalOpts=modalOpts
   }}
 {{/if}}

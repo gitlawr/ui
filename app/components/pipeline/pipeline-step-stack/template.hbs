@@ -6,6 +6,7 @@
     class="js-var-hint"
     value=selectedModel.stackName
     placeholder="stack name"
+    disabled=(if (eq modalOpts.type 'review') true false)
   }}
 </div>
 
@@ -25,7 +26,8 @@
       {{ivy-codemirror 
         value=selectedModel.dockerCompose 
         valueUpdated=(action (mut selectedModel.dockerCompose))
-        options=(hash autofocus=true lineNumbers=true mode="yaml" tabSize="2")
+        options=(hash autofocus=true lineNumbers=true mode="yaml" tabSize="2" readOnly=(if (eq modalOpts.type 'review') true false))
+
       }}
     </div> 
   {{else}}
@@ -33,7 +35,7 @@
       {{ivy-codemirror 
         value=selectedModel.rancherCompose 
         valueUpdated=(action (mut selectedModel.rancherCompose))
-        options=(hash autofocus=true lineNumbers=true mode="yaml" theme="monokai" tabSize="2")
+        options=(hash autofocus=true lineNumbers=true mode="yaml" theme="monokai" tabSize="2" readOnly=(if (eq modalOpts.type 'review') true false))
         }}
     </div>
   {{/if}}
@@ -44,5 +46,6 @@
 </section>
 
 {{pipeline/pipeline-step-env-setting
-    model = selectedModel
+  model=selectedModel
+  modalOpts=modalOpts
 }}

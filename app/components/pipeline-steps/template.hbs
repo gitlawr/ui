@@ -1,6 +1,6 @@
 <div class="pipeline-steps">
   <div class="steps-line"></div>
-  <div class="steps-head-dot js-dragHandle" class={{if stagesDraggable 'draggable' ''}}></div>
+  <div class="steps-head-dot js-dragHandle {{dotClass}}" class={{if stagesDraggable 'draggable' ''}}></div>
   <div class="steps-wrap">
     {{#if stepsDraggble}}
       {{#sortable-objects
@@ -29,7 +29,7 @@
     {{else}}
       {{#each model as |item index|}}
         <div class="step-content">
-          <div class="step-name text-muted">
+          <div class="step-name text-muted" {{action 'editStep' index}}>
            {{pipeline/pipeline-step model=item}}
           </div>
         </div>

@@ -122,6 +122,9 @@
     height: 15px;
     border-radius: 50%;
     background-color: $info;
+    &.need-approve{
+      background-color: $warning;
+    }
   }
   > .steps-line {
     position: absolute;

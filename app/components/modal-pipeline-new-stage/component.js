@@ -62,7 +62,7 @@ export default Ember.Component.extend(ModalBase, NewOrEdit, {
   init() {
     this._super(...arguments);
     var opts = this.get('modalOpts');
-    if (opts.mode === "edit") {
+    if (opts.mode === "edit" || opts.mode === 'review') {
       this.set('model', opts.stage);
       this.set('editing', true);
       var approvers = opts.stage.approvers;

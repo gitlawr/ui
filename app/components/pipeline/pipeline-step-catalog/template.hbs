@@ -4,19 +4,20 @@
   <p class="text-muted">{{t 'catalogSettings.subtext'}}</p>
   <hr>
   <div>
-    <div class="form-control-static">
-    {{#if editCatalog}}
-      <button class="btn bg-primary icon-btn" {{action "add"}}>
-        <span class="darken"><i class="icon icon-plus"/></span>
-        <span>{{t 'envCatalog.addActionLabel'}}</span>
-      </button>
-    {{else}}
-      <button class="btn bg-primary" {{action "editCatalog"}}>
-        Edit
-      </button>
+    {{#if (not-eq modalOpts.type 'review')}}
+      <div class="form-control-static">
+        {{#if editCatalog}}
+          <button class="btn bg-primary icon-btn" {{action "add"}}>
+            <span class="darken"><i class="icon icon-plus"/></span>
+            <span>{{t 'envCatalog.addActionLabel'}}</span>
+          </button>
+        {{else}}
+          <button class="btn bg-primary" {{action "editCatalog"}}>
+            Edit
+          </button>
+        {{/if}}
+      </div>
     {{/if}}
-    </div>
-
     {{#if (or global.length ary.length)}}
       <table class="table fixed">
         <thead>
@@ -101,14 +102,14 @@
   <div class="inline-form">
     <label>Username</label>
     <div class="pt-10"></div>
-    {{input class="form-control" value=selectedModel.username placeholder="Username"}}
+    {{input class="form-control" value=selectedModel.username placeholder="Username" disabled=(if (eq modalOpts.type 'review') true false)}}
   </div>
 
   <div class="pt-20"></div>
   <div class="inline-form">
     <label>Password</label>
     <div class="pt-10"></div>
-    {{input class="form-control" type="password" value=selectedModel.password placeholder="Password"}}
+    {{input class="form-control" type="password" value=selectedModel.password placeholder="Password" disabled=(if (eq modalOpts.type 'review') true false)}}
   </div>
 
 </section>
@@ -124,6 +125,7 @@
     searchField="name"
     selected=selectedTemplate
     onchange=(action (mut selectedTemplate))
+    disabled=(if (eq modalOpts.type 'review') true false)
     as |template|
   }}
     <div style="position: relative;top:0;" class="pl-10 pr-10">
@@ -141,6 +143,7 @@
   versionLinks=selectedTemplate.versionLinks
   versionsArray=selectedTemplateVersions
   parentRoute=parentRoute
+  modalOpts=modalOpts
   showName=(and (not editing) (not model.stack.system))
   cancel=(action "cancel")
 }}

@@ -13,5 +13,16 @@ export default Ember.Component.extend({
     changeTaskModel(state){
       this.set('selectedModel.isShell',state);
     }
-  }
+  },
+  parmStr: function(){
+    var parm = this.get('selectedModel.parameters');
+    var parmStr=[];
+    for(var key in parm){
+      if(parm.hasOwnProperty(key)){
+        var val = parm[key];
+        parmStr.push(key+'='+val)
+      }
+    }
+    return parmStr.join('/\n');
+  }.property('selectedModel.parameters')
 });
