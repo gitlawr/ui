@@ -26,10 +26,12 @@ export default Ember.Controller.extend({
         return model.pipeline.doAction('update', model.pipeline.serialize())
       })()
       .then(() => {
+        this.set('errors',null);
         this.transitionToRoute('pipelines.ready.pipelines')
       })
     },
     cancel: function() {
+      this.set('errors',null);
       this.transitionToRoute('pipelines.ready.pipelines')
     }
   }

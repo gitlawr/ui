@@ -87,6 +87,7 @@ Router.map(function() {
         this.route('ready', {path: '/r'},function(){
           this.route('activities',{path:'/'});
           this.route('pipelines',{path:'/pipelines'});
+          this.route('settings',{path:'/settings'});
         });
         this.route('activity', {path: '/activities/:activity_id'});
         

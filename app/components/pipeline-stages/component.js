@@ -1,5 +1,14 @@
 import Ember from 'ember';
 
+var validateStageName = function(stages,stage){
+  for (var i = 0; i < stages.length; i++) {
+    var item = stages[i];
+    if (item.name === stage.name) {
+      return i;
+    }
+  }
+  return -1;
+};
 export default Ember.Component.extend({
   sortFinishText: null,
   crt: null,
@@ -47,7 +56,13 @@ export default Ember.Component.extend({
     },
     addStage: function() {
       var cb = (stage) => {
-        this.get('model').pushObject(stage);
+        var stages = this.get('pipeline.stages');
+        var valid = validateStageName(stages,stage)
+        if(valid !== -1){
+          return false;
+        }
+        stages.pushObject(stage);
+        return true;
       };
       this.get('modalService').toggleModal('modal-pipeline-new-stage', {
         mode: 'new',
@@ -60,13 +75,19 @@ export default Ember.Component.extend({
         stage: this.get('pipeline.stages')[index],
         mode: review?'review':'edit',
         cb: (stage) => {
-          var newStage = this.get('pipeline.stages').map((ele, i) => {
+          var stages = this.get('pipeline.stages');
+          var valid = validateStageName(stages,stage)
+          if(valid !== -1){
+            return false;
+          }
+          var newStage = stages.map((ele, i) => {
             if (i === index) {
               return stage;
             }
             return ele;
           })
           this.set('pipeline.stages', newStage);
+          return true;
         },
         rmCb: () => {
           var newStage = this.get('pipeline.stages').filter((ele, i) => {

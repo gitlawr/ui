@@ -14,6 +14,7 @@ export default Ember.Component.extend(ModalBase, NewOrEdit, {
   primaryResource: Ember.computed.alias('originalModel'),
   sortBy: 'name',
   userList: [],
+  errors: [],
   selectedList: function() {
     var selectedList = this.get('userList').filter(ele => !!ele.selected);
     return selectedList;
@@ -103,21 +104,29 @@ export default Ember.Component.extend(ModalBase, NewOrEdit, {
   },
   actions: {
     add: function(success) {
-      success(true);
-      this.get('modalOpts').cb({
+      var added = this.get('modalOpts').cb({
         ...this.get('model'),
         id: Date.now(),
         approvers: this.getApprovals()
       });
+      if(!added){
+        this.set('errors',['The same stage name is not allowed!']);
+        return success(false);
+      }
+      success(true);
       this.send('cancel');
     },
     edit: function(success) {
-      success(true)
-      this.get('modalOpts').cb({
+      var added = this.get('modalOpts').cb({
         ...this.get('model'),
         id: Date.now(),
         approvers: this.getApprovals()
       })
+      if(!added){
+        this.set('errors',['The same stage name is not allowed!']);
+        return success(false);
+      }
+      success(true);
       this.send('cancel');
     },
     remove: function() {

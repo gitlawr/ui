@@ -10,8 +10,8 @@
         </span>
         {{#if approval.actionLinks.approve}}
           <div class="approval-actions" style="padding-bottom: 0">
-              <a class="mr-10 text-error" href="javascript:void(0);" {{action "sendAction" approval "deny"}} style="color: red"><i class="icon icon-thumbs-down"></i>&nbsp;Deny</a>
-              <a class="text-success" href="javascript:void(0);" {{action "sendAction" approval "approve"}} ><i class="icon icon-thumbs-up"></i>&nbsp;Approve</a>
+            <a class="mr-10 text-error" href="javascript:void(0);" {{action "sendAction" approval "deny"}} style="color: red"><i class="icon icon-thumbs-down"></i>&nbsp;Deny</a>
+            <a class="text-success" href="javascript:void(0);" {{action "sendAction" approval "approve"}} ><i class="icon icon-thumbs-up"></i>&nbsp;Approve</a>
           </div>
         {{/if}}
       </div>
