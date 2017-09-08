@@ -116,6 +116,7 @@ var validationErrors = (module) => {
       if (module.repository.indexOf('.git') === -1) {
         errors.push('Repository should be a valid git address!');
       }
+      Ember.set(module,'repository',module.repository.trim());
       break;
     case 'task':
       if (module.image.trim() === '') {

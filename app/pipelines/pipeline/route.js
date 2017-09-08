@@ -12,18 +12,22 @@ export default Ember.Route.extend({
     return Ember.RSVP.hash({
         pipeline: pipeline
       }).then(({pipeline})=>{
-        if(params.mode==='duplicate'){
-          var newPipeline = pipelineStore.createRecord({
-            type: 'pipeline',
-            stages: pipeline.serialize().stages
-          });
-          return {
-            pipeline: newPipeline
-          };
-        }
+        // if(params.mode==='duplicate'){
+        //   var newPipeline = pipelineStore.createRecord({
+        //     type: 'pipeline',
+        //     stages: pipeline.serialize().stages
+        //   });
+        //   return {
+        //     pipeline: newPipeline
+        //   };
+        // }
+        // return {
+        //   pipeline: pipeline
+        // };
+        // 
         return {
-          pipeline: pipeline
-        };
+          pipeline: pipelineStore.createRecord(pipeline.serialize())
+        }
       });
   }
 });
