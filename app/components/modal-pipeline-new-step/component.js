@@ -30,7 +30,7 @@ class StepType {
         this.alias = '';
         this.entrypoint = '';
         this.isShell = true;
-        this.args='';
+        this.args = '';
         this.command = '';
         this.parameters = {};
         break;
@@ -42,7 +42,7 @@ class StepType {
         1.sc
         2.file
         */
-        this.dockerfilePath='./';
+        this.dockerfilePath = './';
         this.targetImage = '';
         this.sourceType = 'sc';
         this.push = false;
@@ -57,44 +57,44 @@ class StepType {
         this.interval = 2;
         this.startFirst = false;
         this.deployEnv = 'local';
-        this.endpoint= '';
-        this.accesskey='';
-        this.secretkey='';
+        this.endpoint = '';
+        this.accesskey = '';
+        this.secretkey = '';
         break;
       case 'upgradeCatalog':
         this.type = 'upgradeCatalog';
-        this.repository='';
-        this.branch='';
+        this.repository = '';
+        this.branch = '';
         this.username = '';
         this.password = '';
         this.externalId = '';
         this.filesAry = [{
           name: 'README.md',
           body: ''
-        },{
+        }, {
           name: 'docker-compose.yml',
           body: ''
-        },{
+        }, {
           name: 'rancher-compose.yml',
           body: ''
         }];
-        this.deploy= false;
+        this.deploy = false;
         this.deployEnv = 'local';
-        this.stackName='';
-        this.answerString='';
-        this.endpoint= '';
-        this.accesskey='';
-        this.secretkey='';
+        this.stackName = '';
+        this.answerString = '';
+        this.endpoint = '';
+        this.accesskey = '';
+        this.secretkey = '';
         break;
       case 'upgradeStack':
-        this.type= 'upgradeStack';
+        this.type = 'upgradeStack';
         this.stackName = '';
-        this.dockerCompose='';
-        this.rancherCompose='';
+        this.dockerCompose = '';
+        this.rancherCompose = '';
         this.deployEnv = 'local';
-        this.endpoint= '';
-        this.accesskey='';
-        this.secretkey='';
+        this.endpoint = '';
+        this.accesskey = '';
+        this.secretkey = '';
         break;
       default:
         break;
@@ -116,7 +116,7 @@ var validationErrors = (module) => {
       if (module.repository.indexOf('.git') === -1) {
         errors.push('Repository should be a valid git address!');
       }
-      Ember.set(module,'repository',module.repository.trim());
+      Ember.set(module, 'repository', module.repository.trim());
       break;
     case 'task':
       if (module.image.trim() === '') {
@@ -125,6 +125,75 @@ var validationErrors = (module) => {
       if (module.isService && module.alias.trim() === '') {
         errors.push('"Name" is required!');
       }
+      break;
+    case 'build':
+      if (module.targetImage.trim() === '') {
+        errors.push('"Image Tag" is required!');
+      }
+      if (module.sourceType === 'sc') {
+        if (module.dockerfilePath.trim() === '') {
+          errors.push('"Dockerfile Path" is required!');
+        }
+      } else {
+        if (module.file.trim() === '') {
+          errors.push('"Dockerfile" is required!');
+        }
+      }
+      if (module.push) {
+        if (module.username.trim() === '') {
+          errors.push('"Username" is required!');
+        }
+        if (module.password.trim() === '') {
+          errors.push('"Password" is required!');
+        }
+      }
+      break;
+    case 'upgradeService':
+      if (module.tag.trim() === '') {
+        errors.push('"Image Tag" is required!');
+      }
+      if (module.deployEnv === 'others') {
+        if (module.endpoint.trim() === '') {
+          errors.push('"Endpoint" is required!');
+        }
+        if (module.accesskey) {
+          errors.push('"Accesskey" is required!');
+        }
+        if (module.secretkey) {
+          errors.push('"Secretkey" is required!');
+        }
+      }
+      break;
+    case 'upgradeStack':
+      if (module.stackName) {
+        errors.push('"Stack Name" is required!');
+      }
+
+      if (module.deployEnv === 'others') {
+        if (module.endpoint.trim() === '') {
+          errors.push('"Endpoint" is required!');
+        }
+        if (module.accesskey) {
+          errors.push('"Accesskey" is required!');
+        }
+        if (module.secretkey) {
+          errors.push('"Secretkey" is required!');
+        }
+      }
+      break;
+    case 'upgradeCatalog':
+      if (module.deployEnv === 'others') {
+        if (module.endpoint.trim() === '') {
+          errors.push('"Endpoint" is required!');
+        }
+        if (module.accesskey) {
+          errors.push('"Accesskey" is required!');
+        }
+        if (module.secretkey) {
+          errors.push('"Secretkey" is required!');
+        }
+      }
+      break;
     default:
       break;
   }
