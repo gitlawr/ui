@@ -1,5 +1,3 @@
-{{top-errors errors=errors}}
-
 <section class="header clearfix">
   <div class="modal-pipeline-head">
     {{#if (eq modalOpts.type 'review')}}
@@ -28,6 +26,8 @@
     editing=editing
     modalOpts=modalOpts
 }}
+
+{{top-errors errors=errors}}
 {{#if (eq modalOpts.type 'review')}}
   <div style="text-align: center" class="mt-20 text-center">
     <button {{action "cancel"}} class="btn bg-transparent">{{t "generic.cancel"}}</button>

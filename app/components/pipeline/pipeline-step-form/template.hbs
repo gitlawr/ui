@@ -97,7 +97,7 @@
 
   <div class="pt-20"></div>
   <div class="inline-form">
-    <label>Target Image{{field-required}}</label>
+    <label>Image Tag{{field-required}}</label>
     <div class="pt-10"></div>
     {{#if (eq modalOpts.type 'review')}}
       {{input class="form-control" value=pipeline.images placeholder="hello-world:latest" disabled=(if (eq modalOpts.type 'review') true false)}}
