@@ -86,7 +86,7 @@ export default Resource.extend({
           (exist===-1)&&images.push(itemJ.image);
         }
         if(itemJ.type==="build"){
-          var exist = images.findIndex(ele=>ele===itemJ.targetImage);
+          exist = images.findIndex(ele=>ele===itemJ.targetImage);
           (exist===-1)&&images.push(itemJ.targetImage);
         }
       }

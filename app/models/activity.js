@@ -25,13 +25,13 @@ export default Resource.extend({
   actions: {
     rerun: function() {
       return this.doAction('rerun')
-        .then((res) => {
+        .then((/*res*/) => {
           this.get('router').transitionTo('pipelines.activity', this.get('id'))
         });
     },
     approve: function() {
       return this.doAction('approve')
-        .then((res) => {
+        .then((/*res*/) => {
           this.get('router').transitionTo('pipelines.activity', this.get('id'))
         });
     },

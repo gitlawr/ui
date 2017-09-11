@@ -6,7 +6,6 @@ export default Ember.Controller.extend({
   descending: true,
   modalService: Ember.inject.service('modal'),
   waitingForApproval: function () {
-    var status = this.get('status');
     let out = this.get('model')
       .filter(ele => {
         if(ele.status === 'Pending'){

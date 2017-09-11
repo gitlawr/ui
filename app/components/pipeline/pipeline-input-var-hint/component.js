@@ -136,9 +136,6 @@ export default Ember.Component.extend({
       if(hd){
         return
       }
-      var el = this.get('triggerInputEle');
-      var $el = this.$(el);
-      var offset = $el.offset();
       var originalCoordinates = this.get('originalCoordinates');
       this.showHint(originalCoordinates.top-this.$(window).scrollTop(),originalCoordinates.left);
     };

@@ -1,6 +1,4 @@
 import Ember from 'ember';
-import C from 'ui/utils/constants';
-import Util from 'ui/utils/util';
 
 export default Ember.Component.extend({
   catalog: Ember.inject.service(),

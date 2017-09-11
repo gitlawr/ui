@@ -104,7 +104,7 @@ export default Ember.Component.extend({
   didInsertElement(){
     this._super(...arguments);
     this.$(document).on('keyup','input,textarea',(e)=>{
-      $.fn.E_INPUT_HINT.startHint(e.target,(hint)=>{
+      $.fn.E_INPUT_HINT.startHint(e.target,(/*hint*/)=>{
       });
     })
   }
