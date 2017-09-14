@@ -113,6 +113,6 @@ module.exports = function(defaults) {
   app.import('vendor/prompt/prompt-v1-latin-600.woff2',{ destDir: 'assets/fonts/'});
   app.import('vendor/dropdown/bootstrap.js');
   app.import('vendor/dropdown/bootstrap.css');
-
+  app.import('vendor/codemirror/show-hint.js');
   return app.toTree();
 };

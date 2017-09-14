@@ -16,6 +16,7 @@ export default Ember.Component.extend({
   model: null,
   pipeline: null,
   envvars: null,
+  codeMirror: Ember.inject.service(),
   envvarsLoading: true,
   modalService: Ember.inject.service('modal'),
   review: false,
@@ -26,8 +27,10 @@ export default Ember.Component.extend({
       url: `${pipelineStore.baseUrl}/envvars`,
       forceReload: true
     }).then((res)=>{
+      var hintAry =JSON.parse(res).map(ele=>('${'+ele+'}'));
       this.set('envvarsLoading',false);
-      this.set('envvars',JSON.parse(res).map(ele=>('${'+ele+'}')));
+      this.set('envvars', hintAry);
+      this.get('codeMirror').set('hintAry', hintAry);
     });
   },
   actions: {
@@ -103,7 +106,7 @@ export default Ember.Component.extend({
   },
   didInsertElement(){
     this._super(...arguments);
-    this.$(document).on('keyup','input,textarea',(e)=>{
+    this.$(document).on('keyup','input',(e)=>{
       $.fn.E_INPUT_HINT.startHint(e.target,(/*hint*/)=>{
       });
     })
