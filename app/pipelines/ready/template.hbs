@@ -4,9 +4,13 @@
     <li>{{#link-to "pipelines.ready.pipelines"}}Pipelines{{/link-to}}</li>
   </ul>
 
-  
-  {{#link-to "pipelines.ready.settings"}}
-    <a class="btn bg-transparent icon icon-gear pull-right mt-20"></a>
-  {{/link-to}}
+  <ul class="tab-nav pull-right">
+    <li>
+      {{#link-to "pipelines.ready.settings"}}
+        <i class="bg-transparent icon icon-gear"></i>
+      {{/link-to}}
+    </li>
+  </ul>
+
 </section>
 {{outlet}}

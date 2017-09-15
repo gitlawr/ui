@@ -1,35 +1,3 @@
-<div class="box">
-  {{!-- {{#accordion-list-item
-  title='Repository Authentication'
-  detail='Authenticate your git repository with personal access token'
-  statusClass='bg-success clip pull-right inline'
-  expandAll=null
-  expand=(action expandFn)
-}} --}}
-<section class="header has-tabs clearfix">
-  <ul class="tab-nav">
-    <li>{{#link-to "pipelines.ready.pipelines" (query-params status="all")}}Git{{/link-to}}</li>
-    <li>{{#link-to "pipelines.ready.pipelines" (query-params status="active")}}Github{{/link-to}}</li>
-  </ul>
-  <div class="right-buttons">
-    <button class="btn bg-link btn-sm icon-btn p-0">
-      {{#link-to "pipelines.new-pipeline" class="btn bg-link icon-btn p-0"}}
-        <span class="darken"><i class="icon icon-plus text-small"/></span>
-        <span>Add Repository</span>
-      {{/link-to}}
-    </button>
-  </div>
-</section>
+{{pipeline/settings-git
+}}
 
-
-<section class="instances">
-  {{pipeline/pipeline-table-repository
-      body=filtered
-      sortBy=sortBy
-      bulkActions=true
-      search=true
-      paging=true
-    }}
-</section>
-{{!-- {{/accordion-list-item}} --}}
-</div>
