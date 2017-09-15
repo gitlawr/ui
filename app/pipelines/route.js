@@ -22,6 +22,7 @@ export default Ember.Route.extend(WS, PolledModel, {
     this.set('pipelineStore.baseUrl', this.get('pipeline.pipelinesEndpoint'));
   },
   afterModel: function(model) {
+    debugger
     if (model && model.ready.ready) {
       var router = this.get('router');
       var targetName = router.router.activeTransition.targetName
@@ -46,6 +47,7 @@ export default Ember.Route.extend(WS, PolledModel, {
 
   actions: {
     willTransition(transition) {
+      debugger
       var model = this.controller.get('model')
       if (model && model.ready.ready) {
         var targetName = transition.targetName
