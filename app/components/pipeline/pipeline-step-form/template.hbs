@@ -72,7 +72,7 @@
   {{#if (eq selectedModel.sourceType 'file')}}
     <div class="pt-20"></div>
     {{#if (eq modalOpts.type 'review')}}
-      {{ivy-codemirror
+      {{pipeline/pipeline-codemirror
         value=selectedModel.file
         valueUpdated=(action (mut selectedModel.file))
         options=(hash autofocus=true theme="monokai" lineNumbers=true mode="dockerfile" addon="hint/anyword-hint.js" readOnly=(if (eq modalOpts.type 'review') true false))

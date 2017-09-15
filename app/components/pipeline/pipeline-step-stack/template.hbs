@@ -23,7 +23,7 @@
   <div role="tabpanel">
   {{#if (eq previewTab 'dockerCompose')}}
     <div>
-      {{ivy-codemirror 
+      {{pipeline/pipeline-codemirror 
         value=selectedModel.dockerCompose 
         valueUpdated=(action (mut selectedModel.dockerCompose))
         options=(hash autofocus=true lineNumbers=true mode="yaml" tabSize="2" readOnly=(if (eq modalOpts.type 'review') true false))
@@ -32,7 +32,7 @@
     </div> 
   {{else}}
     <div>
-      {{ivy-codemirror 
+      {{pipeline/pipeline-codemirror 
         value=selectedModel.rancherCompose 
         valueUpdated=(action (mut selectedModel.rancherCompose))
         options=(hash autofocus=true lineNumbers=true mode="yaml" theme="monokai" tabSize="2" readOnly=(if (eq modalOpts.type 'review') true false))

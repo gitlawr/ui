@@ -31,13 +31,12 @@ export default Service.extend({
   getMatchedHint(value, editor){
     var hintAry = this.get('hintAry');
     var cursorPosition = editor.getCursor().ch;
-    this.set('cursorPosition',cursorPosition);
     var cursorValue = editor.getLine(editor.lastLine()).slice(0, cursorPosition);
     
     var matched = false;
-    var _$value = cursorValue.lastIndexOf('$');
-    this.set('matchedIndex', _$value);
-    _$value = cursorValue.slice(_$value,cursorValue.length);
+    var _$valueIndex = cursorValue.lastIndexOf('$');
+
+    var _$value = cursorValue.slice(_$valueIndex,cursorValue.length);
     var matchedArry = [];
     if(_$value){
       for (var i = 0; i < hintAry.length; i++) {
@@ -49,7 +48,7 @@ export default Service.extend({
         }
       }
       if (matched) {
-        return {matchedArry:matchedArry,index: cursorPosition - _$value};
+        return {matchedArry:matchedArry,index: cursorPosition - _$valueIndex};
       }
     }
     return {matchedArry:[],index:-1};
