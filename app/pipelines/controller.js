@@ -6,8 +6,8 @@ export default Ember.Controller.extend({
   },
   readyObserves: function(){
     var model = this.get('model');
-    if(model.ready){
+    if(model.ready.ready){
       model.cancelTimer();
     }
-  }.observes('model.ready')
+  }.observes('model.ready.ready')
 });

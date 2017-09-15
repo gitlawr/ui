@@ -8,7 +8,7 @@ export default Ember.Service.extend({
     return this.get('app.pipelinesEndpoint').replace(this.get('app.projectToken'), this.get(`tab-session.${C.TABSESSION.PROJECT}`));
   }.property(`tab-session.${C.TABSESSION.PROJECT}`,'app.pipelinesEndpoint'),
 
-
+  ready: null,
   isReady() {
     let store = this.get('store');
     return store.find('stack').then((stacks) => {
@@ -19,17 +19,20 @@ export default Ember.Service.extend({
           url: `${this.get('pipelinesEndpoint')}`
         }).then(() => {
           console.log('isReady: true');
+          this.set('ready',{has: true, ready: true})
           return {has: true, ready: true};
         }).catch(() => {
           console.log('isReady: false');
+          this.set('ready',{has: true, ready: false})
           return {has: true, ready: false};
         });
       }
-
+      this.set('ready',{has: false, ready: false})
       console.log('isReady: false2');
       return {has: false, ready: false};
     }).catch(() => {
       console.log('isReady: false3');
+      this.set('ready',{has: false, ready: false})
       return Ember.RSVP.resolve({has: false, ready: false});
     });
   },
