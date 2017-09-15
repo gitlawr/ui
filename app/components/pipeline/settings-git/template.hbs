@@ -1,0 +1,145 @@
+{{#accordion-list-item
+     title="Git Authentication"
+     detail="Authenticate with git repository"
+     status=status
+     statusClass=statusClass
+     expandOnInit=true
+     expand=(action expandFn)
+}}
+
+  <section>
+    <div class="row nav nav-boxes checked-active">
+        <a href="#" alt='github' class="col nav-box-item driver auth-driver github active"></a>
+    </div>
+  </section>
+
+  <section>
+
+  {{#if access.enabled}}
+    <h3>{{t 'authPage.github.header.enabled.label' github=(t providerName)}}</h3>
+    <hr/>
+  {{else}}
+    <div class="banner bg-warning">
+      <div class="banner-icon"><span class="icon icon-alert"></span></div>
+      <div class="banner-message">
+        <p>{{t 'authPage.github.header.disabled.label'}}</p>
+       </div>
+    </div>
+  {{/if}}
+
+  <div>
+    {{#if access.enabled}}
+      <p>{{t (concat-str 'authPage.github.header.enabled.' model.accessMode character='') appName=settings.appName github=(t providerName) users=numUsers orgs=numOrgs}}</p>
+    {{else}}
+      <p>{{t 'authPage.github.header.disabled.warning' appName=settings.appName}}</p>
+    {{/if}}
+  </div>
+</section>
+
+{{#if access.enabled}}
+  <section class="box mt-30">
+    <h3>{{t 'authPage.github.authenticated.header.text'}}</h3>
+    <hr/>
+    {{#if githubConfig.hostname}}
+      <div><b>{{t 'authPage.github.authenticated.header.enterpriseHostName'}} </b> <span class="text-muted">{{githubConfig.hostname}}</span></div>
+    {{/if}}
+    <div><b>{{t 'authPage.github.authenticated.header.clientId.text'}} </b> <span class="text-muted">{{githubConfig.clientId}}</span></div>
+    <p class="text-info">{{t 'authPage.github.authenticated.header.clientId.helpText'}}</p>
+  </section>
+
+  {{site-access
+    model=model
+    collection='siteAccess.organizations'
+  }}
+
+  <section class="box mt-30">
+    <h3>{{t 'authPage.github.authenticated.disableAccess.header' htmlSafe=true}}</h3>
+    <hr/>
+
+    <p>
+      {{t 'authPage.github.authenticated.disableAccess.warning' appName=settings.appName htmlSafe=true}}
+    </p>
+
+    {{#if confirmDisable}}
+      <button class="btn bg-error" {{action "disable"}}>
+        <i class="icon icon-alert"></i> {{t 'authPage.github.authenticated.disableAccess.confirmDisable'}}
+      </button>
+    {{else}}
+      <button class="btn bg-error" {{action "promptDisable"}}>
+        <i class="icon icon-umbrella"></i> {{t 'authPage.github.authenticated.disableAccess.disable'}}
+      </button>
+    {{/if}}
+
+  </section>
+{{/if}}
+
+{{#unless access.enabled}}
+  <section class="box mt-30">
+    <h3>{{t 'authPage.github.notAuthenticated.header'}}</h3>
+    <hr/>
+    <p>
+      <ol class="alphalist ml-40">
+        <li>
+          For standard GitHub, click <a target="blank" href="https://github.com/settings/applications/new">here</a> to go applications settings in a new window.
+        </li>
+        <li>
+          {{t 'authPage.github.notAuthenticated.ul.li2.text'}}
+          <ul>
+            <li>{{t 'authPage.github.notAuthenticated.ul.li2.ul.li1' appName="My Rancher Pipeline" htmlSafe=true}}</li>
+            <li>
+              <b>{{t 'authPage.github.notAuthenticated.ul.li2.ul.li2'}}</b> <span>{{destinationUrl}}{{copy-to-clipboard size='small' clipboardText=destinationUrl htmlSafe=true}}</span>
+            </li>
+            <li>{{t 'authPage.github.notAuthenticated.ul.li2.ul.li3' htmlSafe=true}}</li>
+            <li><b>{{t 'authPage.github.notAuthenticated.ul.li2.ul.li4'}}</b> <span id="auth-callback-url">{{destinationUrl}} {{copy-to-clipboard size='small' clipboardText=destinationUrl}}</span></li>
+          </ul>
+        </li>
+        <li>{{t 'authPage.github.notAuthenticated.ul.li3.text'}}</li>
+      </ol>
+    </p>
+  </section>
+
+  <form autcomplete="on">
+    <section class="box mt-30">
+      <h4>{{t 'authPage.github.notAuthenticated.form.header' appName=settings.appName}}</h4>
+      <hr/>
+      <div class="row">
+        <div class="col span-6">
+          <div class="inline-form">
+            <label class="acc-label pb-5">{{t 'authPage.github.notAuthenticated.form.clientId.labelText'}}{{field-required}}</label>
+            {{input type="text" name="username" value=githubConfig.clientId classNames="form-control"}}
+            <p class="help-block">{{t 'authPage.github.notAuthenticated.form.subtext'}}</p>
+
+          </div>
+        </div>
+        <div class="col span-6">
+          <div class="inline-form">
+            <label class="acc-label pb-5">{{t 'authPage.github.notAuthenticated.form.clientSecret.labelText'}}{{field-required}}</label>
+            {{input type="password" name="password" value=githubConfig.clientSecret classNames="form-control"}}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="box mt-30">
+      <h3>{{t 'authPage.github.testAuth.header'}}</h3>
+      <hr/>
+
+      {{top-errors errors=errors}}
+
+      <div class="row">
+      <p>{{t 'authPage.github.testAuth.subtext'}}</p>
+          <button disabled={{createDisabled}} class="btn bg-primary" {{action "authenticate"}}>
+            {{#if testing}}
+              <i class="icon icon-spinner icon-spin"></i> {{t 'authPage.github.testAuth.buttonText.post'}}
+            {{else}}
+              <i class="icon icon-github"></i> {{t 'authPage.github.testAuth.buttonText.pre'}}
+            {{/if}}
+          </button>
+      </div>
+    </section>
+  </form>
+{{/unless}}
+
+
+
+{{/accordion-list-item}}
