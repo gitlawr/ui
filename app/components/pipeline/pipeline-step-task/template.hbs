@@ -57,7 +57,7 @@
     {{pipeline/pipeline-codemirror
       value=selectedModel.command
       valueUpdated=(action (mut selectedModel.command))
-      options=(hash autofocus=true theme="monokai" lineNumbers=true mode="shell" addon="hint/anyword-hint.js" readOnly=(if (eq modalOpts.type 'review') true false))
+      options=(hash autofocus=true theme="monokai" lineNumbers=true mode="shell" readOnly=(if (eq modalOpts.type 'review') true false))
       }}
   </div>
 {{else}}

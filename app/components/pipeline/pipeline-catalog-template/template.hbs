@@ -12,7 +12,7 @@
       {{#each selectedTemplateModel.filesAsArray as |file|}}
         {{#if (eq previewTab file.name)}}
           <div class="">
-            {{ivy-codemirror 
+            {{pipeline/pipeline-codemirror 
               value=file.body
               valueUpdated=(action (mut file.body))
               options=(hash autofocus=true lineNumbers=true 
@@ -33,7 +33,7 @@
       {{#each selectedModel.filesAry as |file|}}
         {{#if (eq previewTabCI file.name)}}
           <div class="">
-            {{ivy-codemirror 
+            {{pipeline/pipeline-codemirror 
               value=file.body
               valueUpdated=(action (mut file.body))
               options=(hash autofocus=true lineNumbers=true 
@@ -111,7 +111,7 @@
       <li role="tab" class="active"><a href="#">{{t 'newCatalog.txt'}} {{copy-to-clipboard clipboardText=selectedModel.answerString size="small"}}</a></li>
     </ul>
     <div class="tab-content" role="tabpanel">
-      {{ivy-codemirror 
+      {{pipeline/pipeline-codemirror 
         value=selectedModel.answerString
         valueUpdated=(action (mut selectedModel.answerString))
         options=(hash autofocus=true lineNumbers=true mode="text" theme="monokai" readOnly=(if (eq modalOpts.type 'review') true false))

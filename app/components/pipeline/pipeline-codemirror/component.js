@@ -15,14 +15,15 @@ export default Component.extend({
       var cur = editor.getCursor(), curLine = editor.getLine(cur.line);
       var end = cur.ch, start = end;
       var matched = this.get('codeMirror').getMatchedHint(editor.getValue(),editor);
-      return {list: matched.matchedArry, from: CodeMirror.Pos(cur.line, matched.index), to: CodeMirror.Pos(cur.line, end)};
+      console.log(matched);
+      return {list: matched.matchedArry, from: CodeMirror.Pos(cur.line, start - matched.index), to: CodeMirror.Pos(cur.line, end)};
     });
     this._codeMirror = this.get('codeMirror').fromTextArea(this.get('elementId'), this.get('element'));
     var arrows = [37, 38, 39, 40, 13]
 
     this._codeMirror.on("keyup", (cm, e) => {
       if (arrows.indexOf(e.keyCode) < 0) {
-        this._codeMirror.execCommand("autocomplete")
+        this._codeMirror.showHint()
       }
     })
     // Send a "valueUpdated" action when CodeMirror triggers a "change" event.
