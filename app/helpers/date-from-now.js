@@ -1,7 +1,10 @@
 import Ember from 'ember';
 
 export function dateFromNow(params) {
-  return moment(params[0]).fromNow()[params[1]];
+  if(params[1]){
+    return moment(params[0]).fromNow()[params[1]];
+  }
+  return moment(params[0]).fromNow();
 }
 
 export default Ember.Helper.helper(dateFromNow);

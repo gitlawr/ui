@@ -13,10 +13,9 @@
     </div>
   </section>
 
-  <section>
-
-  {{#if access.enabled}}
-    <h3>{{t 'authPage.github.header.enabled.label' github=(t providerName)}}</h3>
+<section>
+  {{#if model.isAuth}}
+    <h3>{{t 'authPage.github.header.enabled.label' github='Github'}}</h3>
     <hr/>
   {{else}}
     <div class="banner bg-warning">
@@ -28,52 +27,69 @@
   {{/if}}
 
   <div>
-    {{#if access.enabled}}
-      <p>{{t (concat-str 'authPage.github.header.enabled.' model.accessMode character='') appName=settings.appName github=(t providerName) users=numUsers orgs=numOrgs}}</p>
+    {{#if model.isAuth}}
+      {{!-- <p>{{t (concat-str 'authPage.github.header.enabled.' model.accessMode character='') appName=settings.appName github='Github' users=numUsers orgs=numOrgs}}</p> --}}
     {{else}}
       <p>{{t 'authPage.github.header.disabled.warning' appName=settings.appName}}</p>
     {{/if}}
   </div>
 </section>
 
-{{#if access.enabled}}
+{{#if model.isAuth}}
   <section class="box mt-30">
     <h3>{{t 'authPage.github.authenticated.header.text'}}</h3>
     <hr/>
-    {{#if githubConfig.hostname}}
-      <div><b>{{t 'authPage.github.authenticated.header.enterpriseHostName'}} </b> <span class="text-muted">{{githubConfig.hostname}}</span></div>
+    {{#if model.githubHostname}}
+      <div><b>{{t 'authPage.github.authenticated.header.enterpriseHostName'}} </b> <span class="text-muted">{{model.githubHostname}}</span></div>
     {{/if}}
-    <div><b>{{t 'authPage.github.authenticated.header.clientId.text'}} </b> <span class="text-muted">{{githubConfig.clientId}}</span></div>
-    <p class="text-info">{{t 'authPage.github.authenticated.header.clientId.helpText'}}</p>
+    <div><b>{{t 'authPage.github.authenticated.header.clientId.text'}} </b> <span class="text-muted">{{model.githubClientID}}</span></div>
+    <p class="text-info">To change the configured GitHub application, disable OAuth Authentication below and then set it up again.
+    </p>
   </section>
 
-  {{site-access
+  <section class="box mt-30">
+    <h3>Authenticated Users</h3>
+    <hr/>
+    {{!-- <p class="text-info">
+      {{t 'siteAccess.helpText' appName='323' htmlSafe=true}}
+    </p> --}}
+
+    <ul class="list-unstyled gh-block-list mt-10">
+      {{#each accountsInfo as |item|}}
+        <li>
+          {{#identity-block identity=item}}
+          {{/identity-block}}
+        </li>
+      {{/each}}
+    </ul>
+  </section>
+  {{!-- {{site-access
     model=model
     collection='siteAccess.organizations'
-  }}
+  }} --}}
 
   <section class="box mt-30">
     <h3>{{t 'authPage.github.authenticated.disableAccess.header' htmlSafe=true}}</h3>
     <hr/>
 
-    <p>
+   {{!--  <p>
       {{t 'authPage.github.authenticated.disableAccess.warning' appName=settings.appName htmlSafe=true}}
     </p>
-
+ --}}
     {{#if confirmDisable}}
       <button class="btn bg-error" {{action "disable"}}>
-        <i class="icon icon-alert"></i> {{t 'authPage.github.authenticated.disableAccess.confirmDisable'}}
+        <i class="icon icon-alert"></i> Are You Sure To Disable OAuth Authentication?
       </button>
     {{else}}
       <button class="btn bg-error" {{action "promptDisable"}}>
-        <i class="icon icon-umbrella"></i> {{t 'authPage.github.authenticated.disableAccess.disable'}}
+        <i class="icon icon-umbrella"></i> Disable OAuth Authentication
       </button>
     {{/if}}
 
   </section>
 {{/if}}
 
-{{#unless access.enabled}}
+{{#unless model.isAuth}}
   <section class="box mt-30">
     <h3>{{t 'authPage.github.notAuthenticated.header'}}</h3>
     <hr/>
@@ -85,7 +101,7 @@
         <li>
           {{t 'authPage.github.notAuthenticated.ul.li2.text'}}
           <ul>
-            <li>{{t 'authPage.github.notAuthenticated.ul.li2.ul.li1' appName="My Rancher Pipeline" htmlSafe=true}}</li>
+            <li>{{t 'authPage.github.notAuthenticated.ul.li2.ul.li1' appName="Rancher Pipeline" htmlSafe=true}}</li>
             <li>
               <b>{{t 'authPage.github.notAuthenticated.ul.li2.ul.li2'}}</b> <span>{{destinationUrl}}{{copy-to-clipboard size='small' clipboardText=destinationUrl htmlSafe=true}}</span>
             </li>
@@ -100,41 +116,45 @@
 
   <form autcomplete="on">
     <section class="box mt-30">
-      <h4>{{t 'authPage.github.notAuthenticated.form.header' appName=settings.appName}}</h4>
-      <hr/>
+      <h3>{{t 'authPage.github.notAuthenticated.form.header' appName=settings.appName}}</h3>
       <div class="row">
         <div class="col span-6">
           <div class="inline-form">
             <label class="acc-label pb-5">{{t 'authPage.github.notAuthenticated.form.clientId.labelText'}}{{field-required}}</label>
-            {{input type="text" name="username" value=githubConfig.clientId classNames="form-control"}}
+            {{input type="text" name="username" value=model.githubClientID classNames="form-control"}}
             <p class="help-block">{{t 'authPage.github.notAuthenticated.form.subtext'}}</p>
-
           </div>
         </div>
         <div class="col span-6">
           <div class="inline-form">
             <label class="acc-label pb-5">{{t 'authPage.github.notAuthenticated.form.clientSecret.labelText'}}{{field-required}}</label>
-            {{input type="password" name="password" value=githubConfig.clientSecret classNames="form-control"}}
+            {{input type="password" name="password" value=model.githubClientSecret classNames="form-control"}}
+            <div class="checkbox pt-10">
+              <label class="acc-label pb-5">{{input type="checkbox" checked=isEnterprise}} {{t 'authPage.github.notAuthenticated.form.ghEnterprise.labelText'}}</label>
+            </div>
+            {{#liquid-if isEnterprise}}
+              <div class="checkbox pt-10">
+                <label class="acc-label pb-5">{{input type="checkbox" checked=secure}} {{t 'authPage.github.notAuthenticated.form.isGHEnterprise.labelText'}} (<code>https://</code>).</label>
+              </div>
+            {{/liquid-if}}
+            {{#liquid-if isEnterprise}}
+            <label class="acc-label pb-5">{{t 'authPage.github.notAuthenticated.form.enterpriseHost.labelText'}}{{field-required}}</label>
+              {{input type="text" value=model.githubHostName classNames="form-control" placeholder=(t 'authPage.github.notAuthenticated.form.enterpriseHost.placeholder')}}
+            {{/liquid-if}}
           </div>
         </div>
       </div>
-    </section>
-
-    <section class="box mt-30">
-      <h3>{{t 'authPage.github.testAuth.header'}}</h3>
-      <hr/>
 
       {{top-errors errors=errors}}
 
-      <div class="row">
-      <p>{{t 'authPage.github.testAuth.subtext'}}</p>
-          <button disabled={{createDisabled}} class="btn bg-primary" {{action "authenticate"}}>
-            {{#if testing}}
-              <i class="icon icon-spinner icon-spin"></i> {{t 'authPage.github.testAuth.buttonText.post'}}
-            {{else}}
-              <i class="icon icon-github"></i> {{t 'authPage.github.testAuth.buttonText.pre'}}
-            {{/if}}
-          </button>
+      <div class="row text-center">
+        <button disabled={{createDisabled}} class="btn bg-primary" {{action "authenticate"}}>
+          {{#if testing}}
+            <i class="icon icon-spinner icon-spin"></i> {{t 'authPage.github.testAuth.buttonText.post'}}
+          {{else}}
+            <i class="icon icon-github"></i> {{t 'authPage.github.testAuth.buttonText.pre'}}
+          {{/if}}
+        </button>
       </div>
     </section>
   </form>

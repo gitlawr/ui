@@ -8,7 +8,7 @@ export default Ember.Route.extend({
       return null
     }
     var pipelineStore = this.get('pipelineStore');
-    var pipeline = pipelineStore.createRecord({type:'pipeline'})
+    var pipeline = pipelineStore.createRecord({type:'pipeline'});
     return Ember.Object.create({
         pipeline: pipeline
       });

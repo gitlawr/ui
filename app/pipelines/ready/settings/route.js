@@ -9,11 +9,18 @@ export default Ember.Route.extend({
   },
   model: function() {
     var pipeline = this.get('pipeline');
-    if(!pipeline.ready||!pipeline.ready.ready){
+    if (!pipeline.ready || !pipeline.ready.ready) {
       return null
     }
     var pipelineStore = this.get('pipelineStore');
-    var model = pipelineStore.findAll('pipeline');
-    return model
+    var model = pipelineStore.find('setting',null,{forceReload: true});
+    // return model
+    return Ember.RSVP.hash({
+        model: model
+      }).then(({model})=>{
+        return {
+          settings: pipelineStore.createRecord(model.serialize())
+        }
+      });
   }
 });

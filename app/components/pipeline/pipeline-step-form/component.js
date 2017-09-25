@@ -33,10 +33,5 @@ export default Ember.Component.extend({
     }else{
       this.set('stepsTypeChoices', stepsChoices);
     }
-  },
-  actions: {
-    changeSCMType: function(type){
-      this.set('selectedModel.sourceType',type);
-    }
   }
 });

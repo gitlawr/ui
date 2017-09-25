@@ -8,6 +8,13 @@ export const headersAll =  [
     label: 'Name'
   },
   {
+    name: 'repository',
+    sort: ['repository'],
+    width: 500,
+    searchField: 'repository',
+    translationKey: 'generic.repository',
+  },
+  {
     name: 'lastRunId',
     sort: ['lastRunId'],
     width: '200px',
