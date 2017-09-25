@@ -1,0 +1,67 @@
+<section class="header has-tabs clearfix">
+  <ul class="tab-nav">
+    {{!-- <li {{action "changeSCMType" 'git'}}>
+      <a href="javascript:void(0);" class="{{if (eq selectedModel.sourceType 'git') 'active' (if (eq modalOpts.type 'review') 'hide')}} ember-view">Git</a>
+    </li> --}}
+    <li {{action "changeSCMType" 'github'}}>
+      <a href="javascript:void(0);" class="{{if (eq selectedModel.sourceType 'github') 'active' (if (eq modalOpts.type 'review') 'hide')}} ember-view">Github</a>
+    </li>
+  </ul>
+</section>
+{{#if (eq selectedModel.sourceType 'git')}}
+  <div class="pt-20"></div>
+  <div class="inline-form">
+    <label>Repository{{field-required}}</label>
+    <div class="pt-10"></div>
+      {{input class="form-control" value=selectedModel.repository placeholder="https://github.com/rancher/ui.git" disabled=(if (eq modalOpts.type 'review') true false)}}
+  </div>
+
+  <div class="pt-20"></div>
+  <div class="inline-form">
+    <label>Branch</label>
+    <div class="pt-10"></div>
+    {{input class="form-control" value=selectedModel.branch placeholder="master" disabled=(if (eq modalOpts.type 'review') true false)}}
+  </div>
+{{/if}}
+
+{{#if (eq selectedModel.sourceType 'github')}}
+  {{#if statusFetching}}
+    <p>loading...</p>
+  {{else}}
+    {{#if setting.isAuth}}
+    <div class="pt-20"></div>
+    <div class="inline-form">
+      <label>Repository{{field-required}}</label>
+      <div class="pt-10"></div>
+      {{#power-select
+        options=repos
+        searchField="clone_url"
+        selected=selected
+        onchange=(action (mut selected))
+        as |repo|
+      }}
+        {{repo.clone_url}}
+      {{/power-select}}
+    </div>
+    <div class="pt-20"></div>
+    <div class="inline-form">
+      <label>Branch</label>
+      <div class="pt-10"></div>
+      {{input class="form-control" value=selectedModel.branch placeholder="master" disabled=(if (eq modalOpts.type 'review') true false)}}
+    </div>
+    <div class="pt-20"></div>
+    <div class="inline-form">
+      <div class="pt-10"></div>
+      <label>{{check-box class="form-control" checked=selectedModel.webhook disabled=(if (eq modalOpts.type 'review') true false) }}
+        Webhook
+      </label>
+    </div>
+    {{else}}
+      <p>Please finish the OAuth of GitHub in {{#link-to "pipelines.ready.settings" target="_blank"}}setting page{{/link-to}} first.</p>
+      <p class="text-warning">Note: Have finished the OAuth? <a href="javascript:void();" {{action "reload"}}>click here</a> to load your repository</p>
+    {{/if}}
+  {{/if}}
+{{/if}}
+
+
+

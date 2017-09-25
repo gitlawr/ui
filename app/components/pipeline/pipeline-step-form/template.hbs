@@ -13,124 +13,15 @@
 </div>
 
 {{#if (eq type 'scm')}}
-  <section class="header has-tabs clearfix">
-    <ul class="tab-nav">
-      <li {{action "changeSCMType" 'git'}}>
-        <a href="javascript:void(0);" class="{{if (eq selectedModel.sourceType 'git') 'active' (if (eq modalOpts.type 'review') 'hide')}} ember-view">Git</a>
-      </li>
-      <li {{action "changeSCMType" 'github'}}>
-        <a href="javascript:void(0);" class="{{if (eq selectedModel.sourceType 'github') 'active' (if (eq modalOpts.type 'review') 'hide')}} ember-view">Github</a>
-      </li>
-    </ul>
-  </section>
-  <div class="pt-20"></div>
-  <div class="inline-form">
-    <label>Repository{{field-required}}</label>
-    <div class="pt-10"></div>
-      {{input class="form-control" value=selectedModel.repository placeholder="https://github.com/rancher/ui.git" disabled=(if (eq modalOpts.type 'review') true false)}}
-  </div>
-
-  <div class="pt-20"></div>
-  <div class="inline-form">
-    <label>Branch</label>
-    <div class="pt-10"></div>
-    {{input class="form-control" value=selectedModel.branch placeholder="master" disabled=(if (eq modalOpts.type 'review') true false)}}
-  </div>
-
-  {{#if (eq selectedModel.sourceType 'github')}}
-    <div class="pt-20"></div>
-    <div class="inline-form">
-      <div class="pt-10"></div>
-      <label>{{check-box class="form-control" checked=selectedModel.webhook disabled=(if (eq modalOpts.type 'review') true false) }}
-        Webhook
-      </label>
-    </div>
-    {{#if selectedModel.webhook}}
-      <div class="pt-20"></div>
-      <div class="inline-form">
-        <label>Token{{field-required}}</label>
-        <div class="pt-10"></div>
-        {{input class="form-control" value=selectedModel.token placeholder="Personal access token" disabled=(if (eq modalOpts.type 'review') true false)}}
-      </div>
-    {{/if}}
-  {{/if}}
-
+  {{pipeline/step-scm
+    selectedModel=selectedModel
+  }}
 {{/if}}
 
 {{#if (eq type 'build')}}
-  <div class="pt-20"></div>
-  <div class="inline-form">
-    <label>Source of Dockerfile</label>
-    <div class="pt-10"></div>
-    <label class="mr-30">{{radio-button selection=selectedModel.sourceType value="sc" disabled=(if (eq modalOpts.type 'review') true false)}}
-        Read from source code
-    </label>
-    <label class="mr-30">{{radio-button selection=selectedModel.sourceType value="file" disabled=(if (eq modalOpts.type 'review') true false)}}
-        Read from a file
-    </label>
-  </div>
-  {{#if (eq selectedModel.sourceType 'file')}}
-    <div class="pt-20"></div>
-    {{#if (eq modalOpts.type 'review')}}
-      {{pipeline/pipeline-codemirror
-        value=selectedModel.file
-        valueUpdated=(action (mut selectedModel.file))
-        options=(hash autofocus=true theme="monokai" lineNumbers=true mode="dockerfile" addon="hint/anyword-hint.js" readOnly=(if (eq modalOpts.type 'review') true false))
-      }}
-    {{else}}
-      {{pipeline/pipeline-input-code-file
-        name="Dockerfile"
-        canChangeName=false
-        mode="dockerfile"
-        value=selectedModel.file
-        placeholder="newStack.dockerCompose.placeholder"
-      }}
-    {{/if}}
-  {{else}}
-    <div class="pt-20"></div>
-    <div class="inline-form">
-      <label>Dockerfile Path(relative to workspace){{field-required}}</label>
-      <div class="pt-10"></div>
-      {{input class="form-control" value=selectedModel.dockerfilePath placeholder="Personal access token" disabled=(if (eq modalOpts.type 'review') true false)}}
-    </div>
-  {{/if}}
-
-  <div class="pt-20"></div>
-  <div class="inline-form">
-    <label>Image Tag{{field-required}}</label>
-    <div class="pt-10"></div>
-    {{#if (eq modalOpts.type 'review')}}
-      {{input class="form-control" value=pipeline.images placeholder="hello-world:latest" disabled=(if (eq modalOpts.type 'review') true false)}}
-    {{else}}
-      {{input-suggest
-        value=selectedModel.targetImage
-        choices=pipeline.images
-        placeholder="hello-world:latest"
-      }}
-    {{/if}}
-  </div>
-
-  <div class="pt-20"></div>
-  <div class="inline-form">
-    <div class="pt-10"></div>
-    <label>{{check-box class="form-control" checked=selectedModel.push disabled=(if (eq modalOpts.type 'review') true false)}}
-      Push
-    </label>
-  </div>
-  {{#if selectedModel.push}}
-    <div class="pt-20"></div>
-    <div class="inline-form">
-      <label>Username</label>
-      <div class="pt-10"></div>
-      {{input class="form-control" value=selectedModel.username placeholder="private registry username" disabled=(if (eq modalOpts.type 'review') true false)}}
-    </div>
-    <div class="pt-20"></div>
-    <div class="inline-form">
-      <label>Password</label>
-      <div class="pt-10"></div>
-      {{input type="password" class="form-control" value=selectedModel.password placeholder="private registry password" disabled=(if (eq modalOpts.type 'review') true false)}}
-    </div>
-  {{/if}}
+  {{pipeline/step-build
+    selectedModel=selectedModel
+  }}
 {{/if}}
 
 {{#if (eq type 'task')}}

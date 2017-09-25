@@ -41,7 +41,7 @@ export default Ember.Mixin.create({
         }
         var d = JSON.parse(event.data);
         let resource;
-        console.log('pipelineWS:',d);
+        // console.log('pipelineWS:',d);
         if ( d.data) {
           resource = store._typeify(d.data);
           console.log('pipelineWS___UPDATED:',resource);

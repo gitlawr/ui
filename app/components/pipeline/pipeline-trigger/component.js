@@ -16,6 +16,9 @@ export default Ember.Component.extend({
         this.set('selected',selected)
       }
     }
+    if(this.get('initial')){
+      this.set('pipeline.isActivate', true);
+    }
   },
   selectedObeserves: function(){
     var selected = this.get('selected');
@@ -37,5 +40,5 @@ export default Ember.Component.extend({
   pipeline: function(){
     var pipeline = this.get('model.pipeline');
     return pipeline;
-  }.property('model'),
+  }.property('model.pipeline'),
 });

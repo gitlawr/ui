@@ -9,8 +9,26 @@ export default Ember.Controller.extend({
     }])
     return pipeline.stages
   }.property('model.pipeline'),
-  model: null,
   errors: null,
+  init(){
+    this._super(...arguments);
+    // this.set('model.pipeline', {
+    //   ...this.get('model.pipeline'),
+    //   isActivate: true
+    // });
+    // this.get('model').set('pipeline.isActivate', true);
+    // debugger
+
+    // Ember.set('model', 'pipeline.isAcivate', true);
+  },
+  didRender(){
+    this._super(...arguments);
+    // this.set('model.pipeline', {
+    //   ...this.get('model.pipeline'),
+    //   isActivate: true
+    // });
+    // this.set('model.pipeline.isActivate', true);
+  },
   actions: {
     save: function(success){
       var model = this.get('model')

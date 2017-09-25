@@ -17,11 +17,10 @@ class StepType {
     switch (type) {
       case 'scm':
         this.type = 'scm';
-        this.sourceType = "git";
+        this.sourceType = "github";
         this.repository = '';
         this.branch = '';
-        this.webhook = false;
-        this.token = '';
+        this.webhook = true;
         break;
       case 'task':
         this.type = 'task';

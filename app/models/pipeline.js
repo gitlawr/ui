@@ -93,6 +93,12 @@ export default Resource.extend({
     }
     return images;
   }.property('stages.@each.{steps.@each}'),
+  repository: function() {
+    return this.get('stages')[0].steps[0].repository
+  }.property('stages'),
+  branch: function() {
+    return this.get('stages')[0].steps[0].branch
+  }.property('stages'),
   statusClass: function() {
     var status = this.get('isActive')+'';
     return ENUMS_STATUSCLASS[status];
