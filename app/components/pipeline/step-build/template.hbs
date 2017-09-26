@@ -77,9 +77,11 @@
     <div class="pt-10"></div>
     {{input type="password" class="form-control" value=selectedModel.password placeholder="private registry password" disabled=(if (eq modalOpts.type 'review') true false)}}
   </div> --}}
+  {{#if (not-eq detectingPush true)}}
   {{#if matchedRegistry}}
     <p class="text-info">This image will be pushed to <code>{{matchedRegistry.serverAddress}}</code></p>
   {{else}}
     <p class="text-error">The registry <code>{{resolvedRegistry}}</code> haven't been authenticated, click {{#link-to "registries.new" target="_blank"}}here{{/link-to}} to authenticate it.</p>
+  {{/if}}
   {{/if}}
 {{/if}}

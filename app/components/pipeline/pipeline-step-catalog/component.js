@@ -5,7 +5,10 @@ import Util from 'ui/utils/util';
 export default Ember.Component.extend({
   catalog: Ember.inject.service(),
   projects: Ember.inject.service(),
-
+  pipelineSvc: Ember.inject.service('pipeline'),
+  repos:[{repo: 'test'}],
+  setting: null,
+  repos: null,
   project: function() {
     return this.get('projects.current');
   }.property('projects'),
@@ -84,7 +87,10 @@ export default Ember.Component.extend({
   init() {
     this._super(...arguments);
     this.set('toRemove', []);
-
+    this.getCatalogs();
+  },
+  getCatalogs(){
+    this.set('loadingCatalog',true);
     this.get('projects').updateOrchestrationState().then(() => {
       return Ember.RSVP.hash({
         catalogs: this.get('catalog').fetchCatalogs({
@@ -101,19 +107,50 @@ export default Ember.Component.extend({
         return y;
       });
       this.set('old', old);
-      this.setProperties({
-        ary: old.map((x) => x.clone()),
+      this.get('pipelineSvc').loadRepository((res)=>{
+        this.set('setting',res);
+      },(res)=>{
+        this.set('statusFetching',false);
+        this.set('loadingCatalog',false);
+        if(!res){
+          return
+        }
+        var repos = JSON.parse(res)
+        this.set('repos',repos);
+        this.setProperties({
+          ary: old.map((x) => {
+            var clone = x.clone()
+            this.syncRepository(clone);
+            return clone;
+          }).filter(x=>x.selected)||[],
+        });
+        
       });
       var initCatalogTemplateId = this.get('selectedModel.externalId');
       if(initCatalogTemplateId){
         var catalogInfo = initCatalogTemplateId.split(':');
         this.set('catalogId',catalogInfo[0]);
       }
+    }).catch(()=>{
+      this.set('loadingCatalog',false);
     });
   },
-
+  syncRepository(catalog){
+    var selectedModel = this.get('selectedModel');
+    var repos = this.get('repos',repos);
+    if(catalog.url){
+      var selected = repos.find((ele)=>{
+        if(ele.clone_url === catalog.url){
+          return true;
+        }
+        return false;
+      })
+      selected&&(catalog.selected = selected)||(catalog.selected = null)
+    }
+  },
   actions: {
     editCatalog() {
+      this.getCatalogs();
       this.set('editCatalog', true);
     },
     cancel() {

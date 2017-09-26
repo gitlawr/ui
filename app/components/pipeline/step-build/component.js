@@ -27,7 +27,6 @@ export default Ember.Component.extend({
   }.observes('selectedModel.targetImage'),
   pushObserves:function(){
     Ember.run.once(()=>{
-      console.log('observes')
       var selectedModel = this.get('selectedModel');
       var push = selectedModel.push;
       var resolvedRegistry = this.get('resolvedRegistry');
@@ -39,7 +38,6 @@ export default Ember.Component.extend({
         }).then((res)=>{
           var registries = res;
           var matchedRegistry = registries.find(ele=>ele.serverAddress===resolvedRegistry);
-          debugger
           this.set('matchedRegistry',matchedRegistry);
           this.set('detectingPush', false);
           this.set('registries',registries);
