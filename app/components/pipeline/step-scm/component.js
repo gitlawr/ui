@@ -7,31 +7,30 @@ export default Ember.Component.extend({
   setting: null,
   init(){
     this._super(...arguments);
-    this.loadRepository();
-  },
-  loadRepository(){
     var selectedModel = this.get('selectedModel');
-    var pipelineStore = this.get('pipelineStore');
     this.set('statusFetching',true);
-    pipelineStore.find('setting',null, {forceReload: true}).then((res)=>{
+    this.loadRepository((res)=>{
       this.set('setting',res);
-      if(res.isAuth){
-        return res.doAction('getrepos');
-      }else{
-        this.set('statusFetching',false);
-        return null
-      }
-    }).then((res)=>{
+    },(res)=>{
+      this.set('statusFetching',false);
       if(!res){
         return
       }
       var repos = JSON.parse(res)
       this.set('repos',repos);
       this.syncRepository();
-      this.set('statusFetching',false);
-    }).catch(()=>{
-
     });
+  },
+  loadRepository(fn1,fn2){
+    var pipelineStore = this.get('pipelineStore');
+    return pipelineStore.find('setting',null, {forceReload: true}).then((res)=>{
+      fn1(res);
+      if(res.isAuth){
+        return res.doAction('getrepos');
+      }else{
+        return null
+      }
+    }).then(fn2)
   },
   syncRepository(){
     var selectedModel = this.get('selectedModel');

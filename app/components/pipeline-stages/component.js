@@ -80,7 +80,7 @@ export default Ember.Component.extend({
         cb: (stage) => {
           var stages = this.get('pipeline.stages');
           var valid = validateStageName(stages,stage)
-          if(valid !== -1){
+          if(valid !== -1 || valid === index){
             return false;
           }
           var newStage = stages.map((ele, i) => {

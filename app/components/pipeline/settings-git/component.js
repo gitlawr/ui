@@ -63,7 +63,6 @@ export default Ember.Component.extend({
       this.get('model').doAction('update',{
         isAuth: false
       }).then((res)=>{
-        debugger
         this.set('model',res);
       })
     },

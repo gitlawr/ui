@@ -138,14 +138,6 @@ var validationErrors = (module) => {
           errors.push('"Dockerfile" is required!');
         }
       }
-      if (module.push) {
-        if (module.username.trim() === '') {
-          errors.push('"Username" is required!');
-        }
-        if (module.password.trim() === '') {
-          errors.push('"Password" is required!');
-        }
-      }
       break;
     case 'upgradeService':
       if (module.tag.trim() === '') {
