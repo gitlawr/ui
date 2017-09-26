@@ -39,7 +39,11 @@ export default Ember.Controller.extend({
         return
       }
       model.pipeline.save().then(()=>{
+        success(true)
         this.transitionToRoute('pipelines.ready.pipelines')
+      }).catch((err)=>{
+        console.log(err)
+        return success(false)
       })
     },
     cancel: function(){

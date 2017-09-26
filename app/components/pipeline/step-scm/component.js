@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  repos:[{repo: 'test'}],
+  repos:[],
   selected: null,
   statusFetching: true,
   setting: null,
@@ -17,7 +17,7 @@ export default Ember.Component.extend({
         return
       }
       var repos = JSON.parse(res)
-      this.set('repos',repos);
+      this.set('repos',repos.filter(repo=>repo.permissions.admin));
       this.syncRepository();
     });
   },
