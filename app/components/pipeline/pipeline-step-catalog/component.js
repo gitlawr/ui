@@ -6,9 +6,8 @@ export default Ember.Component.extend({
   catalog: Ember.inject.service(),
   projects: Ember.inject.service(),
   pipelineSvc: Ember.inject.service('pipeline'),
-  repos:[{repo: 'test'}],
+  repos:[],
   setting: null,
-  repos: null,
   project: function() {
     return this.get('projects.current');
   }.property('projects'),
@@ -116,7 +115,7 @@ export default Ember.Component.extend({
           return
         }
         var repos = JSON.parse(res)
-        this.set('repos',repos);
+        this.set('repos',repos.filter(repo=>repo.permissions.admin));
         this.setProperties({
           ary: old.map((x) => {
             var clone = x.clone()
