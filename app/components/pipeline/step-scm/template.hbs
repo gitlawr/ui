@@ -18,7 +18,7 @@
 
   <div class="pt-20"></div>
   <div class="inline-form">
-    <label>Branch</label>
+    <label>Branch {{field-required}}</label>
     <div class="pt-10"></div>
     {{input class="form-control" value=selectedModel.branch placeholder="master" disabled=(if (eq modalOpts.type 'review') true false)}}
   </div>
@@ -26,7 +26,7 @@
 
 {{#if (eq selectedModel.sourceType 'github')}}
   {{#if statusFetching}}
-    <p>loading...</p>
+    <i class="icon icon-spinner icon-spin"></i>
   {{else}}
     {{#if setting.isAuth}}
     <div class="pt-20"></div>
@@ -45,7 +45,7 @@
     </div>
     <div class="pt-20"></div>
     <div class="inline-form">
-      <label>Branch</label>
+      <label>Branch{{field-required}}</label>
       <div class="pt-10"></div>
       {{input class="form-control" value=selectedModel.branch placeholder="master" disabled=(if (eq modalOpts.type 'review') true false)}}
     </div>

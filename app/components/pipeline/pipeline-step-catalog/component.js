@@ -115,7 +115,7 @@ export default Ember.Component.extend({
           return
         }
         var repos = JSON.parse(res)
-        this.set('repos',repos.filter(repo=>repo.permissions.admin));
+        this.set('repos',repos.filter(repo=>repo.permissions.push));
         this.setProperties({
           ary: old.map((x) => {
             var clone = x.clone()

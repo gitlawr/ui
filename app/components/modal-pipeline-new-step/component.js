@@ -115,6 +115,9 @@ var validationErrors = (module) => {
       if (module.repository.indexOf('.git') === -1) {
         errors.push('Repository should be a valid git address!');
       }
+      if(!module.branch){
+        errors.push('"Branch" is required!')
+      }
       Ember.set(module, 'repository', module.repository.trim());
       break;
     case 'task':
@@ -147,16 +150,16 @@ var validationErrors = (module) => {
         if (module.endpoint.trim() === '') {
           errors.push('"Endpoint" is required!');
         }
-        if (module.accesskey) {
+        if (!module.accesskey) {
           errors.push('"Accesskey" is required!');
         }
-        if (module.secretkey) {
+        if (!module.secretkey) {
           errors.push('"Secretkey" is required!');
         }
       }
       break;
     case 'upgradeStack':
-      if (module.stackName) {
+      if (!module.stackName) {
         errors.push('"Stack Name" is required!');
       }
 
@@ -164,10 +167,10 @@ var validationErrors = (module) => {
         if (module.endpoint.trim() === '') {
           errors.push('"Endpoint" is required!');
         }
-        if (module.accesskey) {
+        if (!module.accesskey) {
           errors.push('"Accesskey" is required!');
         }
-        if (module.secretkey) {
+        if (!module.secretkey) {
           errors.push('"Secretkey" is required!');
         }
       }
@@ -177,10 +180,10 @@ var validationErrors = (module) => {
         if (module.endpoint.trim() === '') {
           errors.push('"Endpoint" is required!');
         }
-        if (module.accesskey) {
+        if (!module.accesskey) {
           errors.push('"Accesskey" is required!');
         }
-        if (module.secretkey) {
+        if (!module.secretkey) {
           errors.push('"Secretkey" is required!');
         }
       }
