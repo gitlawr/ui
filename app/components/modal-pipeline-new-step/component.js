@@ -202,7 +202,6 @@ export default Ember.Component.extend(ModalBase, {
   editingModels: Ember.Object.create({}),
   init() {
     this._super(...arguments);
-
     var opts = this.get('modalOpts');
     var objectParameter = {};
     var type = this.get('type');
@@ -253,14 +252,6 @@ export default Ember.Component.extend(ModalBase, {
       var arryParameters = convertObjectToArry(model.parameters);
       this.get('modalOpts').cb({
         ...model,
-        parameters: arryParameters
-      });
-      this.get('modalService').toggleModal();
-    },
-    edit: function() {
-      var arryParameters = convertObjectToArry(model.parameters);
-      this.get('modalOpts').cb({
-        ...this.get('editingModels')[this.get('type')],
         parameters: arryParameters
       });
       this.get('modalService').toggleModal();

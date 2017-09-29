@@ -7,7 +7,7 @@
     {{#if loadingCatalog}}
       <i class="icon icon-spinner icon-spin"></i>
     {{else}}
-      {{#if setting.isAuth}}
+      {{#if showCatalog}}
         {{#if (not-eq modalOpts.type 'review')}}
           <div class="form-control-static">
             {{#if editCatalog}}
@@ -38,7 +38,7 @@
             </thead>
             <tbody>
             {{#if editCatalog}}
-              {{#each ary as |row|}}
+              {{#each ary as |row index|}}
                 <tr class="main-row">
                   <td class="pt-5 pb-5" data-title="{{t 'catalogSettings.more.name.label'}}:">
                     {{input class="form-control input-sm name" type="text" value=row.name placeholder=(t 'catalogSettings.more.name.placeholder')}}
@@ -49,7 +49,8 @@
                       options=repos
                       searchField="clone_url"
                       selected=row.selected
-                      onchange=(action (mut selected))
+                      onchange=(action (mut row.selected))
+                      onclose=(action 'repoSelected' row index)
                       as |repo|
                     }}
                       {{repo.clone_url}}
@@ -110,28 +111,6 @@
     {{save-cancel classNames="pt-20" cancel='cancel' editing=true save="save"}}
   {{/if}}
 </section>
-{{!-- 
-<div class="pt-20"></div>
-<section class="box mb-20">
-  <h2>Git Authentication</h2>
-  <p class="text-muted">Please Provide the Authentication of Repository <span class="text-info">{{selectedCatalog.url}}</span></p>
-  <hr>
-  <div class="pt-20"></div>
-  <div class="inline-form">
-    <label>Username</label>
-    <div class="pt-10"></div>
-    {{input class="form-control" value=selectedModel.username placeholder="Username" disabled=(if (eq modalOpts.type 'review') true false)}}
-  </div>
-
-  <div class="pt-20"></div>
-  <div class="inline-form">
-    <label>Password</label>
-    <div class="pt-10"></div>
-    {{input class="form-control" type="password" value=selectedModel.password placeholder="Password" disabled=(if (eq modalOpts.type 'review') true false)}}
-  </div>
-
-</section>
- --}}
 <div class="pt-20"></div>
 
 <section class="box mb-20">
