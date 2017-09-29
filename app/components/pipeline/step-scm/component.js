@@ -5,21 +5,38 @@ export default Ember.Component.extend({
   selected: null,
   statusFetching: true,
   setting: null,
+  showBranch: function(){
+    var modalOpts = this.get('modalOpts');
+    var setting = this.get('setting');
+
+    if(modalOpts.type === 'review'){
+      return true;
+    }
+    if(setting&&setting.isAuth){
+      return true;
+    }
+    return false;
+  }.property('setting', 'modalOpts.type'),
   init(){
     this._super(...arguments);
     var selectedModel = this.get('selectedModel');
-    this.set('statusFetching',true);
-    this.loadRepository((res)=>{
-      this.set('setting',res);
-    },(res)=>{
+    var modalOpts = this.get('modalOpts');
+    if(modalOpts.type !== 'review'){
+      this.set('statusFetching',true);
+      this.loadRepository((res)=>{
+        this.set('setting',res);
+      },(res)=>{
+        this.set('statusFetching',false);
+        if(!res){
+          return
+        }
+        var repos = JSON.parse(res)
+        this.set('repos',repos.filter(repo=>repo.permissions.admin));
+        this.syncRepository();
+      });
+    }else{
       this.set('statusFetching',false);
-      if(!res){
-        return
-      }
-      var repos = JSON.parse(res)
-      this.set('repos',repos.filter(repo=>repo.permissions.admin));
-      this.syncRepository();
-    });
+    }
   },
   loadRepository(fn1,fn2){
     var pipelineStore = this.get('pipelineStore');

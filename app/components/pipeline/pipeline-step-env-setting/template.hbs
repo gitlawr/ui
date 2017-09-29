@@ -1,6 +1,7 @@
 <div class="pt-20"></div>
 <div>
-  <label>{{input type="checkbox" checked=otherEnv disabled=(if (eq modalOpts.type 'review') true false)}} Target other environment (default target this environment)</label>
+  <label>{{input type="checkbox" checked=otherEnv disabled=(if (eq modalOpts.type 'review') true false)}} Target other environment</label>
+  <p class="text-small text-info">Default target is current environment, if you want target other enviroments, then check this option.</p>
   {{#if otherEnv}}
     <div class="pt-20"></div>
     <div class="inline-form">

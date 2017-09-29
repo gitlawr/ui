@@ -13,28 +13,28 @@ export default Ember.Component.extend({
   }.property('projects'),
   catalogs: null,
   loadingCatalog: false,
-  selectedCatalog: function(){
-    var ary = this.get('ary');
-    if(!ary){
-      return null;
-    }
-    var catalogId = this.get('catalogId');
-    var selectedCatalog = ary.find(ele=>ele.id===catalogId);
-    this.set('selectedModel.repository',selectedCatalog.url);
-    this.set('selectedModel.branch',selectedCatalog.branch);
-    return selectedCatalog;
-  }.property('catalogId'),
   catalogId: null,
   templates: null,
   selectedTemplate: null,
   previewTab: '',
+  showCatalog: function(){
+    var modalOpts = this.get('modalOpts');
+    var setting = this.get('setting');
+    if(modalOpts.type === 'review'){
+      return true;
+    }
+    if(setting&&setting.isAuth){
+      return true;
+    }
+    return false;
+  }.property('modalOpts.type', 'setting'),
   selectedTemplateVersions: function(){
     var versions = [];
-    var template = this.get('selectedTemplate');
-    if(!template){
+    var selectedTemplate = this.get('selectedTemplate');
+    if(!selectedTemplate){
       return versions
     }
-    var links = template.versionLinks;
+    var links = selectedTemplate.versionLinks;
     versions = Object.keys(links).filter((key) => {
         // Filter out empty values for rancher/rancher#5494
         return !!links[key];
@@ -43,12 +43,26 @@ export default Ember.Component.extend({
       });
     return versions;
   }.property('selectedTemplate'),
+  selectedTemplateObserves: function(){
+    var selectedTemplate = this.get('selectedTemplate');
+    if(!selectedTemplate){
+      return
+    }
+    this.set('selectedModel.externalId',selectedTemplate.defaultTemplateVersionId);
+  }.observes('selectedTemplate'),
   selectedVersion: null,
   templatesObserver: function() {
     var catalogId = this.get('catalogId');
     if(!catalogId){
       return
     }
+    var ary = this.get('ary');
+    if(ary){
+      var selectedCatalog = ary.find(ele=>ele.id===catalogId);
+      this.set('selectedModel.repository',selectedCatalog.url);
+      this.set('selectedModel.branch',selectedCatalog.branch);
+    }
+
     var params = {
       catalogId: this.get('catalogId'),
       category: "all",
@@ -56,9 +70,7 @@ export default Ember.Component.extend({
       templateBase: ""
     };
     this.get('catalog').fetchTemplates(params).then((res) => {
-      this.set('selectedTemplate', res.catalog[0]);
       this.set('templates', res.catalog);
-
       var initCatalogTemplateId = this.get('selectedModel.externalId');
       if(initCatalogTemplateId){
         var catalogInfo = initCatalogTemplateId.split(':');
@@ -86,7 +98,40 @@ export default Ember.Component.extend({
   init() {
     this._super(...arguments);
     this.set('toRemove', []);
-    this.getCatalogs();
+    var modalOpts = this.get('modalOpts');
+    if(modalOpts.type !== 'review'){
+      this.getCatalogs();
+    }else{
+      this.getCatalogsWithoutRepo();
+    }
+  },
+  getCatalogsWithoutRepo(){
+    this.get('projects').updateOrchestrationState().then(() => {
+      return Ember.RSVP.hash({
+        catalogs: this.get('catalog').fetchCatalogs({
+          headers: {
+            [C.HEADER.PROJECT_ID]: this.get('projects.current.id')
+          },
+        }),
+      });
+    }).then((hash) => {
+      this.set('catalogs', hash.catalogs);
+      let old = this.get('catalogs').filterBy('environmentId', this.get('project.id')).map((x) => {
+        let y = x.clone();
+        y.uiId = Util.randomStr();
+        return y;
+      });
+      this.set('old', old);
+      var initCatalogTemplateId = this.get('selectedModel.externalId');
+      var catalogInfo = initCatalogTemplateId.split(':');
+      var catalogId = this.get('catalogId');
+      this.setProperties({
+        ary: old.map((x) => x.clone()).filter(ele=>ele.id===catalogInfo[0])
+      });
+      this.set('catalogId',catalogInfo[0]);
+    }).catch(()=>{
+      this.set('loadingCatalog',false);
+    });
   },
   getCatalogs(){
     this.set('loadingCatalog',true);
@@ -148,6 +193,15 @@ export default Ember.Component.extend({
     }
   },
   actions: {
+    repoSelected(row, index){
+      var ary = this.get('ary');
+      this.set('ary',ary.map((ele, i)=>{
+        if(ele.selected){
+          ele.url = ele.selected.clone_url;
+        }
+        return ele;
+      }))
+    },
     editCatalog() {
       this.getCatalogs();
       this.set('editCatalog', true);
@@ -162,6 +216,7 @@ export default Ember.Component.extend({
         url: '',
         kind: 'native',
         isNew: true,
+        // selected: null,
       });
 
       this.get('ary').pushObject(obj);

@@ -15,12 +15,14 @@
 {{#if (eq type 'scm')}}
   {{pipeline/step-scm
     selectedModel=selectedModel
+    modalOpts=modalOpts
   }}
 {{/if}}
 
 {{#if (eq type 'build')}}
   {{pipeline/step-build
     selectedModel=selectedModel
+    modalOpts=modalOpts
   }}
 {{/if}}
 

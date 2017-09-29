@@ -28,34 +28,46 @@
   {{#if statusFetching}}
     <i class="icon icon-spinner icon-spin"></i>
   {{else}}
-    {{#if setting.isAuth}}
-    <div class="pt-20"></div>
-    <div class="inline-form">
-      <label>Repository{{field-required}}</label>
-      <div class="pt-10"></div>
-      {{#power-select
-        options=repos
-        searchField="clone_url"
-        selected=selected
-        onchange=(action (mut selected))
-        as |repo|
-      }}
-        {{repo.clone_url}}
-      {{/power-select}}
-    </div>
-    <div class="pt-20"></div>
-    <div class="inline-form">
-      <label>Branch{{field-required}}</label>
-      <div class="pt-10"></div>
-      {{input class="form-control" value=selectedModel.branch placeholder="master" disabled=(if (eq modalOpts.type 'review') true false)}}
-    </div>
-    <div class="pt-20"></div>
-    <div class="inline-form">
-      <div class="pt-10"></div>
-      <label>{{check-box class="form-control" checked=selectedModel.webhook disabled=(if (eq modalOpts.type 'review') true false) }}
-        Webhook
-      </label>
-    </div>
+    {{#if showBranch}}
+      <div class="pt-20"></div>
+      <div class="inline-form">
+        <label>Repository{{field-required}}</label>
+        <div class="pt-10"></div>
+        {{#if (eq modalOpts.type 'review')}}
+          {{input class="form-control" value=selectedModel.repository disabled=(if (eq modalOpts.type 'review') true false)}}
+        {{else}}
+          {{#power-select
+            options=repos
+            searchField="clone_url"
+            selected=selected
+            onchange=(action (mut selected))
+            as |repo|
+          }}
+            {{repo.clone_url}}
+          {{/power-select}}
+        {{/if}}
+      </div>
+      <div class="pt-20"></div>
+      <div class="inline-form">
+        <label>Branch{{field-required}}</label>
+        <div class="pt-10"></div>
+        {{input class="form-control" value=selectedModel.branch placeholder="master" disabled=(if (eq modalOpts.type 'review') true false)}}
+      </div>
+      <div class="pt-20"></div>
+      <div class="inline-form">
+        <div class="pt-10"></div>
+        <label>{{check-box class="form-control" checked=selectedModel.webhook disabled=(if (eq modalOpts.type 'review') true false) }}
+          Webhook
+        </label>
+        {{#tooltip-element 
+          type="tooltip-basic"
+          model="This option is used to enable webhook, which will trigger pipeline when there is a new push."
+          tooltipTemplate='tooltip-static'
+          aria-describedby="tooltip-base"
+          tooltipFor="audit-log"}}
+          <i class="icon icon-help text-info"></i>
+        {{/tooltip-element}}
+      </div>
     {{else}}
       <p>Please finish the OAuth of GitHub in {{#link-to "pipelines.ready.settings" target="_blank"}}setting page{{/link-to}} first.</p>
       <p class="text-warning">Note: Have finished the OAuth? <a href="javascript:void();" {{action "reload"}}>click here</a> to load your repository</p>
