@@ -25,7 +25,7 @@ export default Ember.Component.extend({
   imageObserves: function(){
     this.set('selectedModel.push',false);
   }.observes('selectedModel.targetImage'),
-  pushObserves:function(){
+  pushObserves: Ember.on('init', Ember.observer('selectedModel.push',function(){
     Ember.run.once(()=>{
       var selectedModel = this.get('selectedModel');
       var push = selectedModel.push;
@@ -41,13 +41,12 @@ export default Ember.Component.extend({
           this.set('matchedRegistry',matchedRegistry);
           this.set('detectingPush', false);
           this.set('registries',registries);
-          
         }).catch(()=>{
           this.set('detectingPush', false);
         });
       }
     });
-  }.observes('selectedModel.push'),
+  })),
   // matchedRegistryObserves: function(){
   //   debugger
   //   var matchedRegistry = this.get('matchedRegistry');
