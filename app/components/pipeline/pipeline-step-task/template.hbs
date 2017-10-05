@@ -1,9 +1,16 @@
-
 <div class="pt-20"></div>
 <div class="inline-form">
   <div class="pt-10"></div>
   <label>{{check-box class="form-control" checked=selectedModel.isService disabled=(if (eq modalOpts.type 'review') true false)}}
     As a Service
+    {{#tooltip-element 
+      type="tooltip-basic"
+      model="You can use this option to launch a database service. For more detail, please see the document."
+      tooltipTemplate='tooltip-static'
+      aria-describedby="tooltip-base"
+      tooltipFor="audit-log"}}
+      <i class="icon icon-help text-info"></i>
+    {{/tooltip-element}}
   </label>
 </div>
 {{#if selectedModel.isService}}
