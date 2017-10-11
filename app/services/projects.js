@@ -8,17 +8,7 @@ export default Ember.Service.extend({
   'tab-session': Ember.inject.service('tab-session'),
   prefs: Ember.inject.service(),
   k8sSvc: Ember.inject.service('k8s'),
-<<<<<<< HEAD
-<<<<<<< HEAD
   pipelineSvc: Ember.inject.service('pipeline'),
-=======
-  
-=======
-
->>>>>>> Bug fix
-  pipelineSvc: Ember.inject.service('pipeline'),
-
->>>>>>> Sync with backend
   userStore: Ember.inject.service('user-store'),
   store: Ember.inject.service(),
 
@@ -169,11 +159,6 @@ export default Ember.Service.extend({
     let hash = {
       hasKubernetes: false,
       kubernetesReady: false,
-<<<<<<< HEAD
-=======
-      swarmReady: false,
-      mesosReady: false,
->>>>>>> Sync with backend
       hasPipeline: false,
       pipelineReady: false,
     };

@@ -99,8 +99,7 @@ module.exports = function(environment) {
       environment: environment,
       apiServer: 'http://localhost:8080',
       legacyApiEndpoint: '/v2',
-      apiEndpoint: '/v2-beta',
-      // apiEndpoint: '/v3',
+      apiEndpoint: '/v3',
 //      betaApiEndpoint: '/v3',
       catalogServer: '',
       catalogEndpoint: '/v1-catalog',
@@ -113,12 +112,11 @@ module.exports = function(environment) {
       magicEndpoint: '/r',
       kubernetesBase: '/k8s',
       kubectlEndpoint: '/r/projects/%PROJECTID%/kubectld:8091/v1-kubectl',
-      kubernetesDashboard: '/r/projects/%PROJECTID%/kubernetes-dashboard:9090/#',
-      kubernetesWorkload: '/r/projects/%PROJECTID%/kubernetes-dashboard:9090/api/v1/workload?itemsPerPage=1',
       pipelinesEndpoint: '/r/projects/%PROJECTID%/pipeline-server:60080/v1',
-      projectEndpoint: '/v2-beta/projects/%PROJECTID%',
-      proxyEndpoint: '/v2-beta/proxy',
-      wsEndpoint: '/v2-beta/projects/%PROJECTID%/subscribe' +
+      kubernetesDashboard: '/k8s/clusters/%CLUSTERID%/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/',
+      projectEndpoint: '/v3/projects/%PROJECTID%',
+      proxyEndpoint: '/v3/proxy',
+      wsEndpoint: '/v3/projects/%PROJECTID%/subscribe' +
                     '?eventNames=resource.change' +
                     '&resourceType_ne=serviceLog' +
                     '&resourceType_ne=deploymentUnit',
