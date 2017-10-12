@@ -30,8 +30,8 @@ class StepType {
         this.entrypoint = '';
         this.isShell = true;
         this.args = '';
-        this.command = '';
-        this.parameters = {};
+        this.shellScript = '';
+        this.env = {};
         break;
       case 'build':
         this.type = 'build';
@@ -41,7 +41,7 @@ class StepType {
         1.sc
         2.file
         */
-        this.dockerfilePath = './';
+        this.dockerFilePath = './';
         this.targetImage = '';
         this.sourceType = 'sc';
         this.push = false;
@@ -133,11 +133,11 @@ var validationErrors = (module) => {
         errors.push('"Image Tag" is required!');
       }
       if (module.sourceType === 'sc') {
-        if (module.dockerfilePath.trim() === '') {
+        if (module.dockerFilePath.trim() === '') {
           errors.push('"Dockerfile Path" is required!');
         }
       } else {
-        if (module.file.trim() === '') {
+        if (module.dockerFileContent.trim() === '') {
           errors.push('"Dockerfile" is required!');
         }
       }
@@ -206,9 +206,9 @@ export default Ember.Component.extend(ModalBase, {
     var objectParameter = {};
     var type = this.get('type');
     if (opts.params) {
-      if (opts.params.parameters) {
-        for (var i = 0; i < opts.params.parameters.length; i++) {
-          var value = opts.params.parameters[i].split('=');
+      if (opts.params.env) {
+        for (var i = 0; i < opts.params.env.length; i++) {
+          var value = opts.params.env[i].split('=');
           var k = value[0];
           var v = value[1];
           objectParameter[k] = v;
@@ -217,7 +217,7 @@ export default Ember.Component.extend(ModalBase, {
       this.set('type', opts.params.type);
       var model = new StepType(opts.params.type, {
         ...opts.params,
-        parameters: objectParameter
+        env: objectParameter
       });
       this.get('editingModels').set(opts.params.type, model);
     } else {
@@ -249,10 +249,10 @@ export default Ember.Component.extend(ModalBase, {
         success(false);
         return true;
       }
-      var arryParameters = convertObjectToArry(model.parameters);
+      var arryParameters = convertObjectToArry(model.env);
       this.get('modalOpts').cb({
         ...model,
-        parameters: arryParameters
+        env: arryParameters
       });
       this.get('modalService').toggleModal();
     },

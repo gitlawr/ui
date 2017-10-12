@@ -5,6 +5,7 @@
     <li>{{#link-to "pipelines.ready.pipelines" (query-params status="inactive")}}Inactive{{/link-to}}</li>
   </ul>
   <div class="right-buttons">
+    {{#link-to "pipelines.import" classNames="btn btn-sm bg-default mr-10"}}Import pipeline.yml{{/link-to}}
     <button class="btn bg-link btn-sm icon-btn p-0">
       {{#link-to "pipelines.new-pipeline" class="btn bg-link icon-btn p-0"}}
         <span class="darken"><i class="icon icon-plus text-small"/></span>

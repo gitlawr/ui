@@ -5,7 +5,7 @@ export default Ember.Component.extend({
   selected: '',
   init(){
     this._super();
-    var triggerTimezone = this.get('pipeline.triggerTimezone');
+    var triggerTimezone = this.get('pipeline.cronTrigger.timezone');
     var t = new Date();
     var timeZone = - t.getTimezoneOffset()/60;
     selected = timezones.find(ele => ele.offset === timeZone );
@@ -22,13 +22,13 @@ export default Ember.Component.extend({
   },
   selectedObeserves: function(){
     var selected = this.get('selected');
-    this.set('pipeline.triggerTimezone',selected.utc[0]);
+    this.set('pipeline.cronTrigger.timezone',selected.utc[0]);
   }.observes('selected'),
   schedulePatternObserves:function(){
     var schdulePattern = this.get('schdulePattern');
     switch(schdulePattern){
       case 'custom': this.set('schduleInputDisabled',false);return;
-      case 'day': this.set('model.pipeline.triggerSpec','0 4 * * *');break;
+      case 'day': this.set('model.pipeline.cronTrigger.spec','0 4 * * *');break;
     }
     this.set('schduleInputDisabled',true);
   }.observes('schdulePattern'),

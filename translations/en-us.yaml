@@ -613,6 +613,7 @@ pipelinesPage:
   cancel: Cancel
   addStage: Add a Stage
   newStage: New Stage
+  importPlaceHolder: pipeline.yml
 
 newPipeline:
   header: Add Pipeline

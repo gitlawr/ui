@@ -19,8 +19,8 @@
     </label>
     
     <div class="pt-10"></div>
-    {{input class="form-control" disabled=schduleInputDisabled value=pipeline.triggerSpec}}
-    {{#if pipeline.triggerSpec}}
+    {{input class="form-control" disabled=schduleInputDisabled value=pipeline.cronTrigger.spec}}
+    {{#if pipeline.cronTrigger.spec}}
       <p class="text-success mt-5 mb-0">{{pretty-cron pipeline.triggerSpec 'toString'}}</p>
     {{/if}}
   </div>
@@ -41,7 +41,7 @@
   </div>
   
   <div class="pt-20"></div>
-  <label>{{check-box class="form-control" checked=pipeline.triggerOnUpdate}}
+  <label>{{check-box class="form-control" checked=pipeline.cronTrigger.triggerOnUpdate}}
     Run when there is new commit
   </label>
 {{/accordion-list-item}}

@@ -94,13 +94,15 @@ Router.map(function() {
       this.route('pipelines', {resetNamespace: true}, function() {
         this.route('index', {path: '/'});
         this.route('new-pipeline', {path: '/addPipeline'});
+        this.route('import', {path: '/import'});
+        this.route('view-config', {path: '/viewConfig/:pipeline_id'});
         this.route('ready', {path: '/r'},function(){
           this.route('activities',{path:'/'});
           this.route('pipelines',{path:'/pipelines'});
           this.route('settings',{path:'/settings'});
         });
         this.route('activity', {path: '/activities/:activity_id'});
-        
+
         this.route('pipeline', {path: '/pipelines/:pipeline_id'});
       });
       

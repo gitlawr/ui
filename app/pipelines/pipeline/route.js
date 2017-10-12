@@ -17,8 +17,20 @@ export default Ember.Route.extend({
     return Ember.RSVP.hash({
         pipeline: pipeline
       }).then(({pipeline})=>{
+        var piplineObj;
+        if(params.mode === 'duplicate'){
+          piplineObj = pipelineStore.createRecord({
+            ...pipeline.serialize(),
+            id: '',
+            name: ''
+          })
+        }else{
+          piplineObj = pipelineStore.createRecord(
+            pipeline.serialize()
+          )
+        }
         return {
-          pipeline: pipelineStore.createRecord(pipeline.serialize())
+          pipeline: piplineObj
         }
       });
   }
