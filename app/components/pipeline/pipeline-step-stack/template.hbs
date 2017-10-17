@@ -15,30 +15,17 @@
 <h4>Edit your Template Using CI parameters</h4>
 <div class="tabs">
   <ul class="tab-header" role="tablist">
-    <li role="tab" class="{{if (eq previewTab 'dockerCompose') 'active'}}" {{action "selectPreviewTab" "dockerCompose"}}><a href="#">docker-compose.yml {{copy-to-clipboard clipboardText=selectedModel.dockerCompose size="small"}}</a></li>
-
-    <li role="tab" class="{{if (eq previewTab 'rancherCompose') 'active'}}" {{action "selectPreviewTab" "rancherCompose"}}><a href="#">rancher-compose.yml {{copy-to-clipboard clipboardText=selectedModel.rancherCompose size="small"}}</a></li>
+    <li role="tab" class="active"><a href="#">compose.yml {{copy-to-clipboard clipboardText=selectedModel.compose size="small"}}</a></li>
   </ul>
 
   <div role="tabpanel">
-  {{#if (eq previewTab 'dockerCompose')}}
     <div>
       {{pipeline/pipeline-codemirror 
-        value=selectedModel.dockerCompose 
-        valueUpdated=(action (mut selectedModel.dockerCompose))
+        value=selectedModel.compose 
+        valueUpdated=(action (mut selectedModel.compose))
         options=(hash autofocus=true lineNumbers=true mode="yaml" tabSize="2" readOnly=(if (eq modalOpts.type 'review') true false))
-
       }}
     </div> 
-  {{else}}
-    <div>
-      {{pipeline/pipeline-codemirror 
-        value=selectedModel.rancherCompose 
-        valueUpdated=(action (mut selectedModel.rancherCompose))
-        options=(hash autofocus=true lineNumbers=true mode="yaml" theme="monokai" tabSize="2" readOnly=(if (eq modalOpts.type 'review') true false))
-        }}
-    </div>
-  {{/if}}
   <p class="text-info text-small">You just need to write supplement of the compose file.</p>
   </div>
 </div>

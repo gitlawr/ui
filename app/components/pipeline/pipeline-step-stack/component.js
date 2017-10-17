@@ -11,7 +11,6 @@ export default Ember.Component.extend({
   catalogId: null,
   templates: null,
   selectedTemplate: null,
-  previewTab: 'dockerCompose',
 
   ary: null,
   global: null,

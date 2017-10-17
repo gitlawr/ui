@@ -88,8 +88,7 @@ class StepType {
       case 'upgradeStack':
         this.type = 'upgradeStack';
         this.stackName = '';
-        this.dockerCompose = '';
-        this.rancherCompose = '';
+        this.compose = '';
         this.deployEnv = 'local';
         this.endpoint = '';
         this.accesskey = '';
