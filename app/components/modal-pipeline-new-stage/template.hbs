@@ -78,10 +78,18 @@
   {{#if model.expressions}}
     {{pipeline/pipeline-expressions
       model=model
+      editing=(if (not-eq modalOpts.mode 'review') true false)
     }}
   {{/if}}
 </div>
 
+<div class="pt-20"></div>
+<div class="inline-form">
+  <label>{{check-box class="form-control" checked=model.parallel disabled=(if (eq modalOpts.mode 'review') true)}}
+    Parallel
+  </label>
+  <p class="mt-0 text-small text-info">This option is used to make steps running parallel</p>
+</div>
 {{#if (eq modalOpts.mode 'review')}}
   <div style="text-align: center" class="mt-20 text-center">
     <button {{action "cancel"}} class="btn bg-transparent">{{t "generic.cancel"}}</button>

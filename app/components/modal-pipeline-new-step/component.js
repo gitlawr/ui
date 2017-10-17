@@ -97,6 +97,9 @@ class StepType {
       default:
         break;
     }
+    // conditions
+    this.expressions=false;
+    this.conditions={};
     if (val && typeof val === 'object') {
       for (var item in val) {
         if (val.hasOwnProperty(item)) {

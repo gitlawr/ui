@@ -58,3 +58,18 @@
     modalOpts=modalOpts
   }}
 {{/if}}
+
+
+<div class="pt-20"></div>
+<div class="inline-form">
+  <label>{{check-box class="form-control" checked=selectedModel.expressions disabled=(if (eq modalOpts.type 'review') true)}}
+    Conditions 
+  </label>
+  <div class="pt-10"></div>
+  {{#if selectedModel.expressions}}
+    {{pipeline/pipeline-expressions
+      model=selectedModel
+      editing=(if (not-eq modalOpts.type 'review') true false)
+    }}
+  {{/if}}
+</div>

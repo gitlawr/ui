@@ -1,0 +1,39 @@
+{{#if editing}}
+  <div>
+    <button class="btn bg-link icon-btn" {{action "addSchedulingRule"}}>
+      <span class="darken"><i class="icon icon-plus text-small"/></span>
+      <span>Add Expressions</span>
+    </button>
+  </div>
+{{/if}}
+{{#if labelArray.length}}
+  <table class="table fixed no-lines mt-20">
+    <thead>
+      <tr>
+        <th class="acc-label" width="200">Condition</th>
+        <td width="20"></td>
+        <th class="acc-label" width="200">Env</th>
+        <th width="20"></th>
+        <th class="acc-label" width="60">Operator</th>
+        <th width="20"></th>
+        <th class="acc-label" width="150">Value</th>
+        <th width="180"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each labelArray as |rule index|}}
+        {{pipeline/expression-row
+          editing=editing
+          rule=rule
+          remove="removeSchedulingRule"
+          isGlobal=isGlobal
+          index=index
+          labelArray=labelArray
+          conditions=conditions
+        }}
+      {{/each}}
+    </tbody>
+  </table>
+{{else}}
+  <div class="text-muted pt-10">No Expressions yet.</div>
+{{/if}}
