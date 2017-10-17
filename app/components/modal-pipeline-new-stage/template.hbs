@@ -28,7 +28,7 @@
 <div class="inline-form">
   <div class="pt-10"></div>
   <label>{{check-box class="form-control" checked=model.needApprove disabled=(if (eq modalOpts.mode 'review') true)}}
-    requires approval
+    Requires Approval
   </label>
 </div>
 
@@ -68,6 +68,19 @@
  </div>
 </div>
 {{/if}}
+
+<div class="pt-20"></div>
+<div class="inline-form">
+  <label>{{check-box class="form-control" checked=model.expressions disabled=(if (eq modalOpts.mode 'review') true)}}
+    Conditions 
+  </label>
+  <div class="pt-10"></div>
+  {{#if model.expressions}}
+    {{pipeline/pipeline-expressions
+      model=model
+    }}
+  {{/if}}
+</div>
 
 {{#if (eq modalOpts.mode 'review')}}
   <div style="text-align: center" class="mt-20 text-center">
