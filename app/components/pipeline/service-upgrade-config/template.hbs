@@ -3,7 +3,7 @@
       <label class="acc-label">{{t 'newReceiver.tag.label'}}{{field-required}}</label>
     </div>
     <div>
-      {{input type="text" class="form-control" value=model.tag}}
+      {{input type="text" class="form-control" value=model.imageTag}}
     </div>
     <p class="help-block">{{t 'newReceiver.tag.help'}}</p>
 </div>
@@ -32,7 +32,7 @@
     <div class="col span-6">
       <label class="acc-label">{{t 'formUpgrade.interval.label'}}</label>
       <div class="input-group">
-        {{input-integer class="form-control" value=model.intervalMillis}}
+        {{input-integer class="form-control" value=model.interval}}
         <span class="input-group-addon bg-default">{{t 'generic.seconds'}}</span>
       </div>
     </div>

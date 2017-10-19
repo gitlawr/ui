@@ -59,7 +59,7 @@
   }}
 {{/if}}
 
-
+{{#if (not-eq type 'scm')}}
 <div class="pt-20"></div>
 <div class="inline-form">
   <label>{{check-box class="form-control" checked=selectedModel.expressions disabled=(if (eq modalOpts.type 'review') true)}}
@@ -73,3 +73,4 @@
     }}
   {{/if}}
 </div>
+{{/if}}

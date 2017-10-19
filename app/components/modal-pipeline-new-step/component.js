@@ -19,7 +19,7 @@ class StepType {
         this.type = 'scm';
         this.sourceType = "github";
         this.repository = '';
-        this.branch = '';
+        this.branch = 'master';
         this.webhook = true;
         break;
       case 'task':
@@ -50,7 +50,7 @@ class StepType {
         break;
       case 'upgradeService':
         this.type = 'upgradeService';
-        this.tag = '';
+        this.imageTag = '';
         this.serviceSelector = {};
         this.batchSize = 1;
         this.interval = 2;
@@ -145,7 +145,7 @@ var validationErrors = (module) => {
       }
       break;
     case 'upgradeService':
-      if (module.tag.trim() === '') {
+      if (module.imageTag.trim() === '') {
         errors.push('"Image Tag" is required!');
       }
       if (module.deployEnv === 'others') {
@@ -159,6 +159,9 @@ var validationErrors = (module) => {
           errors.push('"Secretkey" is required!');
         }
       }
+      Ember.set(module,'batchSize',module.batchSize*1);
+      Ember.set(module,'interval',module.interval*1);
+      
       break;
     case 'upgradeStack':
       if (!module.stackName) {
