@@ -16,11 +16,22 @@ export default Ember.Controller.extend({
   isHistory: function() {
     return this.get('activeTab') === 'history'
   }.property('activeTab'),
-
+  stepIndex: 0,
+  stageIndex: 0,
+  originalModel: function(){
+    return {
+      activity: this.get('model'),
+      step: [this.get('stageIndex'),this.get('stepIndex')]
+    }
+  }.property('stageIndex','stepIndex'),
   actions: {
     run: function() {
       this.get('model').doAction('rerun');
-    }
+    },
+    showLogsActivity: function(stageIndex,stepIndex){
+      this.set('stageIndex',stageIndex);
+      this.set('stepIndex',stepIndex);
+    },
   },
   expandFn: function(item) {
     item.toggleProperty('expanded');

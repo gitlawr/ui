@@ -4,7 +4,7 @@ export const headersAll =  [
   {
     name: 'name',
     sort: ['name'],
-    searchField: 'name',
+    searchField: 'pipelineSource.name',
     // translationKey: 'generic.pipelineName',
     label: 'Pipeline'
   },

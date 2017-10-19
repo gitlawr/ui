@@ -22,6 +22,7 @@ export default Resource.extend({
   type: 'activity',
   router: Ember.inject.service(),
   userStore: Ember.inject.service('user-store'),
+  isApproving: false,
   actions: {
     rerun: function() {
       return this.doAction('rerun')
@@ -30,13 +31,19 @@ export default Resource.extend({
         });
     },
     approve: function() {
+      this.set('isApproving',true);
       return this.doAction('approve')
         .then((/*res*/) => {
           this.get('router').transitionTo('pipelines.activity', this.get('id'))
+        }).catch(()=>{
+          this.set('isApproving',false)
         });
     },
     deny: function() {
-      return this.doAction('deny');
+      this.set('isApproving',true);
+      return this.doAction('deny').catch(()=>{
+          this.set('isApproving',false);
+        });;
     }
   },
   availableActions: function() {

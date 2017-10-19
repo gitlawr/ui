@@ -31,10 +31,7 @@ export default Ember.Component.extend({
   },
   actions: {
     showLogs: function(stageIndex,stepIndex){
-      this.get('modalService').toggleModal('modal-pipeline-logs', {
-          activity: this.get('activity'),
-          step: [stageIndex,stepIndex]
-        });
+      this.sendAction('showLogsActivity',stageIndex,stepIndex)
     },
     sendAction: function (model, action) {
       return model.send(action)

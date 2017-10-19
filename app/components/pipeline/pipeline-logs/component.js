@@ -58,7 +58,13 @@ export default Ember.Component.extend(ThrottledResize, {
       });
     },
   },
-
+  observeInstance: function(){
+    this.disconnect();
+    var body = this.$('.log-body')[0];
+    var $body = $(body);
+    body.innerHTML = '';
+    Ember.run.next(this, 'exec');
+  }.observes('instance'),
   didInsertElement: function() {
     this._super();
     Ember.run.next(this, 'exec');
@@ -145,7 +151,8 @@ export default Ember.Component.extend(ThrottledResize, {
   },
 
   onResize: function() {
-    this.$('.log-body').css('height', Math.max(200, ($(window).height() - this.get('logHeight'))) + 'px');
+    this.$('.log-body').css('min-height', Math.max(($(window).height() - this.get('logHeight'))) + 'px');
+    this.$('.log-body').css('height', '100%');
   },
 
   willDestroyElement: function() {

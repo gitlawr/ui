@@ -30,19 +30,23 @@
     {{!-- {{#accordion-list as |al expandFn| }} --}}
       {{#each filterdPiplineHistory as |activity|}}
         {{#accordion-list-item
-             title=model.repository
-             detail=(concat-str model.branch ' ' (sub-str model.commitInfo 0 8) ' ' (date-str model.start_ts) )
-             status=model.status
-             statusClass=model.status
-             expandAll=true
-             expand=(action expandFn)
-             componentName='activity-table'
-             className=(concat-str "header-pipeline" model.status)
-             as | parent |
+          title=model.repository
+          detail=(concat-str model.branch ' ' (sub-str model.commitInfo 0 8) ' ' (date-str model.start_ts) )
+          status=model.status
+          statusClass=model.status
+          expandAll=true
+          expand=(action expandFn)
+          componentName='activity-table'
+          className=(concat-str "header-pipeline" model.status)
+          as | parent |
         }}
+        <div style="width: 500px; display:inline-block;vertical-align: top;">
           {{pipeline-history-table
             stageInfo = model.pipelineSource.stages
             body=activity.activity_stages
+            stageIndexLog=stageIndex
+            stepIndexLog=stepIndex
+            showLogsActivity=(action "showLogsActivity")
             activity=model
             sortBy=sortBy
             bulkActions=true
@@ -53,6 +57,12 @@
             groupByKey=groupBy
             groupByRef="stack"
           }}
+        </div>
+        <div style="width: 650px; display:inline-block; margin-left:20px;">
+          {{pipeline/pipeline-logs
+            instance=originalModel
+            }}
+        </div>
         {{/accordion-list-item}}
       {{/each}}
     {{!-- {{/accordion-list}} --}}

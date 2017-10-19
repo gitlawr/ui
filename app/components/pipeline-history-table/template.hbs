@@ -1,21 +1,8 @@
 {{#each filtered as |stage stageIndex| }}
   {{#if (eq stage.status "Pending")}}
-  <div class="pipeline-approval-tip">
-      <div class="approval-head">
-        <span class="head-content">Waiting Approval</span>
-      </div>
-      <div class="approval-content">
-        <span class="content-text">
-            User({{activity.approversName}}) need to approve Stage <span class="text-info">{{activity.pendingStageName}}</span>
-        </span>
-        {{#if activity.actionLinks.approve}}
-          <div class="approval-actions" style="padding-bottom: 0">
-              <a class="mr-10 text-error" href="javascript:void(0);" {{action "sendAction" activity "deny"}} style="color: red"><i class="icon icon-thumbs-down"></i>&nbsp;Deny</a>
-              <a class="text-success" href="javascript:void(0);" {{action "sendAction" activity "approve"}} ><i class="icon icon-thumbs-up"></i>&nbsp;Approve</a>
-          </div>
-        {{/if}}
-      </div>
-    </div>
+    {{pipeline/activity-approve
+      activity=activity
+    }}
   {{/if}}
   {{#accordion-list-item-pipeline
     title=stage.name
@@ -29,14 +16,11 @@
     as | parent |
       }}
       {{#each stage.activity_steps as |step stepIndex|}}
-        <div class="accordion-header header-pipeline item" class={{step.status}} {{action 'showLogs' stageIndex stepIndex}}>
+        <div class="accordion-header header-pipeline item pipeline-step" class={{step.status}} {{action 'showLogs' stageIndex stepIndex}}>
           <div class="title">
             <span class="text-cell">{{upper-case (pipeline-stages-info stageInfo stageIndex stepIndex 'type')}}</span>
             <span class="text-cell">
               <i class="icon" class={{pipeline-status-to-icon step.status}}></i>&nbsp;{{step.status}}
-            </span>
-            <span class="text-cell" style="cursor:pointer;">
-              {{step.message}}
             </span>
           </div>
           <div class="badge-state">
@@ -48,6 +32,7 @@
               {{/if}}
             </p>
           </div>
+          <i role="button" class="icon icon-play eased btn text-small p-10 icon-rotate-180 {{if (eq stageIndexLog stageIndex) (if (eq stepIndexLog stepIndex) '' 'hide') 'hide'}}" style="position: absolute;top: 2px;right: -38px;color: #3d3d3d !important;font-size: 20px;"></i>
         </div>
       {{/each}}
   {{/accordion-list-item-pipeline}}
