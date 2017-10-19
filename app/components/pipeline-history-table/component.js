@@ -11,7 +11,7 @@ export default Ember.Component.extend({
     return this.get('body')
   }.property('body'),
   expandFn:function(item) {
-    item.toggleProperty('expanded');
+    // item.toggleProperty('expanded');
   },
   dateNow: null,
   dateInterval: null,

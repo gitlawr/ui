@@ -77,6 +77,7 @@ class StepType {
           name: 'rancher-compose.yml',
           body: ''
         }];
+        this.templates={};
         this.deploy = false;
         this.deployEnv = 'local';
         this.stackName = '';
@@ -168,7 +169,7 @@ var validationErrors = (module) => {
         errors.push('"Stack Name" is required!');
       }
 
-      if (module.deployEnv === 'others') {
+      if (module.endpoint) {
         if (module.endpoint.trim() === '') {
           errors.push('"Endpoint" is required!');
         }
@@ -181,7 +182,7 @@ var validationErrors = (module) => {
       }
       break;
     case 'upgradeCatalog':
-      if (module.deployEnv === 'others') {
+      if (module.endpoint) {
         if (module.endpoint.trim() === '') {
           errors.push('"Endpoint" is required!');
         }
@@ -192,6 +193,11 @@ var validationErrors = (module) => {
           errors.push('"Secretkey" is required!');
         }
       }
+      var templates ={};
+      module.filesAry.forEach((ele)=>{
+        templates[ele.name]=ele.body
+      });
+      Ember.set(module,'templates',templates);
       break;
     default:
       break;
@@ -217,6 +223,18 @@ export default Ember.Component.extend(ModalBase, {
           var k = value[0];
           var v = value[1];
           objectParameter[k] = v;
+        }
+      }
+      debugger
+      if(opts.params.templates&&opts.params.type==="upgradeCatalog"){
+        opts.params.filesAry = [];
+        var keys = Object.keys(opts.params.templates);
+        for (var i = 0; i < keys.length; i++) {
+          var key = keys[i]
+          opts.params.filesAry.push({
+            name: key,
+            body: opts.params.templates[key]
+          })
         }
       }
       this.set('type', opts.params.type);

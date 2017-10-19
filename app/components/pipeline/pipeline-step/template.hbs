@@ -45,10 +45,10 @@
 {{/if}}
 
 {{#if (eq model.type 'upgradeCatalog')}}
-  {{#tooltip-element style="100%;" inlineBlock=true type="tooltip-basic" tooltipTemplate="tooltip-static" model=stackSubtitle tagName="span" tooltipFor="tooltip-basic"}}
+  {{#tooltip-element style="100%;" inlineBlock=true type="tooltip-basic" tooltipTemplate="tooltip-static" model=catalogSubtitle tagName="span" tooltipFor="tooltip-basic"}}
     <p class="mt-0 mb-0 clip">{{upper-case model.type}}</p>
     <p class="text-small mt-0 mb-0 clip text-italic">
-      {{stackSubtitle}}
+      {{catalogSubtitle}}
     </p>
   {{/tooltip-element}}
 {{/if}}
