@@ -1,0 +1,20 @@
+{{#accordion-list-item
+  title='Parameters'
+  detail='Set the pipeline environment variables'
+  statusClass='bg-success clip pull-right inline'
+  expandAll=null
+  expand=(action expandFn)
+}}
+{{form-key-value
+  initialMap=env
+  changed=(action (mut env))
+  allowEmptyValue=false
+  editing=true
+  normalHeader=(t 'newContainer.environment.label')
+  addActionLabel="newContainer.environment.addAction"
+  keyLabel="newContainer.environment.keyLabel"
+  keyPlaceholder="newContainer.environment.keyPlaceholder"
+  valueLabel="newContainer.environment.valueLabel"
+  valuePlaceholder="newContainer.environment.valuePlaceholder"
+}}
+{{/accordion-list-item}}
