@@ -8,7 +8,11 @@ export default Ember.Route.extend({
       return null
     }
     var pipelineStore = this.get('pipelineStore');
-    var activities = pipelineStore.find('activity',params.activity_id,{forceReload:true})
-    return activities;
+    var activity = pipelineStore.find('activity',params.activity_id,{forceReload:true})
+    return Ember.RSVP.hash({
+      activity
+    }).then(({activity})=>{
+      return {activity,stageIndex:0,stepIndex:0}
+    });
   },
 });

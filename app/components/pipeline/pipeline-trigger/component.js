@@ -28,7 +28,7 @@ export default Ember.Component.extend({
     var schdulePattern = this.get('schdulePattern');
     switch(schdulePattern){
       case 'custom': this.set('schduleInputDisabled',false);return;
-      case 'day': this.set('model.pipeline.cronTrigger.spec','0 4 * * *');break;
+      case 'day': this.set('pipeline.cronTrigger.spec','0 4 * * *');break;
     }
     this.set('schduleInputDisabled',true);
   }.observes('schdulePattern'),
@@ -39,6 +39,7 @@ export default Ember.Component.extend({
   schdulePattern: 'custom',
   pipeline: function(){
     var pipeline = this.get('model.pipeline');
+    pipeline.cronTrigger||(Ember.set(pipeline,'cronTrigger',{}))
     return pipeline;
   }.property('model.pipeline'),
 });

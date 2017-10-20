@@ -139,6 +139,7 @@ var validationErrors = (module) => {
         if (module.dockerFilePath.trim() === '') {
           errors.push('"Dockerfile Path" is required!');
         }
+        Ember.set(module,'dockerFileContent',"");
       } else {
         if (module.dockerFileContent.trim() === '') {
           errors.push('"Dockerfile" is required!');
@@ -225,7 +226,6 @@ export default Ember.Component.extend(ModalBase, {
           objectParameter[k] = v;
         }
       }
-      debugger
       if(opts.params.templates&&opts.params.type==="upgradeCatalog"){
         opts.params.filesAry = [];
         var keys = Object.keys(opts.params.templates);
@@ -236,6 +236,12 @@ export default Ember.Component.extend(ModalBase, {
             body: opts.params.templates[key]
           })
         }
+      }
+      if(opts.params.conditions&&Object.keys(opts.params.conditions).length){
+        opts.params.expressions = true;
+      }
+      if(opts.params.dockerFileContent){
+        opts.params.sourceType='file';
       }
       this.set('type', opts.params.type);
       var model = new StepType(opts.params.type, {

@@ -52,7 +52,6 @@ export default Ember.Component.extend(ManageLabels, {
 
     this.initLabels(this.get('initialLabels'), 'affinity');
     var model = this.get('model');
-    debugger
     var keys = model.conditions?Object.keys(model.conditions):[];
     if(keys.length){
       var key = keys[0];

@@ -7,30 +7,32 @@ export default Ember.Controller.extend({
     activity: ['Waitting', 'Running'],
     history: ['Success', 'Error']
   },
+  disableRerun: false,
   init() {
-    this._super(...arguments);
+    this._super();
   },
   filterdPiplineHistory: function() {
-    return [{ activity_stages: this.get('model').activity_stages }];
-  }.property('model.activity_stages'),
+    return [{ activity_stages: this.get('model.activity').activity_stages }];
+  }.property('model.activity.activity_stages'),
   isHistory: function() {
     return this.get('activeTab') === 'history'
   }.property('activeTab'),
-  stepIndex: 0,
-  stageIndex: 0,
   originalModel: function(){
     return {
-      activity: this.get('model'),
-      step: [this.get('stageIndex'),this.get('stepIndex')]
+      activity: this.get('model.activity'),
+      step: [this.get('model.stageIndex'),this.get('model.stepIndex')]
     }
-  }.property('stageIndex','stepIndex'),
+  }.property('model.stageIndex','model.stepIndex'),
   actions: {
     run: function() {
-      this.get('model').doAction('rerun');
+      this.set('disableRerun',true);
+      this.get('model.activity').doAction('rerun').finally(()=>{
+        this.set('disableRerun',false);
+      });
     },
     showLogsActivity: function(stageIndex,stepIndex){
-      this.set('stageIndex',stageIndex);
-      this.set('stepIndex',stepIndex);
+      this.set('model.stageIndex',stageIndex);
+      this.set('model.stepIndex',stepIndex);
     },
   },
   expandFn: function(item) {
