@@ -1,45 +1,58 @@
 import Ember from 'ember';
-import {timezones} from 'ui/utils/timezones';
+import { timezones } from 'ui/utils/timezones';
 export default Ember.Component.extend({
   timezones: timezones,
   selected: '',
-  init(){
+  init() {
     this._super();
     var triggerTimezone = this.get('pipeline.cronTrigger.timezone');
     var t = new Date();
-    var timeZone = - t.getTimezoneOffset()/60;
-    selected = timezones.find(ele => ele.offset === timeZone );
-    this.set('selected',selected)
-    if(triggerTimezone){
-      var selected = timezones.find(ele=> ele.utc[0]=== triggerTimezone);
-      if(selected){
-        this.set('selected',selected)
+    var timeZone = -t.getTimezoneOffset() / 60;
+    selected = timezones.find(ele => (ele.offset === timeZone)&&ele.utc);
+    this.set('selected', selected)
+    if (triggerTimezone) {
+      var selected = timezones.find(ele => {
+        if (!ele.utc) {
+          return false
+        }
+        return ele.utc[0] === triggerTimezone
+      });
+      if (selected) {
+        this.set('selected', selected)
       }
+    }else{
+      this.set('pipeline.cronTrigger.timezone', selected.utc[0]);
     }
-    if(this.get('initial')){
+    if (this.get('initial')) {
       this.set('pipeline.isActivate', true);
     }
   },
-  selectedObeserves: function(){
+  selectedObeserves: function() {
     var selected = this.get('selected');
-    this.set('pipeline.cronTrigger.timezone',selected.utc[0]);
+    var pipeline = this.get('model.pipeline');
+    pipeline.cronTrigger || (Ember.set(pipeline, 'cronTrigger', {}));
+    this.set('pipeline.cronTrigger.timezone', selected.utc[0]);
   }.observes('selected'),
-  schedulePatternObserves:function(){
+  schedulePatternObserves: function() {
     var schdulePattern = this.get('schdulePattern');
-    switch(schdulePattern){
-      case 'custom': this.set('schduleInputDisabled',false);return;
-      case 'day': this.set('pipeline.cronTrigger.spec','0 4 * * *');break;
+    switch (schdulePattern) {
+      case 'custom':
+        this.set('schduleInputDisabled', false);
+        return;
+      case 'day':
+        this.set('pipeline.cronTrigger.spec', '0 4 * * *');
+        break;
     }
-    this.set('schduleInputDisabled',true);
+    this.set('schduleInputDisabled', true);
   }.observes('schdulePattern'),
-  expandFn:function(item) {
+  expandFn: function(item) {
     item.toggleProperty('expanded');
   },
   schduleInputDisabled: false,
   schdulePattern: 'custom',
-  pipeline: function(){
+  pipeline: function() {
     var pipeline = this.get('model.pipeline');
-    pipeline.cronTrigger||(Ember.set(pipeline,'cronTrigger',{}))
+    pipeline.cronTrigger || (Ember.set(pipeline, 'cronTrigger', {}));
     return pipeline;
   }.property('model.pipeline'),
 });

@@ -10,7 +10,7 @@ export default Ember.Component.extend({
   filtered: function(){
     return this.get('body')
   }.property('body'),
-  expandFn:function(item) {
+  expandFn:function(/*item*/) {
     // item.toggleProperty('expanded');
   },
   dateNow: null,

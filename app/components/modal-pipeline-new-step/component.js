@@ -12,6 +12,12 @@ var convertObjectToArry = function(obj) {
   return arry;
 };
 
+var validateConditions = function(step){
+  if(!step.expressions){
+    Ember.set(step, 'conditions', {});
+  }
+}
+
 class StepType {
   constructor(type, val) {
     switch (type) {
@@ -130,6 +136,9 @@ var validationErrors = (module) => {
       if (module.isService && module.alias.trim() === '') {
         errors.push('"Name" is required!');
       }
+      if(!module.isShell){
+        Ember.set(module, 'shellScript', '');
+      }
       break;
     case 'build':
       if (module.targetImage.trim() === '') {
@@ -203,6 +212,7 @@ var validationErrors = (module) => {
     default:
       break;
   }
+  validateConditions(module);
   return errors
 }
 export default Ember.Component.extend(ModalBase, {
@@ -236,12 +246,18 @@ export default Ember.Component.extend(ModalBase, {
             body: opts.params.templates[key]
           })
         }
+      }else{
+
       }
       if(opts.params.conditions&&Object.keys(opts.params.conditions).length){
         opts.params.expressions = true;
       }
       if(opts.params.dockerFileContent){
         opts.params.sourceType='file';
+      }
+      // initiate task shell Tab
+      if(opts.params.type==="task"&&(opts.params.shellScript===''||!opts.params.shellScript)){
+        opts.params.isShell = false;
       }
       this.set('type', opts.params.type);
       var model = new StepType(opts.params.type, {
@@ -253,6 +269,7 @@ export default Ember.Component.extend(ModalBase, {
       if (opts.stepMode === 'scm') {
         this.set('type', 'scm');
       }
+      this.set('editingModels',Ember.Object.create({}));
       this.get('editingModels').set(this.get('type'), new StepType(this.get('type')));
     }
   },

@@ -1,38 +1,4 @@
 import Ember from 'ember';
-import C from 'ui/utils/constants';
-
-function splitEquals(str) {
-  var idx = str.indexOf('=');
-  if ( idx === -1 )
-  {
-    return null;
-  }
-
-  return [ str.substr(0,idx) , str.substr(idx+1) ];
-}
-
-function normalizedLabels(objects) {
-  var out = {};
-  objects.forEach((obj) => {
-    var labels = obj.get('labels')||{};
-
-    Object.keys(labels).filter((key) => {
-      return key.indexOf(C.LABEL.SYSTEM_PREFIX) !== 0;
-    }).forEach((key) => {
-      let normalizedKey = key.trim().toLowerCase();
-      if ( out[normalizedKey] )
-      {
-        out[normalizedKey].push(labels[key].toLowerCase());
-      }
-      else
-      {
-        out[normalizedKey] = [labels[key].toLowerCase()];
-      }
-    });
-  });
-
-  return out;
-}
 
 export default Ember.Component.extend({
   rule: null,

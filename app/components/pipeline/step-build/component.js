@@ -8,9 +8,7 @@ export default Ember.Component.extend({
   pushDisabled: true,
   resolvedRegistry: function(){
     var images = this.get('selectedModel.targetImage');
-    // this.set('pushDisabled', false);
     if(!images){
-      // this.set('pushDisabled', true);
       return '';
     }
     var splited = images.split('/');
@@ -20,7 +18,7 @@ export default Ember.Component.extend({
     if(splited[0].indexOf('.')!==-1){
       return splited[0]
     }
-    return '';
+    return DEFAULT_REGISTRY;
   }.property('selectedModel.targetImage'),
   imageObserves: function(){
     this.set('selectedModel.push',false);

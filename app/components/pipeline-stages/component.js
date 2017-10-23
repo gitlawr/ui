@@ -9,6 +9,12 @@ var validateStageName = function(stages, stage) {
   }
   return -1;
 };
+
+var validateConditions = function(stage){
+  if(!stage.expressions){
+    stage.conditions = {}
+  }
+}
 export default Ember.Component.extend({
   sortFinishText: null,
   crt: null,
@@ -64,6 +70,7 @@ export default Ember.Component.extend({
         if (valid !== -1) {
           return false;
         }
+        validateConditions(stage);
         stages.pushObject(stage);
         return true;
       };
@@ -89,6 +96,7 @@ export default Ember.Component.extend({
             }
             return ele;
           })
+          validateConditions(stage);
           this.set('pipeline.stages', newStage);
           return true;
         },

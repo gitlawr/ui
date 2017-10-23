@@ -19,7 +19,6 @@ export default Ember.Component.extend({
   }.property('setting', 'modalOpts.type'),
   init(){
     this._super(...arguments);
-    var selectedModel = this.get('selectedModel');
     var modalOpts = this.get('modalOpts');
     if(modalOpts.type !== 'review'){
       this.set('statusFetching',true);

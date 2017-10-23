@@ -11,7 +11,7 @@ export default Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
-    CodeMirror.registerHelper("hint", "anyword", (editor, /*options*/) => {
+    CodeMirror.registerHelper("hint", "anyword", (editor /*,options*/) => {
       var cur = editor.getCursor();
       var end = cur.ch, start = end;
       var matched = this.get('codeMirror').getMatchedHint(editor.getValue(),editor);

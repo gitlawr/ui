@@ -43,7 +43,7 @@ export default Resource.extend({
       this.set('isApproving',true);
       return this.doAction('deny').catch(()=>{
           this.set('isApproving',false);
-        });;
+        });
     }
   },
   availableActions: function() {
@@ -100,5 +100,15 @@ export default Resource.extend({
   statusLabel: function () {
     var status = this.get('status');
     return STATUS_LABEL_ENUMS[status];
-  }.property('status')
+  }.property('status'),
+  logs:''
+  // runningStage: function(){
+  //   var stages = this.get('activity_stages');
+  //   return stages.findIndex(ele=>ele.status==='Building')
+  // }.property('activity_stages.@each.{activity_steps.@each}'),
+  // runningStep: function(){
+  //   var runningStage = this.get('runningStage');
+  //   var steps = this.get('activity_stages')[runningStage].activity_steps;
+  //   return steps.findIndex(ele=>ele.status==='Building')
+  // }.property('activity_stages.@each.{activity_steps.@each}')
 });

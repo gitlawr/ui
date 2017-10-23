@@ -1,18 +1,18 @@
 import Ember from 'ember';
 import ManageLabels from 'ui/mixins/manage-labels';
-import { STATUS, STATUS_INTL_KEY, classForStatus } from 'ui/components/accordion-list-item/component';
 
-var expressionStrToObj = function(str){
+var expressionStrToObj = function(str) {
   var isNotEqual = str.indexOf('!=');
-  if(isNotEqual!=-1){
-    var splitedStr = str.split('!=');
+  var splitedStr;
+  if (isNotEqual !== -1) {
+    splitedStr = str.split('!=');
     return {
       env: splitedStr[0],
       opt: '!=',
       value: splitedStr[1]
     }
-  }else{
-    var splitedStr = str.split('=');
+  } else {
+    splitedStr = str.split('=');
     return {
       env: splitedStr[0],
       opt: '=',
@@ -21,15 +21,15 @@ var expressionStrToObj = function(str){
   }
 };
 
-var expressionsObjToStr = function(obj){
-  return obj.env+obj.opt+obj.value;
+var expressionsObjToStr = function(obj) {
+  return obj.env + obj.opt + obj.value;
 };
 export default Ember.Component.extend(ManageLabels, {
   intl: Ember.inject.service(),
-  
+
   // Initial labels and host to start with
   initialLabels: null,
-  conditions:{
+  conditions: {
     mode: 'all'
   },
   editing: true,
@@ -52,26 +52,26 @@ export default Ember.Component.extend(ManageLabels, {
 
     this.initLabels(this.get('initialLabels'), 'affinity');
     var model = this.get('model');
-    var keys = model.conditions?Object.keys(model.conditions):[];
-    if(keys.length){
+    var keys = model.conditions ? Object.keys(model.conditions) : [];
+    if (keys.length) {
       var key = keys[0];
-      key&&this.set('conditions.mode',key);
-      if(model.conditions[key]){
+      key && this.set('conditions.mode', key);
+      if (model.conditions[key]) {
         var expressions = model.conditions[key];
-        var expObj = expressions.map(ele=>expressionStrToObj(ele));
-        this.set('labelArray',expObj);
+        var expObj = expressions.map(ele => expressionStrToObj(ele));
+        this.set('labelArray', expObj);
       }
-    }else{
-      this.set('labelArray',[])
+    } else {
+      this.set('labelArray', [])
     }
   },
-  observesExpObj:function(){
+  observesExpObj: function() {
     var mode = this.get('conditions.mode');
     var labelArray = this.get('labelArray');
-    this.set('model.conditions',{
-      [mode]: labelArray.filter(ele=>ele.env).map(ele=>expressionsObjToStr(ele))
+    this.set('model.conditions', {
+      [mode]: labelArray.filter(ele => ele.env).map(ele => expressionsObjToStr(ele))
     })
-  }.observes('labelArray.@each.env','conditions.mode','labelArray.@each.value'),
+  }.observes('labelArray.@each.env', 'conditions.mode', 'labelArray.@each.value'),
   didReceiveAttrs() {
     if (!this.get('expandFn')) {
       this.set('expandFn', function(item) {

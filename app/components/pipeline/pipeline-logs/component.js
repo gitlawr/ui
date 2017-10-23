@@ -4,11 +4,6 @@ import Util from 'ui/utils/util';
 import { alternateLabel } from 'ui/utils/platform';
 import AnsiUp from 'npm:ansi_up';
 
-var typeClass = {
-  0: 'log-combined',
-  1: 'log-stdout',
-  2: 'log-stderr',
-};
 export default Ember.Component.extend(ThrottledResize, {
   instance: null,
   alternateLabel: alternateLabel,
@@ -58,11 +53,14 @@ export default Ember.Component.extend(ThrottledResize, {
       });
     },
   },
-  observeInstance: function(){
+  showLogs: function(){
+    var inst = this.get('instance');
+    var key = inst.step[0]+'-'+inst.step[1];
+    return inst.activityLogs[key];
+  }.property('instance.step.@each','showLogsTrigger'),
+  showLogsTrigger:'',
+  observeInstance: function() {
     this.disconnect();
-    var body = this.$('.log-body')[0];
-    var $body = $(body);
-    body.innerHTML = '';
     Ember.run.next(this, 'exec');
   }.observes('instance'),
   didInsertElement: function() {
@@ -84,30 +82,37 @@ export default Ember.Component.extend(ThrottledResize, {
 
       var isFollow = ($body.scrollTop() + $body.outerHeight() + 10) >= body.scrollHeight;
 
-      //var framingVersion = message.data.substr(0,1); -- Always 0
-      var type = parseInt(message.substr(1, 1), 10); // 0 = combined, 1 = stdout, 2 = stderr
-
-      body.innerHTML = '';
+      // this.set('showLogs', '');
+      var logs = '';
       message.trim().split(/\n/).forEach((line) => {
         var match = line.match(/^\[?([^ \]]+)\]?\s?/);
         var dateStr, msg;
         if (match) {
           msg = line.substr(match[0].length);
-          var date = new Date(match[1]*1);
+          var date = new Date(match[1] * 1);
           dateStr = '<span class="log-date">' + Util.escapeHtml(date.toLocaleDateString()) + ' ' + Util.escapeHtml(date.toLocaleTimeString()) + ' </span>';
         } else {
           msg = line;
           dateStr = '<span class="log-date">Unknown Date</span>';
         }
 
-        body.insertAdjacentHTML('beforeend',
-          '<div class="log-msg ' + typeClass[type] + '">' +
+        // body.insertAdjacentHTML('beforeend',
+        //   '<div class="log-msg">' +
+        //   dateStr +
+        //   AnsiUp.ansi_to_html(Util.escapeHtml(msg)) +
+        //   '</div>'
+        // );
+        logs += '<div class="log-msg">' +
           dateStr +
           AnsiUp.ansi_to_html(Util.escapeHtml(msg)) +
-          '</div>'
-        );
+          '</div>';
       });
-
+      var inst = this.get('instance');
+      var logsAry = inst.activityLogs;
+      var key = inst.step[0]+'-'+inst.step[1];
+      Ember.set(logsAry, key, logs);
+      this.set('showLogsTrigger', logs);
+      // logs&&this.set('showLogs', logs);
       if (isFollow) {
         Ember.run.next(() => {
           this.send('scrollToBottom');
