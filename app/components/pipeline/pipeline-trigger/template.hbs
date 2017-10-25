@@ -2,7 +2,7 @@
 {{#accordion-list-item
   title='Schedule'
   detail='Schedule to trigger pipeline'
-  status=(pretty-cron pipeline.triggerSpec 'toString')
+  status=(pretty-cron pipeline.cronTrigger.spec 'toString')
   statusClass='bg-success clip pull-right inline'
   expandAll=null
   expand=(action expandFn)
@@ -17,11 +17,11 @@
     <label class="mr-30">{{radio-button selection=schdulePattern value="day"}}
         Every day (at 4:00am)
     </label>
-    
+
     <div class="pt-10"></div>
-    {{input class="form-control" disabled=schduleInputDisabled value=pipeline.triggerSpec}}
-    {{#if pipeline.triggerSpec}}
-      <p class="text-success mt-5 mb-0">{{pretty-cron pipeline.triggerSpec 'toString'}}</p>
+    {{input class="form-control" disabled=schduleInputDisabled value=pipeline.cronTrigger.spec}}
+    {{#if pipeline.cronTrigger.spec}}
+      <p class="text-success mt-5 mb-0">{{pretty-cron pipeline.cronTrigger.spec 'toString'}}</p>
     {{/if}}
   </div>
 
@@ -39,9 +39,9 @@
       {{timezone.text}}
     {{/power-select}}
   </div>
-  
+
   <div class="pt-20"></div>
-  <label>{{check-box class="form-control" checked=pipeline.triggerOnUpdate}}
+  <label>{{check-box class="form-control" checked=pipeline.cronTrigger.triggerOnUpdate}}
     Run when there is new commit
   </label>
 {{/accordion-list-item}}

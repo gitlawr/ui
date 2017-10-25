@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-var validateStageName = function(stages,stage){
+var validateStageName = function(stages, stage) {
   for (var i = 0; i < stages.length; i++) {
     var item = stages[i];
     if (item.name === stage.name) {
@@ -9,6 +9,12 @@ var validateStageName = function(stages,stage){
   }
   return -1;
 };
+
+var validateConditions = function(stage){
+  if(!stage.expressions){
+    stage.conditions = {}
+  }
+}
 export default Ember.Component.extend({
   sortFinishText: null,
   crt: null,
@@ -20,15 +26,15 @@ export default Ember.Component.extend({
   envvarsLoading: true,
   modalService: Ember.inject.service('modal'),
   review: false,
-  init(){
+  init() {
     this._super(...arguments);
     var pipelineStore = this.get('pipelineStore');
-    pipelineStore.find('envvars',null,{
+    pipelineStore.find('envvars', null, {
       url: `${pipelineStore.baseUrl}/envvars`,
       forceReload: true
-    }).then((res)=>{
-      var hintAry =JSON.parse(res).map(ele=>('${'+ele+'}'));
-      this.set('envvarsLoading',false);
+    }).then((res) => {
+      var hintAry = JSON.parse(res).map(ele => ('${' + ele + '}'));
+      this.set('envvarsLoading', false);
       this.set('envvars', hintAry);
       this.get('codeMirror').set('hintAry', hintAry);
     });
@@ -60,10 +66,11 @@ export default Ember.Component.extend({
     addStage: function() {
       var cb = (stage) => {
         var stages = this.get('pipeline.stages');
-        var valid = validateStageName(stages,stage)
-        if(valid !== -1){
+        var valid = validateStageName(stages, stage)
+        if (valid !== -1) {
           return false;
         }
+        validateConditions(stage);
         stages.pushObject(stage);
         return true;
       };
@@ -76,11 +83,11 @@ export default Ember.Component.extend({
       var review = this.get('review');
       this.get('modalService').toggleModal('modal-pipeline-new-stage', {
         stage: this.get('pipeline.stages')[index],
-        mode: review?'review':'edit',
+        mode: review ? 'review' : 'edit',
         cb: (stage) => {
           var stages = this.get('pipeline.stages');
-          var valid = validateStageName(stages,stage)
-          if(valid !== -1 || valid === index){
+          var valid = validateStageName(stages, stage);
+          if (valid !== -1 && valid !== index) {
             return false;
           }
           var newStage = stages.map((ele, i) => {
@@ -89,6 +96,7 @@ export default Ember.Component.extend({
             }
             return ele;
           })
+          validateConditions(stage);
           this.set('pipeline.stages', newStage);
           return true;
         },
@@ -104,11 +112,10 @@ export default Ember.Component.extend({
       })
     }
   },
-  didInsertElement(){
+  didInsertElement() {
     this._super(...arguments);
-    this.$(document).on('keyup','input',(e)=>{
-      $.fn.E_INPUT_HINT.startHint(e.target,(/*hint*/)=>{
-      });
+    this.$(document).on('keyup', 'input', (e) => {
+      $.fn.E_INPUT_HINT.startHint(e.target, ( /*hint*/ ) => {});
     })
   }
 });

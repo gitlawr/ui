@@ -13,8 +13,8 @@
   <div class="pt-20"></div>
   {{#if (eq modalOpts.type 'review')}}
     {{pipeline/pipeline-codemirror
-      value=selectedModel.file
-      valueUpdated=(action (mut selectedModel.file))
+      value=selectedModel.dockerFileContent
+      valueUpdated=(action (mut selectedModel.dockerFileContent))
       options=(hash autofocus=true theme="monokai" lineNumbers=true mode="dockerfile" addon="hint/anyword-hint.js" readOnly=(if (eq modalOpts.type 'review') true false))
     }}
   {{else}}
@@ -22,7 +22,7 @@
       name="Dockerfile"
       canChangeName=false
       mode="dockerfile"
-      value=selectedModel.file
+      value=selectedModel.dockerFileContent
       placeholder="newStack.dockerCompose.placeholder"
     }}
   {{/if}}
@@ -31,7 +31,7 @@
   <div class="inline-form">
     <label>Dockerfile Path(relative to workspace){{field-required}}</label>
     <div class="pt-10"></div>
-    {{input class="form-control" value=selectedModel.dockerfilePath placeholder="Personal access token" disabled=(if (eq modalOpts.type 'review') true false)}}
+    {{input class="form-control" value=selectedModel.dockerFilePath placeholder="Dockerfile Path" disabled=(if (eq modalOpts.type 'review') true false)}}
   </div>
 {{/if}}
 

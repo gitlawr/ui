@@ -10,8 +10,8 @@ export default Ember.Component.extend({
   filtered: function(){
     return this.get('body')
   }.property('body'),
-  expandFn:function(item) {
-    item.toggleProperty('expanded');
+  expandFn:function(/*item*/) {
+    // item.toggleProperty('expanded');
   },
   dateNow: null,
   dateInterval: null,
@@ -31,10 +31,7 @@ export default Ember.Component.extend({
   },
   actions: {
     showLogs: function(stageIndex,stepIndex){
-      this.get('modalService').toggleModal('modal-pipeline-logs', {
-          activity: this.get('activity'),
-          step: [stageIndex,stepIndex]
-        });
+      this.sendAction('showLogsActivity',stageIndex,stepIndex)
     },
     sendAction: function (model, action) {
       return model.send(action)

@@ -1,7 +1,7 @@
 {{top-errors errors=errors}}
 
-<section class="header has-tabs clearfix">
-  <h1 style="margin-top: 8px">{{input type="text" value=model.pipeline.name classNames="form-control" placeholder="Pipeline Name"}}</h1>
+<section class="header has-tabs clearfix row">
+  <h1 class="col span-2" style="margin-top: 8px">{{input type="text" value=model.pipeline.name classNames="form-control" placeholder="Pipeline Name"}}</h1>
   <div class="right-buttons pipeline-wrap-header-button">
     {{#save-cancel class="pipeline-save-cancel" createLabel=(if (eq mode 'duplicate') 'newPipeline.add' 'newPipeline.save') save="save" cancel="cancel"}}
     {{/save-cancel}}
@@ -18,7 +18,12 @@
   }}
 </section>
 
-<div class="mt-40"></div>
+<div class="mt-10"></div>
+{{pipeline/pipeline-parameters
+  model=model
+}}
+
+<div class="mt-10"></div>
 {{pipeline/pipeline-trigger
   model=model
 }}

@@ -80,7 +80,7 @@ export default Ember.Component.extend({
         selectedTemplate&&this.set('selectedTemplate',selectedTemplate);
       }
       selectedTemplate = this.get('selectedTemplate');
-      this.set('selectedModel.externalId',selectedTemplate.defaultTemplateVersionId);
+      selectedTemplate&&this.set('selectedModel.externalId',selectedTemplate.defaultTemplateVersionId);
       return res;
     });
   }.observes('catalogId'),
@@ -124,7 +124,6 @@ export default Ember.Component.extend({
       this.set('old', old);
       var initCatalogTemplateId = this.get('selectedModel.externalId');
       var catalogInfo = initCatalogTemplateId.split(':');
-      var catalogId = this.get('catalogId');
       this.setProperties({
         ary: old.map((x) => x.clone()).filter(ele=>ele.id===catalogInfo[0])
       });
@@ -180,7 +179,6 @@ export default Ember.Component.extend({
     });
   },
   syncRepository(catalog){
-    var selectedModel = this.get('selectedModel');
     var repos = this.get('repos',repos);
     if(catalog.url){
       var selected = repos.find((ele)=>{
@@ -193,9 +191,9 @@ export default Ember.Component.extend({
     }
   },
   actions: {
-    repoSelected(row, index){
+    repoSelected(/*row*//*, index*/){
       var ary = this.get('ary');
-      this.set('ary',ary.map((ele, i)=>{
+      this.set('ary',ary.map((ele/*, i*/)=>{
         if(ele.selected){
           ele.url = ele.selected.clone_url;
         }
@@ -291,7 +289,7 @@ export default Ember.Component.extend({
               return this.get('catalog').refresh().finally(() => {
 
                 Ember.run.later(() => {
-                  // @TODO ugh...
+                  this.set('ary',settled.map(ele=>ele.value));
                   this.send('cancel');
                 }, 500);
 

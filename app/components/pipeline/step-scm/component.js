@@ -19,7 +19,6 @@ export default Ember.Component.extend({
   }.property('setting', 'modalOpts.type'),
   init(){
     this._super(...arguments);
-    var selectedModel = this.get('selectedModel');
     var modalOpts = this.get('modalOpts');
     if(modalOpts.type !== 'review'){
       this.set('statusFetching',true);
@@ -31,7 +30,7 @@ export default Ember.Component.extend({
           return
         }
         var repos = JSON.parse(res)
-        this.set('repos',repos.filter(repo=>repo.permissions.admin));
+        this.set('repos',repos);
         this.syncRepository();
       });
     }else{
@@ -41,7 +40,7 @@ export default Ember.Component.extend({
   loadRepository(fn1,fn2){
     var pipelineStore = this.get('pipelineStore');
     return pipelineStore.find('setting',null, {forceReload: true}).then((res)=>{
-      fn1(res);
+      fn1&&fn1(res);
       if(res.isAuth){
         return res.doAction('getrepos');
       }else{

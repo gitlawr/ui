@@ -3,16 +3,15 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   queryParams: ['mode'],
   mode:'',
-  
   stages: function() {
-    var pipeline = this.get('model.pipeline')
+    var pipeline = this.get('model.pipeline');
     return pipeline.stages
   }.property('model'),
   errors: null,
   actions: {
     save: function(success) {
-      var model = this.get('model')
-      var errors = model.pipeline.validationErrors()
+      var model = this.get('model');
+      var errors = model.pipeline.validationErrors();
       if (errors.length > 0) {
         this.set('errors', errors)
         success(false)

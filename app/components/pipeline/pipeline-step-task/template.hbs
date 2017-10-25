@@ -62,8 +62,8 @@
     <label>{{t 'newPipelineStep.jobType.task.command'}}(shell)</label>
     <div class="pt-10"></div>
     {{pipeline/pipeline-codemirror
-      value=selectedModel.command
-      valueUpdated=(action (mut selectedModel.command))
+      value=selectedModel.shellScript
+      valueUpdated=(action (mut selectedModel.shellScript))
       options=(hash autofocus=true theme="monokai" lineNumbers=true mode="shell" readOnly=(if (eq modalOpts.type 'review') true false))
       }}
   </div>
@@ -101,8 +101,8 @@
   {{/if}}
 {{else}}
   {{form-key-value
-    initialMap=selectedModel.parameters
-    changed=(action (mut selectedModel.parameters))
+    initialMap=selectedModel.env
+    changed=(action (mut selectedModel.env))
     allowEmptyValue=false
     editing=true
     normalHeader=(t 'newContainer.environment.label')
