@@ -81,52 +81,5 @@
         </li>
       {{/if}}
     {{/each}}
-
-    {{#if (or isOss (gt projects.active.length 1))}}
-      {{~page-header-environment
-        currentPath=currentPath
-        isOwner=isOwner
-        switchProject="switchProject"
-        switchNamespace="switchNamespace"
-      ~}}
-    {{/if}}
-  </ul>
-
-  <ul class="nav-user dropdown">
-    <li>
-      <a class="btn dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false" aria-label={{t 'nav.user.label' username=session.user}}>
-        {{#if accessEnabled}}
-          {{identity-avatar link=false identity=access.identity}}
-        {{else}}
-          <div class="gh-avatar">
-            <div class="gh-placeholder">
-              <i class="icon icon-user"></i>
-            </div>
-          </div>
-        {{/if}}
-        <span class="sr-only">{{t 'nav.srToggleDropdown'}}</span>
-        <i class="icon icon-chevron-down"></i>
-      </a>
-
-      <ul class="dropdown-menu dropdown-menu-right" data-dropdown-id="header-user-menu">
-        {{#if accessEnabled}}
-          <li role="presentation" class="user-auth">
-            {{identity-block avatar=false identity=access.identity}}
-          </li>
-        {{/if}}
-
-        {{#if isCaas}}
-          <li role="separator" class="divider"></li>
-          <li>{{#link-to "settings.projects"}}{{t 'nav.environment.manage'}}{{/link-to}}</li>
-        {{/if}}
-
-        <li>{{#link-to "user-preferences"}}{{t 'nav.userPreferences.link'}}{{/link-to}}</li>
-
-        {{#if accessEnabled}}
-          <li role="separator" class="divider"></li>
-          <li>{{#link-to "logout" class="user-logout"}}<i class="icon icon-logout"></i> {{t 'nav.user.logout'}}{{/link-to}}</li>
-        {{/if}}
-      </ul>
-    </li>
   </ul>
 </nav>

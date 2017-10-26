@@ -96,8 +96,8 @@ export default Ember.Service.extend({
       direction = '.rtl';
     }
 
-    updateHref('#theme', `${application.baseAssets}assets/${theme}${direction}.css?${application.version}`);
-    updateHref('#vendor',`${application.baseAssets}assets/vendor${direction}.css?${application.version}`);
+    updateHref('#theme', `assets/${theme}${direction}.css?${application.version}`);
+    updateHref('#vendor',`assets/vendor${direction}.css?${application.version}`);
 
     function updateHref(node, neu) {
       let elem = Ember.$(node);

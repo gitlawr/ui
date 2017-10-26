@@ -1,11 +1,13 @@
 import Ember from 'ember';
 import WS from 'ui/mixins/pipelineWS';
 import PolledModel from 'ui/mixins/polled-model';
+import C from 'ui/utils/constants';
 
 export default Ember.Route.extend(WS, PolledModel, {
   pipeline: Ember.inject.service(),
   pollInterval: 5000,
   model: function() {
+    this.get('session').set(C.SESSION.BACK_TO, window.location.href);
     var pipeline = this.get('pipeline');
     return Ember.RSVP.hash({
       ready: pipeline.isReady()

@@ -92,13 +92,13 @@ export default Ember.Service.extend({
       this.get('userTheme').writeStyleNode();
       return Ember.RSVP.resolve();
     } else {
-      return ajaxPromise({url: `${this.get('app.baseAssets')}translations/${language}.json?${application.version}`,
+      return ajaxPromise({url: `translations/${language}.json?${application.version}`,
         method: 'GET',
         dataType: 'json',
       }).then((resp) => {
         let promise;
         if ( this.get('app.needIntlPolyfill') ) {
-          promise = loadScript(`${this.get('app.baseAssets')}assets/intl/locales/${language.toLowerCase()}.js?${application.version}`);
+          promise = loadScript(`assets/intl/locales/${language.toLowerCase()}.js?${application.version}`);
         } else {
           promise = Ember.RSVP.resolve();
         }
