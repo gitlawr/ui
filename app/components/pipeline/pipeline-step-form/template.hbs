@@ -61,6 +61,17 @@
 
 {{#if (not-eq type 'scm')}}
 <div class="pt-20"></div>
+<label>Timeout</label>
+<div class="pt-10"></div>
+<div class="input-group">
+  {{input-number min='3' classNames="form-control" value=selectedModel.timeout}}    
+  <span class="input-group-addon bg-default">minutes</span>
+</div>
+<p class="text-info text small mt-0 mb-0">If a step does not complete by the specified amount of time (in minutes; at least 3), then the build will be terminated automatically and marked as Abort.</p>
+{{/if}}
+
+{{#if (not-eq type 'scm')}}
+<div class="pt-20"></div>
 <div class="inline-form">
   <label>{{check-box class="form-control" checked=selectedModel.expressions disabled=(if (eq modalOpts.type 'review') true)}}
     Conditions 

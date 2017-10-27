@@ -74,6 +74,7 @@ export default Ember.Component.extend({
     },
     authenticate: function() {
       var clientId = this.get('model.githubClientID');
+      debugger
       this.send('clearError');
       this.set('testing', true);
       this.get('github').authorizeTest(

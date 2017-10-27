@@ -8,6 +8,7 @@ export default Ember.Controller.extend({
     history: ['Success', 'Error']
   },
   disableRerun: false,
+  disableStop: false,
   rerunObserves: function(){
     var status = this.get('model.activity.status');
     if(status==='Waiting'||status==='Building'||status==='Pending'){
@@ -53,6 +54,14 @@ export default Ember.Controller.extend({
       }
       this.set('disableRerun', true);
       this.get('model.activity').doAction('rerun')
+    },
+    stop: function(){
+      var disabled = this.get('disableStop');
+      if(disabled){
+        return
+      }
+      this.set('disableStop', true);
+      this.get('model.activity').doAction('stop')
     },
     showLogsActivity: function(stageIndex,stepIndex){
       this.set('model.stageIndex',stageIndex);

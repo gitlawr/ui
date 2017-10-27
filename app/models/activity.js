@@ -7,7 +7,8 @@ let ENUMS_STATUSCLASS = {
   'Building': 'bg-info',
   'Denied': 'bg-error',
   'Waiting': 'bg-info',
-  'Fail': 'bg-error'
+  'Fail': 'bg-error',
+  'Abort': 'bg-secondary'
 };
 
 const STATUS_LABEL_ENUMS = {
@@ -15,7 +16,8 @@ const STATUS_LABEL_ENUMS = {
   'Building': 'running',
   'Success': 'success',
   'Fail': 'fail',
-  'Denied': 'denid'
+  'Denied': 'denid',
+  'Abort': 'abort'
 }
 
 export default Resource.extend({
@@ -37,18 +39,22 @@ export default Resource.extend({
     },
     deny: function() {
       return this.doAction('deny');
+    },
+    stop: function() {
+      return this.doAction('stop');
     }
   },
   availableActions: function() {
-    var a = this.get('actions');
+    var a = this.get('actionLinks');
     var status = this.get('status');
     return [
       { label: 'action.rerun', icon: 'icon icon-refresh', action: 'rerun', enabled: a.rerun ? true : false },
+      { label: 'action.stop', icon: 'icon icon-stop', action: 'stop', enabled: a.stop ? true : false },
       { divider: true },
       { label: 'action.approve', icon: 'icon icon-success', action: 'approve', enabled: status === 'Pending' && a.approve ? true : false },
       { label: 'action.deny', icon: 'icon-x-circle', action: 'deny', enabled: status === 'Pending' && a.deny ? true : false },
     ];
-  }.property('actions.{approve}'),
+  }.property('actionLinks.@each'),
   commit: function() {
     var commitInfo = this.get('commitInfo')
     if (commitInfo) {

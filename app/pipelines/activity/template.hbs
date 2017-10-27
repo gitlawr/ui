@@ -5,10 +5,19 @@
   </h1>
 
   <div class="right-buttons">
+    {{#if model.activity.actionLinks.rerun}}
     <button class="btn bg-link btn-sm icon-btn p-0" {{action 'run'}} disabled={{disableRerun}}>
         <span class="darken"><i class="icon icon-refresh text-small"/></span>
         <span>Run Again</span>
     </button>
+    {{/if}}
+
+    {{#if model.activity.actionLinks.stop}}
+    <button class="btn bg-link btn-sm icon-btn p-0" {{action 'stop'}} disabled={{disableStop}}>
+        <span class="darken"><i class="icon icon-stop text-small"/></span>
+        <span>Stop</span>
+    </button>
+    {{/if}}
   </div>
 </section>
 

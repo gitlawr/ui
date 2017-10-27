@@ -39,14 +39,6 @@ export default Ember.Controller.extend({
       });
     return out;
   }.property('model.@each.status', 'status'),
-  availableActions: function(a) {
-    return [
-      // { label: 'action.rerun',          icon: 'icon icon-play',   action: 'run',         enabled: true },
-      // { divider: true },
-      { label: 'action.approve',      icon: 'icon icon-success',   action: 'approve',     enabled: a.approve?true:false },
-      { label: 'action.deny',      icon: 'icon-x-circle',   action: 'deny',     enabled: a.deny?true:false },
-    ];
-  },
   actions: {
     runPipelines: function() {
       this.get('modalService').toggleModal('modal-pipeline-run', {

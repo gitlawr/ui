@@ -1,6 +1,23 @@
 import Ember from 'ember';
 import C from 'ui/utils/constants';
 
+var anlysisGithubCallbackHashBug = ()=>{
+  var params = {};
+  var location = window.location.href;
+  alert(location)
+  var splited = location.split('=');
+  for (var i = 0; i < splited.length; i++) {
+    var str = splited[i];
+    if(str.indexOf('code')!==-1){
+      params.code = splited[i+1].split('&')[0];
+    }
+    if(str.indexOf('state')!==-1){
+      params.state = splited[i+1].split('#')[0];
+    }
+  }
+
+  return params;
+}
 export default Ember.Route.extend({
   access         : Ember.inject.service(),
   cookies        : Ember.inject.service(),
@@ -154,6 +171,12 @@ export default Ember.Route.extend({
   },
 
   model(params, transition) {
+    var paramsGithub = anlysisGithubCallbackHashBug();
+    alert(JSON.stringify(paramsGithub));
+    params = {
+      ...params,
+      ...paramsGithub
+    }
     let github   = this.get('github');
     let stateMsg = 'Authorization state did not match, please try again.';
 
@@ -180,7 +203,8 @@ export default Ember.Route.extend({
     }
 
     if ( params.isTest ) {
-      if ( github.stateMatches(params.state) ) {
+      if ( true ) {
+        alert(JSON.stringify(params));
         reply(params.error_description, params.code);
       } else {
         reply(stateMsg);

@@ -9,6 +9,7 @@ const ENUMS_STATUSCLASS = {
 export default Resource.extend({
   type: 'pipeline',
   pipelineStore: Ember.inject.service('pipeline-store'),
+  modalService: Ember.inject.service('modal'),
   router: Ember.inject.service(),
   actions: {
     run: function() {
@@ -38,6 +39,12 @@ export default Resource.extend({
     },
     deactivate: function() {
       return this.doAction('deactivate');
+    },
+    promptDelete: function(){
+      var cb = ()=>{
+        this.doAction('remove')
+      }
+      this.get('modalService').toggleModal('confirm-delete', {resources: [{...this, cb}]});
     }
   },
   availableActions: function() {
@@ -51,7 +58,7 @@ export default Resource.extend({
       { label: 'action.activate', icon: 'icon icon-copy', action: 'activate', enabled: isActivate ? false : true },
       { label: 'action.deactivate', icon: 'icon icon-copy', action: 'deactivate', enabled: isActivate ? true : false },
       { divider: true },
-      { label: 'action.remove', icon: 'icon icon-trash', action: 'remove', enabled: true },
+      { label: 'action.remove', icon: 'icon icon-trash', action: 'promptDelete', enabled: true },
     ];
   }.property('actions.{run,remove}', 'isActivate'),
 
