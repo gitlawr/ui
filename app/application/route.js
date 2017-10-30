@@ -4,7 +4,6 @@ import C from 'ui/utils/constants';
 var anlysisGithubCallbackHashBug = ()=>{
   var params = {};
   var location = window.location.href;
-  alert(location)
   var splited = location.split('=');
   for (var i = 0; i < splited.length; i++) {
     var str = splited[i];
@@ -172,7 +171,6 @@ export default Ember.Route.extend({
 
   model(params, transition) {
     var paramsGithub = anlysisGithubCallbackHashBug();
-    alert(JSON.stringify(paramsGithub));
     params = {
       ...params,
       ...paramsGithub
@@ -204,7 +202,6 @@ export default Ember.Route.extend({
 
     if ( params.isTest ) {
       if ( true ) {
-        alert(JSON.stringify(params));
         reply(params.error_description, params.code);
       } else {
         reply(stateMsg);
