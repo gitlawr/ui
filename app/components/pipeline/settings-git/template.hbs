@@ -22,13 +22,12 @@
       <div class="banner-icon"><span class="icon icon-alert"></span></div>
       <div class="banner-message">
         <p>{{t 'authPage.github.header.disabled.label'}}</p>
-       </div>
+      </div>
     </div>
   {{/if}}
 
   <div>
     {{#if model.isAuth}}
-      {{!-- <p>{{t (concat-str 'authPage.github.header.enabled.' model.accessMode character='') appName=settings.appName github='Github' users=numUsers orgs=numOrgs}}</p> --}}
     {{else}}
       <p>{{t 'authPage.github.header.disabled.warning' appName=settings.appName}}</p>
     {{/if}}
@@ -48,12 +47,18 @@
   </section>
 
   <section class="box mt-30">
-    <h3>Authenticated Users</h3>
+    {{top-errors errors=errors}}
+    <h3 class="display: inline-block">Authenticated Users</h3>
+    <div class="row text-center pull-right">
+      <button disabled={{createDisabled}} class="btn bg-primary" {{action "authenticate"}}>
+        {{#if testing}}
+          <i class="icon icon-spinner icon-spin"></i> {{t 'authPage.github.testAuth.buttonText.post'}}
+        {{else}}
+          <i class="icon icon-github"></i> {{t 'authPage.github.testAuth.buttonText.pre'}}
+        {{/if}}
+      </button>
+    </div>
     <hr/>
-    {{!-- <p class="text-info">
-      {{t 'siteAccess.helpText' appName='323' htmlSafe=true}}
-    </p> --}}
-
     <ul class="list-unstyled gh-block-list mt-10">
       {{#each accountsInfo as |item|}}
         <li>
@@ -63,19 +68,11 @@
       {{/each}}
     </ul>
   </section>
-  {{!-- {{site-access
-    model=model
-    collection='siteAccess.organizations'
-  }} --}}
 
   <section class="box mt-30">
     <h3>{{t 'authPage.github.authenticated.disableAccess.header' htmlSafe=true}}</h3>
     <hr/>
 
-   {{!--  <p>
-      {{t 'authPage.github.authenticated.disableAccess.warning' appName=settings.appName htmlSafe=true}}
-    </p>
- --}}
     {{#if confirmDisable}}
       <button class="btn bg-error" {{action "disable"}}>
         <i class="icon icon-alert"></i> Are You Sure To Disable OAuth Authentication?

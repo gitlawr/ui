@@ -16,7 +16,8 @@ export default Ember.Route.extend({
     var pipeline = pipelineStore.find('pipeline',params.pipeline_id);
     return Ember.RSVP.hash({
         pipeline: pipeline
-      }).then(({pipeline})=>{
+        ,accounts: pipelineStore.find('account')
+      }).then(({pipeline,accounts})=>{
         var piplineObj;
         if(params.mode === 'duplicate'){
           piplineObj = pipelineStore.createRecord({
@@ -30,7 +31,8 @@ export default Ember.Route.extend({
           )
         }
         return {
-          pipeline: piplineObj
+          pipeline: piplineObj,
+          accounts
         }
       });
   }

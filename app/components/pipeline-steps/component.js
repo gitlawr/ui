@@ -67,6 +67,7 @@ export default Ember.Component.extend({
         stageIndex: this.get('stageIndex'),
         stepMode: this.get('stepMode'),
         editMode: this.get('editMode'),
+        accounts: this.get('accounts'),
         cb: cb
       });
     },
@@ -80,6 +81,7 @@ export default Ember.Component.extend({
         stageIndex: this.get('stageIndex'),
         stepMode: this.get('stepMode'),
         editMode: this.get('editMode'),
+        accounts: this.get('accounts'),
         cb: (step) => {
           var model = this.get('model');
           var newModel = model.map((ele,i) => {

@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   catalog: Ember.inject.service(),
   projects: Ember.inject.service(),
-
+  previewTab: 'dockerCompose',
   project: function() {
     return this.get('projects.current');
   }.property('projects'),

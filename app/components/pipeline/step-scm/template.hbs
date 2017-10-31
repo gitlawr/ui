@@ -31,6 +31,26 @@
     {{#if showBranch}}
       <div class="pt-20"></div>
       <div class="inline-form">
+        <label>User{{field-required}}</label>
+        <div class="pt-10"></div>
+        {{#if (eq modalOpts.type 'review')}}
+          {{input class="form-control" value=selectedModel.gitUser disabled=(if (eq modalOpts.type 'review') true false)}}
+        {{else}}
+          {{#power-select
+            options=accountsInfo
+            searchField="login"
+            selected=selectedGitUser
+            onchange=(action (mut selectedGitUser))
+            as |account|
+          }}
+            {{#identity-block identity=account}}
+            {{/identity-block}}
+          {{/power-select}}
+        {{/if}}
+      </div>
+
+      <div class="pt-20"></div>
+      <div class="inline-form">
         <label>Repository{{field-required}}</label>
         <div class="pt-10"></div>
         {{#if (eq modalOpts.type 'review')}}

@@ -19,7 +19,7 @@ export default Ember.Component.extend({
   isEnterprise: false,
   confirmDisable          : false,
   accountsInfo: function(){
-    var accounts = this.get('model.githubAccounts');
+    var accounts = this.get('accounts');
     if(!accounts){
       return [];
     }
@@ -30,7 +30,7 @@ export default Ember.Component.extend({
         profileUrl: ele.html_url
       }
     })
-  }.property('model.githubAccounts'),
+  }.property('accounts'),
   destinationUrl: function() {
     return window.location.origin+'/';
   }.property(),

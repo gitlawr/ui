@@ -16,10 +16,12 @@ export default Ember.Route.extend({
     var model = pipelineStore.find('setting',null,{forceReload: true});
     // return model
     return Ember.RSVP.hash({
-        model: model
-      }).then(({model})=>{
+        model: model,
+        accounts: pipelineStore.find('account')
+      }).then(({model,accounts})=>{
         return {
-          settings: pipelineStore.createRecord(model.serialize())
+          settings: pipelineStore.createRecord(model.serialize()),
+          accounts: accounts
         }
       });
   }

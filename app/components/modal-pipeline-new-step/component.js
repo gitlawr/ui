@@ -213,6 +213,7 @@ var validationErrors = (module) => {
       break;
   }
   validateConditions(module);
+  module.timeout&&(Ember.set(module,'timeout',module.timeout*1));
   return errors
 }
 export default Ember.Component.extend(ModalBase, {
