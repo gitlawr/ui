@@ -56,15 +56,19 @@
         {{#if (eq modalOpts.type 'review')}}
           {{input class="form-control" value=selectedModel.repository disabled=(if (eq modalOpts.type 'review') true false)}}
         {{else}}
-          {{#power-select
-            options=repos
-            searchField="clone_url"
-            selected=selected
-            onchange=(action (mut selected))
-            as |repo|
-          }}
-            {{repo.clone_url}}
-          {{/power-select}}
+          {{#if repoFetching}}
+            <i class="icon icon-spinner icon-spin"></i>
+          {{else}}
+            {{#power-select
+              options=repos
+              searchField="clone_url"
+              selected=selected
+              onchange=(action (mut selected))
+              as |repo|
+            }}
+              {{repo.clone_url}}
+            {{/power-select}}
+          {{/if}}
         {{/if}}
       </div>
       <div class="pt-20"></div>
@@ -76,7 +80,12 @@
       <div class="pt-20"></div>
       <div class="inline-form">
         <div class="pt-10"></div>
-        <label>{{check-box class="form-control" checked=selectedModel.webhook disabled=(if (eq modalOpts.type 'review') true false) }}
+        <label>
+          {{#if selected.permissions.admin}}
+            {{check-box class="form-control" checked=selectedModel.webhook disabled=(if (eq modalOpts.type 'review') true false) }}
+          {{else}}
+            <i class="icon icon-close text-warning"></i>
+          {{/if}}
           Webhook
         </label>
         {{#tooltip-element 
@@ -87,6 +96,14 @@
           tooltipFor="audit-log"}}
           <i class="icon icon-help text-info"></i>
         {{/tooltip-element}}
+        {{#if (not-eq selected.permissions.admin true)}}
+          <div class="banner bg-warning">
+            <div class="banner-icon"><span class="icon icon-alert"></span></div>
+            <div class="banner-message">
+              <p>no permissions</p>
+            </div>
+          </div>
+        {{/if}}
       </div>
     {{else}}
       <p>Please finish the OAuth of GitHub in {{#link-to "pipelines.ready.settings" target="_blank"}}setting page{{/link-to}} first.</p>

@@ -1,5 +1,6 @@
 import Ember from 'ember'
 import Resource from 'ember-api-store/models/resource';
+import { download } from 'ui/utils/util';
 
 const ENUMS_STATUSCLASS = {
   'true': 'bg-success',
@@ -9,7 +10,6 @@ const ENUMS_STATUSCLASS = {
 export default Resource.extend({
   type: 'pipeline',
   pipelineStore: Ember.inject.service('pipeline-store'),
-  modalService: Ember.inject.service('modal'),
   router: Ember.inject.service(),
   actions: {
     run: function() {
@@ -40,25 +40,29 @@ export default Resource.extend({
     deactivate: function() {
       return this.doAction('deactivate');
     },
-    promptDelete: function(){
-      var cb = ()=>{
-        this.doAction('remove')
-      }
-      this.get('modalService').toggleModal('confirm-delete', {resources: [{...this, cb}]});
-    }
+    exportConfig: function() {
+      download(this.linkFor('exportConfig'));
+    },
+    viewCode: function() {
+      this.get('application').transitionToRoute('pipelines.view-config',this.get('id'));
+    },
   },
   availableActions: function() {
     var isActivate = this.get('isActivate')
+    let l = this.get('links');
     return [
       { label: 'action.run', icon: 'icon icon-play', action: 'run', enabled: true },
       { divider: true },
       { label: 'action.edit', icon: 'icon icon-edit', action: 'edit', enabled: true },
       { label: 'action.clone', icon: 'icon icon-copy', action: 'duplicate', enabled: true },
       { divider: true },
+      { label:   'action.viewConfig',     icon: 'icon icon-files',          action: 'viewCode',         enabled: !!l.exportConfig },
+      { label:   'action.exportConfig',   icon: 'icon icon-download',       action: 'exportConfig',     enabled: !!l.exportConfig },
+      { divider: true },
       { label: 'action.activate', icon: 'icon icon-copy', action: 'activate', enabled: isActivate ? false : true },
       { label: 'action.deactivate', icon: 'icon icon-copy', action: 'deactivate', enabled: isActivate ? true : false },
       { divider: true },
-      { label: 'action.remove', icon: 'icon icon-trash', action: 'promptDelete', enabled: true },
+      { label: 'action.remove', icon: 'icon icon-trash', action: 'remove', enabled: true },
     ];
   }.property('actions.{run,remove}', 'isActivate'),
 

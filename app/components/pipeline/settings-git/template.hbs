@@ -59,14 +59,43 @@
       </button>
     </div>
     <hr/>
-    <ul class="list-unstyled gh-block-list mt-10">
-      {{#each accountsInfo as |item|}}
-        <li>
-          {{#identity-block identity=item}}
-          {{/identity-block}}
-        </li>
-      {{/each}}
-    </ul>
+    {{#if hasPrivateAccounts}}
+      <p>Private</p>
+      <ul class="row list-unstyled gh-block-list mt-10">
+        {{#each accountsInfo as |item|}}
+          {{#if (eq item.rancherUserId accountId)}}
+          <li class="col span-6" style="padding-right: 50px; position: relative; top:0; border-bottom: 1px solid #F15354;">
+            <div>
+              {{#identity-block identity=item}}
+              {{/identity-block}}
+            </div>
+            <button {{action "shareAccount" item}} class="btn bg-transparent" style="position: absolute; right:50px; top: 0;">
+              <i class="icon icon-share {{if item.actionLinks.share 'text-muted' 'text-info'}}"></i>
+            </button>
+
+            <button {{action "removeAccount" item}} class="btn bg-error" style="position: absolute; right:0; top: 0; height: 100%; border-radius: 0;">
+              <i class="icon icon-close"></i>
+            </button>
+          </li>
+          {{/if}}
+        {{/each}}
+      </ul>
+    {{/if}}
+    {{#if hasPublicAccounts}}
+      <p>Public</p>
+      <ul class="row list-unstyled gh-block-list mt-10">
+        {{#each accountsInfo as |item|}}
+          {{#if (not-eq item.rancherUserId accountId)}}
+          <li class="col span-6" style="padding-right: 50px; position: relative; top:0;">
+            <div>
+              {{#identity-block identity=item}}
+              {{/identity-block}}
+            </div>
+          </li>
+          {{/if}}
+        {{/each}}
+      </ul>
+    {{/if}}
   </section>
 
   <section class="box mt-30">
@@ -93,7 +122,7 @@
     <p>
       <ol class="alphalist ml-40">
         <li>
-          For standard GitHub, click <a target="blank" href="https://github.com/settings/applications/new">here</a> to go applications settings in a new window.
+          For standard GitHub, click <a target="blank" href="https://github.com/settings/developers">here</a> to go applications settings in a new window.
         </li>
         <li>
           {{t 'authPage.github.notAuthenticated.ul.li2.text'}}

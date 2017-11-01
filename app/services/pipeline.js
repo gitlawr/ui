@@ -5,6 +5,7 @@ export default Ember.Service.extend({
   'tab-session': Ember.inject.service(),
   store: Ember.inject.service(),
   pipelineStore: Ember.inject.service('pipeline-store'),
+  selectedGitUser: null,
   pipelinesEndpoint: function() {
     return this.get('app.pipelinesEndpoint').replace(this.get('app.projectToken'), this.get(`tab-session.${C.TABSESSION.PROJECT}`));
   }.property(`tab-session.${C.TABSESSION.PROJECT}`,'app.pipelinesEndpoint'),
@@ -45,12 +46,13 @@ export default Ember.Service.extend({
         info.name === 'CICD';
     });
   },
-  loadRepository(fn1,fn2){
+  loadRepository(pipeline,accounts,fn1,fn2){
     var pipelineStore = this.get('pipelineStore');
+    var selectedGitUser = accounts.find(ele=>ele.login===pipeline.stages[0].steps[0].gitUser);
     return pipelineStore.find('setting',null, {forceReload: true}).then((res)=>{
       fn1(res);
       if(res.isAuth){
-        return res.doAction('getrepos');
+        return selectedGitUser.followLink('repos');
       }else{
         return null
       }

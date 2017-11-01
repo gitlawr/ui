@@ -16,7 +16,7 @@ export default Ember.Route.extend({
     var pipeline = pipelineStore.find('pipeline',params.pipeline_id);
     return Ember.RSVP.hash({
         pipeline: pipeline
-        ,accounts: pipelineStore.find('account')
+        ,accounts: pipelineStore.find('gitaccount')
       }).then(({pipeline,accounts})=>{
         var piplineObj;
         if(params.mode === 'duplicate'){

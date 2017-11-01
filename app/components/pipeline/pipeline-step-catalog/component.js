@@ -150,7 +150,7 @@ export default Ember.Component.extend({
         return y;
       });
       this.set('old', old);
-      this.get('pipelineSvc').loadRepository((res)=>{
+      this.get('pipelineSvc').loadRepository(this.get('pipeline'),this.get('modalOpts').accounts,(res)=>{
         this.set('setting',res);
       },(res)=>{
         this.set('statusFetching',false);

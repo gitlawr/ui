@@ -592,15 +592,9 @@ babel-plugin-debug-macros@^0.1.11:
   dependencies:
     semver "^5.3.0"
 
-babel-plugin-ember-modules-api-polyfill@^1.4.1:
-  version "1.4.2"
-  resolved "http://registry.npm.taobao.org/babel-plugin-ember-modules-api-polyfill/download/babel-plugin-ember-modules-api-polyfill-1.4.2.tgz#e254f8ed0ba7cf32ea6a71c4770b3568a8577402"
-  dependencies:
-    ember-rfc176-data "^0.2.0"
-
 babel-plugin-ember-modules-api-polyfill@^2.0.1:
-  version "2.1.0"
-  resolved "http://registry.npm.taobao.org/babel-plugin-ember-modules-api-polyfill/download/babel-plugin-ember-modules-api-polyfill-2.1.0.tgz#78848cc4fcc2274882a6c15cbb23fefcdc771301"
+  version "2.2.0"
+  resolved "http://registry.npm.taobao.org/babel-plugin-ember-modules-api-polyfill/download/babel-plugin-ember-modules-api-polyfill-2.2.0.tgz#debf833715a338b5b4f695b5cd788ca4eed71f11"
   dependencies:
     ember-rfc176-data "^0.3.0"
 
@@ -2497,13 +2491,13 @@ ember-assign-polyfill@^2.0.1:
     ember-cli-version-checker "^1.2.0"
 
 ember-basic-dropdown@^0.33.1:
-  version "0.33.1"
-  resolved "http://registry.npm.taobao.org/ember-basic-dropdown/download/ember-basic-dropdown-0.33.1.tgz#8eab4181618d32edd88e1c90835d2a8791f09064"
+  version "0.33.8"
+  resolved "http://registry.npm.taobao.org/ember-basic-dropdown/download/ember-basic-dropdown-0.33.8.tgz#a82f7eabdf43f626e5cb8534539b7914c05e61fe"
   dependencies:
-    ember-cli-babel "^6.6.0"
-    ember-cli-htmlbars "^1.1.1"
-    ember-native-dom-helpers "^0.5.0"
-    ember-wormhole "^0.5.1"
+    ember-cli-babel "^6.8.1"
+    ember-cli-htmlbars "^2.0.3"
+    ember-native-dom-helpers "^0.5.4"
+    ember-wormhole "^0.5.2"
 
 ember-browserify@^1.0.1:
   version "1.1.13"
@@ -2580,24 +2574,7 @@ ember-cli-babel@^6.0.0-beta.7:
     clone "^2.0.0"
     ember-cli-version-checker "^1.2.0"
 
-ember-cli-babel@^6.1.0, ember-cli-babel@^6.6.0:
-  version "6.6.0"
-  resolved "http://registry.npm.taobao.org/ember-cli-babel/download/ember-cli-babel-6.6.0.tgz#a8362bc44841bfdf89b389f3197f104d7ba526da"
-  dependencies:
-    amd-name-resolver "0.0.6"
-    babel-plugin-debug-macros "^0.1.11"
-    babel-plugin-ember-modules-api-polyfill "^1.4.1"
-    babel-plugin-transform-es2015-modules-amd "^6.24.0"
-    babel-polyfill "^6.16.0"
-    babel-preset-env "^1.5.1"
-    broccoli-babel-transpiler "^6.0.0"
-    broccoli-debug "^0.6.2"
-    broccoli-funnel "^1.0.0"
-    broccoli-source "^1.1.0"
-    clone "^2.0.0"
-    ember-cli-version-checker "^2.0.0"
-
-ember-cli-babel@^6.8.2:
+ember-cli-babel@^6.6.0, ember-cli-babel@^6.8.1, ember-cli-babel@^6.8.2:
   version "6.8.2"
   resolved "http://registry.npm.taobao.org/ember-cli-babel/download/ember-cli-babel-6.8.2.tgz#eac2785964f4743f4c815cd53c6288f00cc087d7"
   dependencies:
@@ -2677,9 +2654,9 @@ ember-cli-htmlbars@*, ember-cli-htmlbars@^1.0.0, ember-cli-htmlbars@^1.0.3, embe
     json-stable-stringify "^1.0.0"
     strip-bom "^2.0.0"
 
-ember-cli-htmlbars@^2.0.1:
-  version "2.0.2"
-  resolved "http://registry.npm.taobao.org/ember-cli-htmlbars/download/ember-cli-htmlbars-2.0.2.tgz#230a9ace7c3454b3acff2768a50f963813a90c38"
+ember-cli-htmlbars@^2.0.1, ember-cli-htmlbars@^2.0.3:
+  version "2.0.3"
+  resolved "http://registry.npm.taobao.org/ember-cli-htmlbars/download/ember-cli-htmlbars-2.0.3.tgz#e116e1500dba12f29c94b05b9ec90f52cb8bb042"
   dependencies:
     broccoli-persistent-filter "^1.0.3"
     hash-for-dep "^1.0.2"
@@ -3125,12 +3102,12 @@ ember-maybe-import-regenerator@^0.1.5:
     ember-cli-babel "^6.0.0-beta.4"
     regenerator-runtime "^0.9.5"
 
-ember-native-dom-helpers@^0.5.0:
-  version "0.5.2"
-  resolved "http://registry.npm.taobao.org/ember-native-dom-helpers/download/ember-native-dom-helpers-0.5.2.tgz#ba6123230fc32c3350f90a8f9183584a022215fa"
+ember-native-dom-helpers@^0.5.4:
+  version "0.5.4"
+  resolved "http://registry.npm.taobao.org/ember-native-dom-helpers/download/ember-native-dom-helpers-0.5.4.tgz#0bc1506a643fb7adc0abf1d09c44a7914459296b"
   dependencies:
     broccoli-funnel "^1.1.0"
-    ember-cli-babel "^6.1.0"
+    ember-cli-babel "^6.6.0"
 
 ember-network@^0.3.0:
   version "0.3.1"
@@ -3144,7 +3121,7 @@ ember-network@^0.3.0:
     node-fetch "^1.3.3"
     whatwg-fetch "^0.11.0"
 
-ember-power-select@^1.9.6:
+ember-power-select@^1.9.11:
   version "1.9.11"
   resolved "http://registry.npm.taobao.org/ember-power-select/download/ember-power-select-1.9.11.tgz#d7aa04e4b6baa93adc9a7b8a8ae989e7a3751eb1"
   dependencies:
@@ -3168,13 +3145,9 @@ ember-resolver@^2.0.3:
     ember-cli-babel "^5.1.6"
     ember-cli-version-checker "^1.1.6"
 
-ember-rfc176-data@^0.2.0:
-  version "0.2.5"
-  resolved "http://registry.npm.taobao.org/ember-rfc176-data/download/ember-rfc176-data-0.2.5.tgz#b26f62d9c03d3b02485153cf31137e089299839a"
-
 ember-rfc176-data@^0.3.0:
-  version "0.3.0"
-  resolved "http://registry.npm.taobao.org/ember-rfc176-data/download/ember-rfc176-data-0.3.0.tgz#6aee728cb521c5f80710990965027b9c320f6f08"
+  version "0.3.1"
+  resolved "http://registry.npm.taobao.org/ember-rfc176-data/download/ember-rfc176-data-0.3.1.tgz#6a5a4b8b82ec3af34f3010965fa96b936ca94519"
 
 ember-rl-dropdown@^0.10.1:
   version "0.10.1"
@@ -3264,12 +3237,19 @@ ember-try@^0.2.9:
     semver "^5.1.0"
     sync-exec "^0.6.2"
 
-ember-wormhole@0.5.1, ember-wormhole@^0.5.1:
+ember-wormhole@0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/ember-wormhole/-/ember-wormhole-0.5.1.tgz#f2a6fff13b1c037ffa83b2c9291d8b5978878e5b"
   dependencies:
     ember-cli-babel "^5.1.6"
     ember-cli-htmlbars "^1.0.3"
+
+ember-wormhole@^0.5.2:
+  version "0.5.2"
+  resolved "http://registry.npm.taobao.org/ember-wormhole/download/ember-wormhole-0.5.2.tgz#cc0ceb7db4f8b8da0fd852edc81d75cb1dcd92f1"
+  dependencies:
+    ember-cli-babel "^6.0.0"
+    ember-cli-htmlbars "^1.1.1"
 
 encodeurl@~1.0.1:
   version "1.0.1"

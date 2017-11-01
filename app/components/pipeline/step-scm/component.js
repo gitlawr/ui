@@ -3,9 +3,11 @@ import { ajaxPromise } from 'ember-api-store/utils/ajax-promise';
 
 export default Ember.Component.extend({
   repos:[],
+  pipelineSvc: Ember.inject.service('pipeline'),
   selected: null,
   selectedGitUser: null,
   statusFetching: true,
+  repoFetching: false,
   setting: null,
   showBranch: function(){
     var modalOpts = this.get('modalOpts');
@@ -24,13 +26,7 @@ export default Ember.Component.extend({
     if(!accounts){
       return [];
     }
-    return accounts.map((ele)=>{
-      return {
-        ...ele,
-        profilePicture: ele.avatar_url,
-        profileUrl: ele.html_url
-      }
-    })
+    return accounts
   }.property('modalOpts.accounts'),
   init(){
     this._super(...arguments);
@@ -44,7 +40,7 @@ export default Ember.Component.extend({
           var selectedGitUser = accountsInfo.find(ele=>ele.login===selectedModel.gitUser);
           selectedGitUser&&this.set('selectedGitUser',selectedGitUser);
         }
-        this.loadRepository((res)=>{
+        this.loadSetting((res)=>{
           this.set('setting',res);
           this.set('statusFetching',false);
         });
@@ -55,19 +51,20 @@ export default Ember.Component.extend({
   },
   selectedGitUserObserve: function(){
     var selectedGitUser = this.get('selectedGitUser');
+    this.set('pipelineSvc.selectedGitUser',selectedGitUser);
     var pipelineStore = this.get('pipelineStore');
     this.set('selectedModel.gitUser', selectedGitUser.login);
-    ajaxPromise({url:selectedGitUser.links['repos'],method:'GET',dataType:'json'}).then(res=>{
+    this.set('repoFetching',true);
+    selectedGitUser.followLink('repos').then(res=>{
       this.set('statusFetching',false);
-      if(res.xhr.status !== 200){
-        return
-      }
-      var repos = JSON.parse(res.xhr.responseJSON)
+      var repos = JSON.parse(res)
       this.set('repos',repos);
       this.syncRepository();
+    }).finally(()=>{
+      this.set('repoFetching',false);
     });
   }.observes('selectedGitUser'),
-  loadRepository(fn1,fn2){
+  loadSetting(fn1,fn2){
     var pipelineStore = this.get('pipelineStore');
     return pipelineStore.find('setting',null, {forceReload: true}).then((res)=>{
       fn1&&fn1(res);
@@ -98,7 +95,13 @@ export default Ember.Component.extend({
       this.set('selectedModel.repository', '');
       return
     }
+
     this.set('selectedModel.repository', selected.clone_url);
+    if(!selected.permissions.admin){
+      this.set('selectedModel.webhook', false);
+    }else{
+      this.set('selectedModel.webhook', true);
+    }
   }.observes('selected','selectedModel.sourceType'),
   sourceTypeObserves: function(){
     this.syncRepository();
@@ -108,7 +111,7 @@ export default Ember.Component.extend({
       this.set('selectedModel.sourceType',type);
     },
     reload: function(){
-      this.loadRepository();
+      this.loadSetting();
     }
   }
 });

@@ -17,7 +17,7 @@ export default Ember.Route.extend({
     // return model
     return Ember.RSVP.hash({
         model: model,
-        accounts: pipelineStore.find('account')
+        accounts: pipelineStore.findAll('gitaccount')
       }).then(({model,accounts})=>{
         return {
           settings: pipelineStore.createRecord(model.serialize()),

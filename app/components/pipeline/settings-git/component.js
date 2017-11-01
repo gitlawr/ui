@@ -1,7 +1,11 @@
 import Ember from 'ember';
 import { STATUS, STATUS_INTL_KEY, classForStatus } from 'ui/components/accordion-list-item/component';
+import C from 'ui/utils/constants';
 
 export default Ember.Component.extend({
+  accountId: function(){
+    return this.get('session.'+C.SESSION.ACCOUNT_ID)
+  }.property('session.'+C.SESSION.ACCOUNT_ID),
   classNames: ['accordion-wrapper'],
   github    : Ember.inject.service('pipeline-github'),
   didReceiveAttrs() {
@@ -23,13 +27,17 @@ export default Ember.Component.extend({
     if(!accounts){
       return [];
     }
-    return accounts.map((ele)=>{
-      return {
-        ...ele,
-        profilePicture: ele.avatar_url,
-        profileUrl: ele.html_url
-      }
-    })
+    return accounts
+  }.property('accounts'),
+  hasPrivateAccounts: function(){
+    var accounts = this.get('accounts');
+    var accountId = this.get('accountId');
+    return !!accounts.find(ele=>ele.rancherUserId===accountId);
+  }.property('accounts'),
+  hasPublicAccounts: function(){
+    var accounts = this.get('accounts');
+    var accountId = this.get('accountId');
+    return !!accounts.find(ele=>ele.rancherUserId!==accountId);
   }.property('accounts'),
   destinationUrl: function() {
     return window.location.origin+'/';
@@ -59,6 +67,17 @@ export default Ember.Component.extend({
     Ember.run.once(this,'updateEnterprise');
   }.observes('isEnterprise','model.githubHostName','secure'),
   actions:{
+    shareAccount: function(item){
+      if(item.actionLinks.share){
+        item.doAction('share')
+      }else{
+        item.doAction('unshare')
+      }
+    },
+    removeAccount:function(item){
+      item.send('remove',()=>{
+      })
+    },
     disable: function(){
       this.get('model').doAction('update',{
         isAuth: false
@@ -74,7 +93,6 @@ export default Ember.Component.extend({
     },
     authenticate: function() {
       var clientId = this.get('model.githubClientID');
-      debugger
       this.send('clearError');
       this.set('testing', true);
       this.get('github').authorizeTest(
